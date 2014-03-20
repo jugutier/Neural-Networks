@@ -13,6 +13,7 @@ import java.awt.*;
  * Created by jugutier on 19/03/14.
  */
 public class MahjongGPSRule implements GPSRule{
+
     @Override
     public Integer getCost() {
         return 1;
@@ -29,16 +30,20 @@ public class MahjongGPSRule implements GPSRule{
         if(mState.playables.size()==0){
             return mState;
         }
-       int[][] rBoard =  ((MahjongGPSState) state).board.matrix.clone();
+
+        int[][] rBoard =  ((MahjongGPSState) state).board.matrix.clone();
         Point p = mState.playables.get(0);
         int currentValue = rBoard[p.x][p.y];
         for(Point point : mState.playables){
-            if(rBoard[point.x][point.y] == currentValue){
-                rBoard[p.x][p.y]=0;
-                rBoard[point.x][point.y] = 0;//remove both tiles
+            if(!(point.x == p.x && point.y == p.y)){
+                if(rBoard[point.x][point.y] == currentValue){
+                    rBoard[p.x][p.y]=0;
+                    rBoard[point.x][point.y] = 0;//remove both tiles
+                }
             }
         }
 
         return new MahjongGPSState(rBoard);
     }
+
 }

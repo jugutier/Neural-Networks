@@ -30,11 +30,21 @@ public class MahjongGPSState implements GPSState {
         MahjongBoard(int matrix[][]){
             this.matrix = matrix;
         }
+
         @Override
         public boolean equals(Object o) {
-            boolean ret = Arrays.equals(matrix,((MahjongBoard) o).matrix);
-            return ret;
+            //boolean ret = Arrays.equals(matrix, ((MahjongBoard) o).matrix);
+            int m2[][] = ((MahjongBoard) o).matrix;
+            for(int i=0; i< m2.length; i++){
+                for(int j=0; j<m2[i].length ; j++){
+                    if (m2[i][j] != matrix[i][j]){
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
+
         public List<Point> getPlayables(){
             List<Point> playables = new LinkedList<Point>();
 
