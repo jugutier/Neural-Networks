@@ -31,7 +31,15 @@ public class MahjongGPSRule implements GPSRule{
             return mState;
         }
 
-        int[][] rBoard =  ((MahjongGPSState) state).board.matrix.clone();
+        //int[][] rBoard =  ((MahjongGPSState) state).board.matrix.clone();
+        int[][] matrix = ((MahjongGPSState) state).board.matrix;
+        int[][] rBoard = new int[matrix.length][matrix[0].length];
+        for(int i=0; i< matrix.length; i++){
+            for(int j=0; j<matrix[i].length ; j++){
+                rBoard[i][j] = matrix[i][j];
+            }
+        }
+
         Point p = mState.playables.get(0);
         int currentValue = rBoard[p.x][p.y];
         for(Point point : mState.playables){

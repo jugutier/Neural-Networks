@@ -25,15 +25,34 @@ public class MahjongGPSState implements GPSState {
         return board.equals(mState.board);
     }
 
+    @Override
+    public String toString() {
+        StringBuffer out = new StringBuffer();
+        for(int i=0; i< board.matrix.length; i++){
+            out.append(" | ");
+            for(int j=0; j<board.matrix[i].length ; j++){
+                out.append(board.matrix[i][j]);
+                out.append(" | ");
+            }
+            out.append('\n');
+        }
+
+        return out.toString();
+    }
+
+    /*
+        Inner class representing a board. Defined as rectangular in a matrix for easy access.
+
+     */
     class  MahjongBoard{
-        int matrix[][] ;
+        int matrix[][];
+
         MahjongBoard(int matrix[][]){
             this.matrix = matrix;
         }
 
         @Override
         public boolean equals(Object o) {
-            //boolean ret = Arrays.equals(matrix, ((MahjongBoard) o).matrix);
             int m2[][] = ((MahjongBoard) o).matrix;
             for(int i=0; i< m2.length; i++){
                 for(int j=0; j<m2[i].length ; j++){
