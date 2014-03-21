@@ -11,9 +11,12 @@ import java.util.List;
  * Created by jugutier on 18/03/14.
  */
 public class MahjongGPSProblem implements GPSProblem {
+    int lastSymbol;
+
     @Override
     public GPSState getInitState() {
         int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1}};
+        this.lastSymbol = 5;
 
         MahjongGPSState initState = new MahjongGPSState(initBoard);
 
@@ -31,7 +34,9 @@ public class MahjongGPSProblem implements GPSProblem {
     @Override
     public List<GPSRule> getRules() {
         List<GPSRule> rules = new ArrayList<GPSRule>();
-        rules.add(new MahjongGPSRule());
+
+        for(int i = 1; i <= this.lastSymbol; i++)
+            rules.add(new MahjongGPSRule(i));
         return rules;
     }
 

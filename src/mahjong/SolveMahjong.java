@@ -9,10 +9,9 @@ import gps.api.GPSProblem;
  */
 public class SolveMahjong {
     public static void main(String[] args) {
-        System.out.println("hi!");
         GPSEngine engine = new MahjongGPSEngine();
         GPSProblem problem = new MahjongGPSProblem();
 
-        engine.engine(problem, SearchStrategy.DFS);
+        engine.engine(problem, SearchStrategy.BFS);
     }
 }

@@ -70,9 +70,11 @@ public abstract class GPSEngine {
 		for (GPSRule rule : problem.getRules()) {
 			GPSState newState = null;
 			try {
+                System.out.print(rule);
 				newState = rule.evalRule(node.getState());
+                System.out.print('\n');
 			} catch (NotAppliableException e) {
-				// Do nothing
+                System.out.print("--> Not appliable.\n");
 			}
 			if (newState != null
 					&& !checkBranch(node, newState)
