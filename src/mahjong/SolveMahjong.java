@@ -11,7 +11,6 @@ import java.util.Scanner;
  */
 public class SolveMahjong {
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
         GPSEngine engine = new MahjongGPSEngine();
         GPSProblem problem = new MahjongGPSProblem();
 
@@ -29,6 +28,8 @@ public class SolveMahjong {
                 System.out.println("That is not a valid strategy. Try again.\n");
             }
         } while (strategy == null);
+
+        long startTime = System.currentTimeMillis();
 
         engine.engine(problem, strategy);
 
