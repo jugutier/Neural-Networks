@@ -53,15 +53,17 @@ public class MahjongGPSRule implements GPSRule{
             }
         }
 
-        Point p = mState.playables.get(0);
-        int currentValue = rBoard[p.x][p.y];
-        if(currentValue == this.symbol){
-            for(Point point : mState.playables){
-                if(!(point.x == p.x && point.y == p.y)){
-                    if(rBoard[point.x][point.y] == currentValue){
-                        rBoard[p.x][p.y]=0;
-                        rBoard[point.x][point.y] = 0;//remove both tiles
-                        return new MahjongGPSState(rBoard);
+        //Point p = mState.playables.get(0);
+        for(Point p: mState.playables){
+            int currentValue = rBoard[p.x][p.y];
+            if(currentValue == this.symbol){
+                for(Point point : mState.playables){
+                    if(!(point.x == p.x && point.y == p.y)){
+                        if(rBoard[point.x][point.y] == currentValue){
+                            rBoard[p.x][p.y]=0;
+                            rBoard[point.x][point.y] = 0;//remove both tiles
+                            return new MahjongGPSState(rBoard);
+                        }
                     }
                 }
             }
