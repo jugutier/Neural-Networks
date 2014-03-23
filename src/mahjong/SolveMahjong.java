@@ -4,6 +4,8 @@ import gps.GPSEngine;
 import gps.SearchStrategy;
 import gps.api.GPSProblem;
 
+import java.util.Scanner;
+
 /**
  * Created by jugutier on 19/03/14.
  */
@@ -13,7 +15,22 @@ public class SolveMahjong {
         GPSEngine engine = new MahjongGPSEngine();
         GPSProblem problem = new MahjongGPSProblem();
 
-        engine.engine(problem, SearchStrategy.BFS);
+        SearchStrategy strategy = null;
+        Scanner scan = new Scanner(System.in);
+
+        do {
+            System.out.println("Choose a strategy: ");
+            String line = scan.nextLine();
+            if (line.toUpperCase().contains("DFS")) {
+                strategy = SearchStrategy.DFS;
+            } else if (line.toUpperCase().contains("BFS")) {
+                strategy = SearchStrategy.BFS;
+            } else {
+                System.out.println("That is not a valid strategy. Try again.\n");
+            }
+        } while (strategy == null);
+
+        engine.engine(problem, strategy);
 
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
