@@ -15,17 +15,19 @@ public class MahjongGPSProblem implements GPSProblem {
 
     @Override
     public GPSState getInitState() {
-        int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1}};
+        //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1}};
+        //this.lastSymbol = 5;
+        int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
         this.lastSymbol = 5;
 
         MahjongGPSState initState = new MahjongGPSState(initBoard);
-
+        System.out.println(initState);
         return initState;
     }
 
     @Override
     public GPSState getGoalState() {
-        int[][] goalBoard = new int[2][5];
+        int[][] goalBoard = new int[3][5];
         MahjongGPSState goalState = new MahjongGPSState(goalBoard);
 
         return goalState;
