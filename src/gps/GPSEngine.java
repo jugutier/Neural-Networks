@@ -26,6 +26,7 @@ public abstract class GPSEngine {
 		strategy = myStrategy;
 
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
+        rootNode.setDepth(0);
 		boolean finished = false;
 		boolean failed = false;
 		long explosionCounter = 0;

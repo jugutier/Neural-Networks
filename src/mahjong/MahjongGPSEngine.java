@@ -18,8 +18,10 @@ public class MahjongGPSEngine extends GPSEngine {
         }else if(this.strategy == SearchStrategy.DFS){
             open.add(0,node);
             //System.out.println("DFS");
-        }else if(this.strategy == SearchStrategy.IP){
-
+        }else if(this.strategy == SearchStrategy.ID){
+            if(node.getDepth() <= 7){
+                open.add(0,node);
+            }
         }else if(this.strategy == SearchStrategy.AStar){
             throw new RuntimeException("Unimplemented strategy");
         }else{

@@ -13,7 +13,7 @@ public class SolveMahjong {
         GPSEngine engine = new MahjongGPSEngine();
         GPSProblem problem = new MahjongGPSProblem();
 
-        engine.engine(problem, SearchStrategy.BFS);
+        engine.engine(problem, SearchStrategy.ID);
 
         long endTime   = System.currentTimeMillis();
         long totalTime = endTime - startTime;
