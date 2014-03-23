@@ -24,6 +24,8 @@ public class SolveMahjong {
                 strategy = SearchStrategy.DFS;
             } else if (line.toUpperCase().contains("BFS")) {
                 strategy = SearchStrategy.BFS;
+            } else if (line.toUpperCase().contentEquals("ID")){
+                strategy = SearchStrategy.ID;
             } else {
                 System.out.println("That is not a valid strategy. Try again.\n");
             }

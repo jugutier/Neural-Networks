@@ -17,8 +17,10 @@ public class MahjongGPSProblem implements GPSProblem {
     public GPSState getInitState() {
         //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1}};
         //this.lastSymbol = 5;
-        int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
-        this.lastSymbol = 5;
+        //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
+        //this.lastSymbol = 5;
+        int[][] initBoard = {{1,4,5,5,4,6},{2,3,3,2,6,1},{0,5,2,0,2,5},{3,3,1,6,6,1}};
+        this.lastSymbol = 6;
 
         MahjongGPSState initState = new MahjongGPSState(initBoard);
         System.out.println("Problem to solve: \n" + initState);
