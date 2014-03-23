@@ -21,7 +21,7 @@ public class MahjongGPSProblem implements GPSProblem {
         this.lastSymbol = 5;
 
         MahjongGPSState initState = new MahjongGPSState(initBoard);
-        System.out.println(initState);
+        System.out.println("Problem to solve: \n" + initState);
         return initState;
     }
 

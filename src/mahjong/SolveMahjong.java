@@ -9,9 +9,14 @@ import gps.api.GPSProblem;
  */
 public class SolveMahjong {
     public static void main(String[] args) {
+        long startTime = System.currentTimeMillis();
         GPSEngine engine = new MahjongGPSEngine();
         GPSProblem problem = new MahjongGPSProblem();
 
-        engine.engine(problem, SearchStrategy.DFS);
+        engine.engine(problem, SearchStrategy.BFS);
+
+        long endTime   = System.currentTimeMillis();
+        long totalTime = endTime - startTime;
+        System.out.println("Elapsed time: " + (totalTime/1000.0));
     }
 }

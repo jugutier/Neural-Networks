@@ -40,8 +40,13 @@ public abstract class GPSEngine {
 				open.remove(0);
 				if (isGoal(currentNode)) {
 					finished = true;
-					System.out.println(currentNode.getSolution());
+                    System.out.println("\nA solution was found. Solution: ");
+                    System.out.println(currentNode.getSolution());
+                    System.out.println("Strategy used: " + this.strategy);
 					System.out.println("Expanded nodes: " + explosionCounter);
+                    System.out.println("Solution depth: TODO");
+                    System.out.println("Generated states: TODO");
+                    System.out.println("Nodes in frontier: TODO");
 				} else {
 					explosionCounter++;
 					explode(currentNode);
@@ -50,7 +55,7 @@ public abstract class GPSEngine {
 		}
 
 		if (finished) {
-			System.out.println("OK! solution found!");
+			//System.out.println("OK! solution found!");
 		} else if (failed) {
 			System.err.println("FAILED! solution not found!");
 		}
