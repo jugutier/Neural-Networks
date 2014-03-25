@@ -13,7 +13,7 @@ public abstract class GPSEngine {
 
 	protected List<GPSNode> open = new LinkedList<GPSNode>();
 
-	private List<GPSNode> closed = new ArrayList<GPSNode>();
+	protected List<GPSNode> closed = new ArrayList<GPSNode>();
 
 	private GPSProblem problem;
 
@@ -45,7 +45,7 @@ public abstract class GPSEngine {
                     System.out.println(currentNode.getSolution());
                     System.out.println("Strategy used: " + this.strategy);
 					System.out.println("Expanded nodes: " + explosionCounter);
-                    System.out.println("Solution depth: TODO");
+                    System.out.println("Solution depth: " + currentNode.getDepth());
                     System.out.println("Generated states: TODO");
                     System.out.println("Nodes in frontier: TODO");
 				} else {

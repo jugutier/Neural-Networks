@@ -29,7 +29,7 @@ public class MahjongGPSProblem implements GPSProblem {
 
     @Override
     public GPSState getGoalState() {
-        int[][] goalBoard = new int[3][5];
+        int[][] goalBoard = new int[4][6];
         MahjongGPSState goalState = new MahjongGPSState(goalBoard);
 
         return goalState;
