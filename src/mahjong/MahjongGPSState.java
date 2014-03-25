@@ -4,8 +4,7 @@ import gps.api.GPSState;
 
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -38,6 +37,20 @@ public class MahjongGPSState implements GPSState {
         }
 
         return out.toString();
+    }
+
+    public Integer playablePairs() {
+        int retVal=0;
+        List<Point> playables = board.getPlayables();
+        int[] symbolsCount = new int[6/*lastSymbol*/];//TODO: fix
+        System.out.println("symbolsCount=6");
+        for(Point p:playables){
+           symbolsCount[ board.matrix[p.x][p.y]-1]++;
+        }
+        for(int currentSymbol:symbolsCount){
+            retVal+=Math.floor(currentSymbol / 2);
+        }
+        return retVal;
     }
 
     /*

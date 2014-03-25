@@ -15,7 +15,7 @@ public abstract class GPSEngine {
 
 	protected List<GPSNode> closed = new ArrayList<GPSNode>();
 
-	private GPSProblem problem;
+	protected GPSProblem problem;
 
 	// Use this variable in the addNode implementation
 	protected SearchStrategy strategy;
@@ -25,7 +25,7 @@ public abstract class GPSEngine {
 		problem = myProblem;
 		strategy = myStrategy;
 
-		GPSNode rootNode = new GPSNode(problem.getInitState(), 0);
+		GPSNode rootNode = new GPSNode(problem.getInitState(), 2);
         rootNode.setDepth(0);
 		boolean finished = false;
 		boolean failed = false;
@@ -47,7 +47,7 @@ public abstract class GPSEngine {
 					System.out.println("Expanded nodes: " + explosionCounter);
                     System.out.println("Solution depth: " + currentNode.getDepth());
                     System.out.println("Generated states: TODO");
-                    System.out.println("Nodes in frontier: TODO");
+                    System.out.println("Nodes in frontier: "+ open.size());
 				} else {
 					explosionCounter++;
 					explode(currentNode);

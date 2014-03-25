@@ -5,6 +5,7 @@ import gps.api.GPSRule;
 import gps.api.GPSState;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,11 +42,22 @@ public class MahjongGPSProblem implements GPSProblem {
 
         for(int i = 1; i <= this.lastSymbol; i++)
             rules.add(new MahjongGPSRule(i));
+
+        //Collections.shuffle(rules);
         return rules;
     }
 
     @Override
     public Integer getHValue(GPSState state) {
-        return ((MahjongGPSState)state).playables.size();
+        int valor_consola=2;
+        switch (valor_consola){
+            case 1://H1
+                return Integer.MAX_VALUE - ((MahjongGPSState)state).playables.size();
+            case 2://H2
+                return ((MahjongGPSState)state).playablePairs();
+            default:
+                throw new RuntimeException("Unexistent");
+        }
+
     }
 }

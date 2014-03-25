@@ -5,6 +5,8 @@ import gps.GPSNode;
 import gps.SearchStrategy;
 import gps.exception.InvalidSearchStrategyException;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +18,6 @@ public class MahjongGPSEngine extends GPSEngine {
 
     @Override
     public void addNode(GPSNode node) {
-        System.out.println(strategy);
         switch (strategy){
             case BFS:
                 open.add(node);
@@ -36,6 +37,14 @@ public class MahjongGPSEngine extends GPSEngine {
                 }
                 break;
             case GREEDY:
+                System.out.println(node);
+                open.add(node);
+                Collections.sort(open, new Comparator<GPSNode>() {
+                    @Override
+                    public int compare(GPSNode gpsNode, GPSNode gpsNode2) {
+                        return problem.getHValue(gpsNode.getState())-problem.getHValue(gpsNode2.getState());
+                    }
+                });
                 break;
             case AStar:
                 throw new RuntimeException("Unimplemented strategy");
