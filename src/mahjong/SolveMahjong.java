@@ -24,7 +24,7 @@ public class SolveMahjong {
                 strategy = SearchStrategy.DFS;
             } else if (input.contains("BFS")) {
                 strategy = SearchStrategy.BFS;
-            } else if (line.toUpperCase().contentEquals("ID")){
+            } else if (input.contentEquals("ID")){
                 strategy = SearchStrategy.ID;
             } else if (input.contains("ASTAR")) {
                 strategy = SearchStrategy.AStar;
