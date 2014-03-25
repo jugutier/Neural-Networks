@@ -16,26 +16,31 @@ public class MahjongGPSEngine extends GPSEngine {
 
     @Override
     public void addNode(GPSNode node) {
-        if(this.strategy == SearchStrategy.BFS){
-            open.add(node);
-            //System.out.println("BFS");
-        }else if(this.strategy == SearchStrategy.DFS){
-            open.add(0,node);
-            //System.out.println("DFS");
-        }else if(this.strategy == SearchStrategy.ID){
-            if(node.getDepth() <= this.maxDepth){
+        System.out.println(strategy);
+        switch (strategy){
+            case BFS:
+                open.add(node);
+                break;
+            case DFS:
                 open.add(0,node);
-            }else{
-                maxDepth += 1;
-                List<GPSNode> temp = new LinkedList<GPSNode>();
-                temp.add(open.get(open.size()-1));
-                open = temp;
-                closed = new LinkedList<GPSNode>();
-            }
-        }else if(this.strategy == SearchStrategy.AStar){
-            throw new RuntimeException("Unimplemented strategy");
-        }else{
-            throw new InvalidSearchStrategyException();
+                break;
+            case ID:
+                if(node.getDepth() <= this.maxDepth){
+                    open.add(0,node);
+                }else{
+                    maxDepth += 1;
+                    List<GPSNode> temp = new LinkedList<GPSNode>();
+                    temp.add(open.get(open.size()-1));
+                    open = temp;
+                    closed = new LinkedList<GPSNode>();
+                }
+                break;
+            case GREEDY:
+                break;
+            case AStar:
+                throw new RuntimeException("Unimplemented strategy");
+            default:
+                throw new InvalidSearchStrategyException();
         }
     }
 }
