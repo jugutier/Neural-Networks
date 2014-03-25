@@ -19,11 +19,17 @@ public class SolveMahjong {
 
         do {
             System.out.println("Choose a strategy: ");
-            String line = scan.nextLine();
-            if (line.toUpperCase().contains("DFS")) {
+            String input = scan.nextLine().toUpperCase();
+            if (input.contains("DFS")) {
                 strategy = SearchStrategy.DFS;
-            } else if (line.toUpperCase().contains("BFS")) {
+            } else if (input.contains("BFS")) {
                 strategy = SearchStrategy.BFS;
+            } else if (input.contains("ASTAR")) {
+                strategy = SearchStrategy.AStar;
+            } else if (input.contains("ID")) {
+                strategy = SearchStrategy.ID;
+            } else if (input.contains("GREEDY")) {
+                strategy = SearchStrategy.GREEDY;
             } else {
                 System.out.println("That is not a valid strategy. Try again.\n");
             }
@@ -33,8 +39,8 @@ public class SolveMahjong {
 
         engine.engine(problem, strategy);
 
-        long endTime   = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        System.out.println("Elapsed time: " + (totalTime/1000.0));
+        System.out.println("Elapsed time: " + (totalTime / 1000.0));
     }
 }
