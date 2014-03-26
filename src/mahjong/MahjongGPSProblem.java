@@ -1,17 +1,19 @@
 package mahjong;
 
+import gps.Heuristic;
 import gps.api.GPSProblem;
 import gps.api.GPSRule;
 import gps.api.GPSState;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by jugutier on 18/03/14.
  */
 public class MahjongGPSProblem implements GPSProblem {
+
+    Heuristic heuristic = Heuristic.NONE;
     int lastSymbol;
 
     @Override
@@ -20,7 +22,7 @@ public class MahjongGPSProblem implements GPSProblem {
         //this.lastSymbol = 5;
         //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
         //this.lastSymbol = 5;
-        int[][] initBoard = {{1,4,5,5,4,6},{2,3,3,2,6,1},{0,5,2,0,2,5},{3,3,1,6,6,1}};
+        int[][] initBoard = {{1, 4, 5, 5, 4, 6}, {2, 3, 3, 2, 6, 1}, {0, 5, 2, 0, 2, 5}, {3, 3, 1, 6, 6, 1}};
         this.lastSymbol = 6;
 
         MahjongGPSState initState = new MahjongGPSState(initBoard);
@@ -40,7 +42,7 @@ public class MahjongGPSProblem implements GPSProblem {
     public List<GPSRule> getRules() {
         List<GPSRule> rules = new ArrayList<GPSRule>();
 
-        for(int i = 1; i <= this.lastSymbol; i++)
+        for (int i = 1; i <= this.lastSymbol; i++)
             rules.add(new MahjongGPSRule(i));
 
         //Collections.shuffle(rules);
@@ -49,15 +51,21 @@ public class MahjongGPSProblem implements GPSProblem {
 
     @Override
     public Integer getHValue(GPSState state) {
-        int valor_consola=2;
-        switch (valor_consola){
-            case 1://H1
-                return Integer.MAX_VALUE - ((MahjongGPSState)state).playables.size();
-            case 2://H2
-                return ((MahjongGPSState)state).playablePairs();
+        switch (heuristic) {
+            case ONE:
+                return Integer.MAX_VALUE - ((MahjongGPSState) state).playables.size();
+            case TWO:
+                return ((MahjongGPSState) state).playablePairs();
+            case NONE:
             default:
-                throw new RuntimeException("Unexistent");
+                throw new IllegalArgumentException("Invalid heuristic.");
         }
-
     }
+
+    @Override
+    public void setHeuristic(Heuristic myHeuristic) {
+        heuristic = myHeuristic;
+    }
+
+
 }

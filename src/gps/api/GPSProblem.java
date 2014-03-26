@@ -1,5 +1,7 @@
 package gps.api;
 
+import gps.Heuristic;
+
 import java.util.List;
 
 /**
@@ -33,5 +35,7 @@ public interface GPSProblem {
 	 * @return The value of the Heuristic.
 	 */
 	Integer getHValue(GPSState state);
+
+    void setHeuristic(Heuristic heuristic);
 
 }

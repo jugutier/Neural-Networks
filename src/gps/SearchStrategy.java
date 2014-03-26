@@ -1,9 +1,10 @@
 package gps;
 
 public enum SearchStrategy {
-	BFS,
-	DFS,
-	AStar,
+    NONE,
+    BFS,
+    DFS,
+    AStar,
     ID,
     GREEDY
 }

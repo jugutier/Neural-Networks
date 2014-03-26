@@ -2,7 +2,6 @@ package mahjong;
 
 import gps.GPSEngine;
 import gps.GPSNode;
-import gps.SearchStrategy;
 import gps.exception.InvalidSearchStrategyException;
 
 import java.util.Collections;
@@ -18,20 +17,20 @@ public class MahjongGPSEngine extends GPSEngine {
 
     @Override
     public void addNode(GPSNode node) {
-        switch (strategy){
+        switch (strategy) {
             case BFS:
                 open.add(node);
                 break;
             case DFS:
-                open.add(0,node);
+                open.add(0, node);
                 break;
             case ID:
-                if(node.getDepth() <= this.maxDepth){
-                    open.add(0,node);
-                }else{
+                if (node.getDepth() <= this.maxDepth) {
+                    open.add(0, node);
+                } else {
                     maxDepth += 1;
                     List<GPSNode> temp = new LinkedList<GPSNode>();
-                    temp.add(open.get(open.size()-1));
+                    temp.add(open.get(open.size() - 1));
                     open = temp;
                     closed = new LinkedList<GPSNode>();
                 }
@@ -42,7 +41,7 @@ public class MahjongGPSEngine extends GPSEngine {
                 Collections.sort(open, new Comparator<GPSNode>() {
                     @Override
                     public int compare(GPSNode gpsNode, GPSNode gpsNode2) {
-                        return problem.getHValue(gpsNode.getState())-problem.getHValue(gpsNode2.getState());
+                        return problem.getHValue(gpsNode.getState()) - problem.getHValue(gpsNode2.getState());
                     }
                 });
                 break;
