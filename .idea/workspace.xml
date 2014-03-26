@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" description="                    if(matrix[i][k] != 0){&#10;" line="33" />
+    <bookmark url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" description="                    if(matrix[i][k] != 0){&#10;" line="62" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75fb84b8-418d-4b99-b3cd-b823e15eeca6" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mahjong/SolveMahjong.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/GPSEngine.java" afterPath="$PROJECT_DIR$/src/gps/GPSEngine.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/GPSNode.java" afterPath="$PROJECT_DIR$/src/gps/GPSNode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/api/GPSProblem.java" afterPath="$PROJECT_DIR$/src/gps/api/GPSProblem.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/api/GPSRule.java" afterPath="$PROJECT_DIR$/src/gps/api/GPSRule.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/api/GPSState.java" afterPath="$PROJECT_DIR$/src/gps/api/GPSState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java" afterPath="$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java" afterPath="$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" afterPath="$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/exception/NotAppliableException.java" afterPath="$PROJECT_DIR$/src/gps/exception/NotAppliableException.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/gps/SearchStrategy.java" afterPath="$PROJECT_DIR$/src/gps/SearchStrategy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mahjong/SolveMahjong.java" afterPath="$PROJECT_DIR$/src/mahjong/SolveMahjong.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="sia-2014-05.iws" />
@@ -72,8 +63,8 @@
       </breakpoint>
     </breakpoint_any>
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" line="35" class="mahjong.MahjongGPSState.MahjongBoard" package="mahjong">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" line="64" class="mahjong.MahjongGPSState.MahjongBoard" package="mahjong">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -88,7 +79,7 @@
         <option name="CONDITION" value="&#13;&#13;JAVA" />
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java" line="41" class="mahjong.MahjongGPSRule" package="mahjong">
+      <breakpoint url="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java" line="47" class="mahjong.MahjongGPSRule" package="mahjong">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -116,10 +107,8 @@
       <file leaf-file-name="GPSEngine.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gps/GPSEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="20" selection-start="815" selection-end="819" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1710">
-              <folding>
-                <element signature="e#297#306#0" expanded="true" />
-              </folding>
+            <state line="31" column="34" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -127,10 +116,9 @@
       <file leaf-file-name="MahjongGPSProblem.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="237" max-vertical-offset="720">
+            <state line="59" column="20" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1155">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#746#755#0" expanded="true" />
+                <marker date="1395835159000" expanded="false" signature="1129:1138" placeholder="&lt;~&gt;" />
               </folding>
             </state>
           </provider>
@@ -139,21 +127,26 @@
       <file leaf-file-name="MahjongGPSState.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="0.33173078" vertical-offset="162" max-vertical-offset="960">
+            <state line="46" column="10" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.4814815" vertical-offset="930" max-vertical-offset="2889">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#997#1004#0" expanded="true" />
+                <element signature="e#2209#2216#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MahjongGPSRule.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java">
+      <file leaf-file-name="MahjongGPSEngine.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="0" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="319" max-vertical-offset="750">
+            <state line="64" column="22" selection-start="2220" selection-end="2220" vertical-scroll-proportion="0.0" vertical-offset="2313" max-vertical-offset="3344">
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#813#822#0" expanded="true" />
+                <element signature="e#1109#1393#0" expanded="true" />
+                <element signature="e#1374#1375#0" expanded="true" />
+                <element signature="e#1514#2195#0" expanded="true" />
+                <element signature="e#2176#2177#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -162,10 +155,8 @@
       <file leaf-file-name="SolveMahjong.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mahjong/SolveMahjong.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="36" column="76" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.0" vertical-offset="653" max-vertical-offset="2884">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -186,20 +177,21 @@
         <option value="$PROJECT_DIR$/test.java" />
         <option value="$PROJECT_DIR$/src/mahjong/Tile.java" />
         <option value="$PROJECT_DIR$/src/mahjong/GPSEngineImpl.java" />
-        <option value="$PROJECT_DIR$/src/gps/GPSEngine.java" />
         <option value="$PROJECT_DIR$/src/mahjong/GPSProblemImpl.java" />
+        <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java" />
+        <option value="$PROJECT_DIR$/src/gps/SearchStrategy.java" />
+        <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java" />
+        <option value="$PROJECT_DIR$/src/gps/GPSEngine.java" />
         <option value="$PROJECT_DIR$/src/mahjong/SolveMahjong.java" />
         <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java" />
-        <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java" />
         <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSState.java" />
-        <option value="$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1440" />
-    <option name="height" value="809" />
+    <option name="width" value="1920" />
+    <option name="height" value="989" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -215,13 +207,19 @@
             <id>Android Lint</id>
           </State>
           <State>
-            <id>Class metrics</id>
+            <id>Class structure</id>
           </State>
           <State>
-            <id>Control FlowGroovy</id>
+            <id>Code style issues</id>
+          </State>
+          <State>
+            <id>Concurrency annotation issues</id>
           </State>
           <State>
             <id>Control flow issues</id>
+          </State>
+          <State>
+            <id>Data flow issues</id>
           </State>
           <State>
             <id>Declaration redundancy</id>
@@ -239,52 +237,22 @@
             <id>Groovy</id>
           </State>
           <State>
-            <id>J2ME issues</id>
+            <id>Imports</id>
           </State>
           <State>
-            <id>Java language level issues</id>
+            <id>Internationalization issues</id>
           </State>
           <State>
-            <id>Java language level migration aids</id>
-          </State>
-          <State>
-            <id>Logging issues</id>
-          </State>
-          <State>
-            <id>Manifest</id>
-          </State>
-          <State>
-            <id>Method MetricsGroovy</id>
-          </State>
-          <State>
-            <id>Method metrics</id>
-          </State>
-          <State>
-            <id>Modularization issues</id>
-          </State>
-          <State>
-            <id>Naming conventions</id>
-          </State>
-          <State>
-            <id>Numeric issues</id>
-          </State>
-          <State>
-            <id>Packaging issues</id>
-          </State>
-          <State>
-            <id>Portability issues</id>
-          </State>
-          <State>
-            <id>Potentially confusing code constructsGroovy</id>
+            <id>Performance issues</id>
           </State>
           <State>
             <id>Probable bugs</id>
           </State>
           <State>
-            <id>Properties Files</id>
+            <id>RELAX NG</id>
           </State>
           <State>
-            <id>Security issues</id>
+            <id>Serialization issues</id>
           </State>
           <State>
             <id>Threading issues</id>
@@ -293,17 +261,12 @@
             <id>Threading issuesGroovy</id>
           </State>
           <State>
-            <id>Visibility issues</id>
-          </State>
-          <State>
             <id>XPath</id>
           </State>
-        </expanded-state>
-        <selected-state>
           <State>
-            <id>Abstraction issues</id>
+            <id>XSLT</id>
           </State>
-        </selected-state>
+        </expanded-state>
       </profile-state>
     </entry>
   </component>
@@ -333,6 +296,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -389,8 +354,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -400,7 +363,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="editor.preferences.appearance" />
+    <property name="options.lastSelected" value="editor" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -476,19 +439,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -514,6 +464,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -615,11 +578,19 @@
       <created>1395189488318</created>
       <updated>1395189488318</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="adding greedy&#10;">
+      <created>1395780543108</created>
+      <updated>1395780543108</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add heuristics. Change cost.&#10;">
+      <created>1395791692038</created>
+      <updated>1395791692038</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="809" extended-state="6" />
+    <frame x="0" y="22" width="1920" height="989" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -627,22 +598,22 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32934782" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24959612" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2361111" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972974" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17708333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2652174" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -656,12 +627,16 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
     <MESSAGE value="GPS" />
     <MESSAGE value="starting&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="starting&#10;" />
+    <MESSAGE value="adding greedy&#10;" />
+    <MESSAGE value="Add heuristics. Change cost.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add heuristics. Change cost.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -673,6 +648,46 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/gps/GPSEngine.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="20" selection-start="815" selection-end="819" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="237" max-vertical-offset="720">
+          <folding>
+            <marker date="1395835159000" expanded="false" signature="1129:1138" placeholder="&lt;~&gt;" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="0.0" vertical-offset="252" max-vertical-offset="960">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2209#2216#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="0" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="319" max-vertical-offset="750">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/SolveMahjong.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="360">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gps/GPSEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="44" selection-start="526" selection-end="526" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1815">
           <folding />
         </state>
@@ -682,8 +697,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="8" selection-start="277" selection-end="289" vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="570">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#746#755#0" expanded="true" />
+            <marker date="1395835159000" expanded="false" signature="1129:1138" placeholder="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
@@ -693,7 +707,7 @@
         <state line="32" column="0" selection-start="723" selection-end="723" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="570">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#997#1004#0" expanded="true" />
+            <element signature="e#2209#2216#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -712,65 +726,89 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java">
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Object.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="168" selection-end="168" vertical-scroll-proportion="0.18960674" vertical-offset="0" max-vertical-offset="712">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="15" column="19" selection-start="367" selection-end="367" vertical-scroll-proportion="0.33173078" vertical-offset="72" max-vertical-offset="555" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="0" selection-start="2061" selection-end="2061" vertical-scroll-proportion="0.8333333" vertical-offset="630" max-vertical-offset="1170">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/lang/Object.class">
+    <entry file="file://$PROJECT_DIR$/src/gps/api/GPSProblem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="19" selection-start="367" selection-end="367" vertical-scroll-proportion="0.33173078" vertical-offset="72" max-vertical-offset="555">
+        <state line="34" column="12" selection-start="840" selection-end="840" vertical-scroll-proportion="0.71153843" vertical-offset="177" max-vertical-offset="645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gps/SearchStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="24" selection-start="38" selection-end="38" vertical-scroll-proportion="0.06410257" vertical-offset="0" max-vertical-offset="468">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gps/GPSNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="17" selection-start="182" selection-end="182" vertical-scroll-proportion="0.102564104" vertical-offset="162" max-vertical-offset="810">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSProblem.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="549" selection-end="549" vertical-scroll-proportion="0.0" vertical-offset="237" max-vertical-offset="720">
+        <state line="59" column="20" selection-start="1676" selection-end="1676" vertical-scroll-proportion="0.0" vertical-offset="120" max-vertical-offset="1155">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#746#755#0" expanded="true" />
+            <marker date="1395835159000" expanded="false" signature="1129:1138" placeholder="&lt;~&gt;" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gps/GPSEngine.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="20" selection-start="815" selection-end="819" vertical-scroll-proportion="0.0" vertical-offset="240" max-vertical-offset="1710">
-          <folding>
-            <element signature="e#297#306#0" expanded="true" />
-          </folding>
+        <state line="31" column="34" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1830">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mahjong/SolveMahjong.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="36" column="76" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.0" vertical-offset="653" max-vertical-offset="2884">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSRule.java">
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/util/Comparator.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1099" selection-end="1099" vertical-scroll-proportion="0.0" vertical-offset="334" max-vertical-offset="750">
+        <state line="5" column="0" selection-start="138" selection-end="138" vertical-scroll-proportion="0.09259259" vertical-offset="0" max-vertical-offset="648">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSEngine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="22" selection-start="2220" selection-end="2220" vertical-scroll-proportion="0.0" vertical-offset="2313" max-vertical-offset="3344">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#813#822#0" expanded="true" />
+            <element signature="e#1109#1393#0" expanded="true" />
+            <element signature="e#1374#1375#0" expanded="true" />
+            <element signature="e#1514#2195#0" expanded="true" />
+            <element signature="e#2176#2177#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mahjong/MahjongGPSState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="429" selection-end="429" vertical-scroll-proportion="0.33173078" vertical-offset="162" max-vertical-offset="960">
+        <state line="46" column="10" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.4814815" vertical-offset="930" max-vertical-offset="2889">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#997#1004#0" expanded="true" />
+            <element signature="e#2209#2216#0" expanded="true" />
           </folding>
         </state>
       </provider>

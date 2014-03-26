@@ -44,7 +44,7 @@ public class MahjongGPSState implements GPSState {
         int retVal = 0;
         List<Point> playables = board.getPlayables();
         int[] symbolsCount = new int[6/*lastSymbol*/];//TODO: fix
-        System.out.println("symbolsCount=6");
+        //System.out.println("symbolsCount=6");
         for (Point p : playables) {
             symbolsCount[board.matrix[p.x][p.y] - 1]++;
         }
