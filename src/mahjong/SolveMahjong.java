@@ -1,5 +1,6 @@
 package mahjong;
 
+import gps.BoardType;
 import gps.GPSEngine;
 import gps.Heuristic;
 import gps.SearchStrategy;
@@ -17,15 +18,19 @@ public class SolveMahjong {
             GPSEngine engine = new MahjongGPSEngine();
             GPSProblem problem = new MahjongGPSProblem();
             SearchStrategy strategy = null;
+            BoardType boardType = null;
+            System.out.println("Welcome to mahjongSolver.\nYou can type exit at any moment.");
             try{
+                boardType = defineBoard();
+                problem.setBoardType(boardType);
                 strategy = defineStrategy();
+                if (strategy == SearchStrategy.GREEDY || strategy == SearchStrategy.AStar) {
+                    Heuristic heuristic = defineHeuristic();
+                    problem.setHeuristic(heuristic);
+                }
             }catch (RuntimeException e){
                 System.out.println("Exit successful.");
                 System.exit(1);
-            }
-            if (strategy == SearchStrategy.GREEDY || strategy == SearchStrategy.AStar) {
-                Heuristic heuristic = defineHeuristic();
-                problem.setHeuristic(heuristic);
             }
 
             long startTime = System.currentTimeMillis();
@@ -46,7 +51,9 @@ public class SolveMahjong {
             System.out.println("Choose a strategy: ");
             System.out.println("(You can type help to get possible options)");
             String input = scan.nextLine().toUpperCase();
-            if (input.contains("DFS")) {
+            if (input.contains("EXIT") || input.contains("QUIT")) {
+                throw new RuntimeException();
+            }else if (input.contains("DFS")) {
                 strategy = SearchStrategy.DFS;
             } else if (input.contains("BFS")) {
                 strategy = SearchStrategy.BFS;
@@ -82,7 +89,9 @@ public class SolveMahjong {
             System.out.println("(You can type help to get possible options)");
             String input2 = scan.nextLine().toUpperCase();
 
-            if (input2.contains("ONE")) {
+            if (input2.contains("EXIT") || input2.contains("QUIT")) {
+                throw new RuntimeException();
+            }else if (input2.equalsIgnoreCase("ONE")) {
                 heuristic = Heuristic.ONE;
             } else if (input2.contains("TWO")) {
                 heuristic = Heuristic.TWO;
@@ -99,5 +108,37 @@ public class SolveMahjong {
         } while (heuristic == Heuristic.NONE);
 
         return heuristic;
+    }
+
+    private static BoardType defineBoard(){
+        BoardType bt = BoardType.NONE;
+        Scanner scan = new Scanner(System.in);
+
+        do {
+            System.out.println("Choose a board: ");
+            System.out.println("(You can type help to get possible options)");
+            String input3 = scan.nextLine().toUpperCase();
+
+            if (input3.contains("EXIT") || input3.contains("QUIT")) {
+                throw new RuntimeException();
+            }else if (input3.equalsIgnoreCase("ONE")) {
+                bt = BoardType.ONE;
+            } else if (input3.contains("TWO")) {
+                bt = BoardType.TWO;
+            }else if (input3.contains("THREE")) {
+                bt = BoardType.THREE;
+            }else if (input3.contains("HELP")) {
+                System.out.println("Possible options:");
+                StringBuffer sBuff = new StringBuffer();
+                for(BoardType b:BoardType.values()){
+                    sBuff.append(b+",");
+                }
+                System.out.println(sBuff);
+            } else {
+                System.out.println("That is not a valid board. Try again, or type help for options.\n");
+            }
+        } while (bt == BoardType.NONE);
+
+        return bt;
     }
 }

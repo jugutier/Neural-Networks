@@ -12,7 +12,9 @@ import java.util.List;
 public class MahjongGPSState implements GPSState {
     public MahjongBoard board;
     public List<Point> playables;
-
+    public int lastSymbol;
+/*
+* @param lastSymbol: last value used to represent the greatest tile within the matrix*/
     MahjongGPSState(int matrix[][]) {
         this.board = new MahjongBoard(matrix);
         playables = board.getPlayables();
@@ -43,8 +45,7 @@ public class MahjongGPSState implements GPSState {
     public Integer playablePairs() {
         int retVal = 0;
         List<Point> playables = board.getPlayables();
-        int[] symbolsCount = new int[6/*lastSymbol*/];//TODO: fix
-        //System.out.println("symbolsCount=6");
+        int[] symbolsCount = new int[lastSymbol];
         for (Point p : playables) {
             symbolsCount[board.matrix[p.x][p.y] - 1]++;
         }
@@ -52,6 +53,10 @@ public class MahjongGPSState implements GPSState {
             retVal += Math.floor(currentSymbol / 2);
         }
         return retVal;
+    }
+
+    public void setLastSymbol(int lastSymbol) {
+        this.lastSymbol = lastSymbol;
     }
 
     /*

@@ -1,5 +1,6 @@
 package mahjong;
 
+import gps.BoardType;
 import gps.Heuristic;
 import gps.api.GPSProblem;
 import gps.api.GPSRule;
@@ -15,24 +16,22 @@ public class MahjongGPSProblem implements GPSProblem {
 
     Heuristic heuristic = Heuristic.NONE;
     int lastSymbol;
+    int [][]initBoard= null;
 
+    int[][] board1 = {{1,4,5,5,4},{2,3,3,2,1}};
+    int[][] board2 = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
+    int[][] board3 = {{1, 4, 5, 5, 4, 6}, {2, 3, 3, 2, 6, 1}, {0, 5, 2, 0, 2, 5}, {3, 3, 1, 6, 6, 1}};
     @Override
     public GPSState getInitState() {
-        //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1}};
-        //this.lastSymbol = 5;
-        //int[][] initBoard = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
-        //this.lastSymbol = 5;
-        int[][] initBoard = {{1, 4, 5, 5, 4, 6}, {2, 3, 3, 2, 6, 1}, {0, 5, 2, 0, 2, 5}, {3, 3, 1, 6, 6, 1}};
-        this.lastSymbol = 6;
-
         MahjongGPSState initState = new MahjongGPSState(initBoard);
+        initState.setLastSymbol(lastSymbol);
         System.out.println("Problem to solve: \n" + initState);
         return initState;
     }
 
     @Override
     public GPSState getGoalState() {
-        int[][] goalBoard = new int[4][6];
+        int[][] goalBoard = new int[initBoard.length][initBoard[0].length];
         MahjongGPSState goalState = new MahjongGPSState(goalBoard);
 
         return goalState;
@@ -65,6 +64,27 @@ public class MahjongGPSProblem implements GPSProblem {
     @Override
     public void setHeuristic(Heuristic myHeuristic) {
         heuristic = myHeuristic;
+    }
+
+    @Override
+    public void setBoardType(BoardType boardType) {
+        switch (boardType) {
+            case ONE:
+                initBoard = board1;
+                lastSymbol = 5;
+                break;
+            case TWO:
+                initBoard = board2;
+                lastSymbol = 5;
+                break;
+            case THREE:
+                initBoard = board3;
+                lastSymbol = 6;
+                break;
+            case NONE:
+            default:
+                throw new IllegalArgumentException("Invalid board type.");
+        }
     }
 
 

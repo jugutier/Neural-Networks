@@ -1,5 +1,6 @@
 package gps.api;
 
+import gps.BoardType;
 import gps.Heuristic;
 
 import java.util.List;
@@ -38,4 +39,5 @@ public interface GPSProblem {
 
     void setHeuristic(Heuristic heuristic);
 
+    void setBoardType(BoardType boardType);
 }
