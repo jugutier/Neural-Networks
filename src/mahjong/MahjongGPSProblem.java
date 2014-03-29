@@ -16,11 +16,13 @@ public class MahjongGPSProblem implements GPSProblem {
 
     Heuristic heuristic = Heuristic.NONE;
     int lastSymbol;
-    int [][]initBoard= null;
+    int [][][]initBoard= null;
 
-    int[][] board1 = {{1,4,5,5,4},{2,3,3,2,1}};
-    int[][] board2 = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
-    int[][] board3 = {{1, 4, 5, 5, 4, 6}, {2, 3, 3, 2, 6, 1}, {0, 5, 2, 0, 2, 5}, {3, 3, 1, 6, 6, 1}};
+    int[][][] board1 = {{{1},{4},{5},{5},{4}},{{2},{3},{3},{2},{1}}};
+    int[][][] board2 = {{{1},{4},{5},{5},{4}},{{2},{3},{3},{2},{1}},{{0},{5},{2},{2},{5}}};
+    int[][][] board3 = {{{1}, {4}, {5}, {5}, {4}, {6}}, {{2}, {3}, {3}, {2}, {6}, {1}},
+            {{0}, {5}, {2}, {0}, {2}, {5}}, {{3}, {3}, {1}, {6}, {6}, {1}}};
+    int[][][] board4 = {{{1,3},{2,4}},{{1,4},{2,3}}};
 
     @Override
     public GPSState getInitState() {
@@ -32,7 +34,7 @@ public class MahjongGPSProblem implements GPSProblem {
 
     @Override
     public GPSState getGoalState() {
-        int[][] goalBoard = new int[initBoard.length][initBoard[0].length];
+        int[][][] goalBoard = new int[initBoard.length][initBoard[0].length][initBoard[0][0].length];
         MahjongGPSState goalState = new MahjongGPSState(goalBoard);
 
         return goalState;
@@ -81,6 +83,10 @@ public class MahjongGPSProblem implements GPSProblem {
             case THREE:
                 initBoard = board3;
                 lastSymbol = 6;
+                break;
+            case FOUR:
+                initBoard = board4;
+                lastSymbol = 4;
                 break;
             case NONE:
             default:

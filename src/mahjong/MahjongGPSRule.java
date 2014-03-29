@@ -45,23 +45,25 @@ public class MahjongGPSRule implements GPSRule {
         }
 
         //int[][] rBoard =  ((MahjongGPSState) state).board.matrix.clone();
-        int[][] matrix = ((MahjongGPSState) state).board.matrix;
-        int[][] rBoard = new int[matrix.length][matrix[0].length];
+        int[][][] matrix = ((MahjongGPSState) state).board.matrix;
+        int[][][] rBoard = new int[matrix.length][matrix[0].length][matrix[0][0].length];
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                rBoard[i][j] = matrix[i][j];
+                for (int k = 0; k < matrix[0][0].length; k++) {
+                    rBoard[i][j][k] = matrix[i][j][k];
+                }
             }
         }
 
         //Point p = mState.playables.get(0);
-        for (Point p : mState.playables) {
-            int currentValue = rBoard[p.x][p.y];
+        for (Point3d p : mState.playables) {
+            int currentValue = rBoard[p.getX()][p.getY()][p.getZ()];
             if (currentValue == this.symbol) {
-                for (Point point : mState.playables) {
-                    if (!(point.x == p.x && point.y == p.y)) {
-                        if (rBoard[point.x][point.y] == currentValue) {
-                            rBoard[p.x][p.y] = 0;
-                            rBoard[point.x][point.y] = 0;//remove both tiles
+                for (Point3d point : mState.playables) {
+                    if (!(point.getX() == p.getX() && point.getY() == p.getY() && point.getZ() == p.getZ())) {
+                        if (rBoard[point.getX()][point.getY()][point.getZ()] == currentValue) {
+                            rBoard[p.getX()][p.getY()][p.getZ()] = 0;
+                            rBoard[point.getX()][point.getY()][point.getZ()] = 0;//remove both tiles
                             MahjongGPSState retState = new MahjongGPSState(rBoard);
                             retState.setLastSymbol(mState.lastSymbol);
                             return retState;
