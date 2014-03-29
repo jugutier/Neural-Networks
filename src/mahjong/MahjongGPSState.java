@@ -88,9 +88,9 @@ public class MahjongGPSState implements GPSState {
             for (int i = 0; i < board.matrix.length; i++) {
                 for (int j = 0; j < board.matrix[i].length; j++) {//the first available
                     if (matrix[i][j] != 0) {
-                        if(i == 0 || i == board.matrix.length-1){
+                        if(j == 0 || j == board.matrix[0].length-1){
                             playables.add(new Point(i, j));
-                        }else if(matrix[i-1][j] == 0 || matrix[i+1][j] == 0){
+                        }else if(matrix[i][j-1] == 0 || matrix[i][j+1] == 0){
                             playables.add(new Point(i, j));
                         }
                     }
