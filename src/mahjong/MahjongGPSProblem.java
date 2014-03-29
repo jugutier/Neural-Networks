@@ -21,6 +21,7 @@ public class MahjongGPSProblem implements GPSProblem {
     int[][] board1 = {{1,4,5,5,4},{2,3,3,2,1}};
     int[][] board2 = {{1,4,5,5,4},{2,3,3,2,1},{0,5,2,2,5}};
     int[][] board3 = {{1, 4, 5, 5, 4, 6}, {2, 3, 3, 2, 6, 1}, {0, 5, 2, 0, 2, 5}, {3, 3, 1, 6, 6, 1}};
+
     @Override
     public GPSState getInitState() {
         MahjongGPSState initState = new MahjongGPSState(initBoard);

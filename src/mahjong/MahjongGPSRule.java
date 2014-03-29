@@ -62,7 +62,9 @@ public class MahjongGPSRule implements GPSRule {
                         if (rBoard[point.x][point.y] == currentValue) {
                             rBoard[p.x][p.y] = 0;
                             rBoard[point.x][point.y] = 0;//remove both tiles
-                            return new MahjongGPSState(rBoard);
+                            MahjongGPSState retState = new MahjongGPSState(rBoard);
+                            retState.setLastSymbol(mState.lastSymbol);
+                            return retState;
                         }
                     }
                 }

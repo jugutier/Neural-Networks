@@ -18,7 +18,6 @@ public class MahjongGPSState implements GPSState {
     MahjongGPSState(int matrix[][]) {
         this.board = new MahjongBoard(matrix);
         playables = board.getPlayables();
-
     }
 
     @Override
@@ -89,14 +88,11 @@ public class MahjongGPSState implements GPSState {
             for (int i = 0; i < board.matrix.length; i++) {
                 for (int j = 0; j < board.matrix[i].length; j++) {//the first available
                     if (matrix[i][j] != 0) {
-                        playables.add(new Point(i, j));
-                        break;
-                    }
-                }
-                for (int k = board.matrix[i].length - 1; k > 0; k--) {//the last available
-                    if (matrix[i][k] != 0) {
-                        playables.add(new Point(i, k));
-                        break;
+                        if(i == 0 || i == board.matrix.length-1){
+                            playables.add(new Point(i, j));
+                        }else if(matrix[i-1][j] == 0 || matrix[i+1][j] == 0){
+                            playables.add(new Point(i, j));
+                        }
                     }
                 }
             }
