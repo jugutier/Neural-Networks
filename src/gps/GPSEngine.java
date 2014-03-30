@@ -20,6 +20,8 @@ public abstract class GPSEngine {
     // Use this variable in the addNode implementation
     protected SearchStrategy strategy;
 
+    private int numberOfStates = 0;
+
     public void engine(GPSProblem myProblem, SearchStrategy myStrategy) {
 
         problem = myProblem;
@@ -44,9 +46,10 @@ public abstract class GPSEngine {
                     System.out.println("\nA solution was found. Solution: ");
                     System.out.println(currentNode.getSolution());
                     System.out.println("Strategy used: " + this.strategy);
+                    System.out.println("Strategy used: " + this.strategy);
                     System.out.println("Expanded nodes: " + explosionCounter);
                     System.out.println("Solution depth: " + currentNode.getDepth());
-                    System.out.println("Generated states: TODO");
+                    System.out.println("Generated states: " + this.numberOfStates);
                     System.out.println("Nodes in frontier: " + open.size());
                 } else {
                     explosionCounter++;
@@ -78,6 +81,7 @@ public abstract class GPSEngine {
             try {
                 //System.out.print(rule);
                 newState = rule.evalRule(node.getState());
+                this.numberOfStates++;
                 //System.out.print('\n');
             } catch (NotAppliableException e) {
                 //System.out.print("--> Not appliable.\n");
