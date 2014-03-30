@@ -30,7 +30,8 @@ public class MahjongGPSEngine extends GPSEngine {
                 } else {
                     maxDepth += 1;
                     List<GPSNode> temp = new LinkedList<GPSNode>();
-                    temp.add(open.get(open.size() - 1));
+                    //Add the root to a new list and asign that list to open.
+                    temp.add(closed.get(closed.size() - 1));
                     open = temp;
                     closed = new LinkedList<GPSNode>();
                 }
