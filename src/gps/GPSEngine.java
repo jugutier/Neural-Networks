@@ -46,7 +46,6 @@ public abstract class GPSEngine {
                     System.out.println("\nA solution was found. Solution: ");
                     System.out.println(currentNode.getSolution());
                     System.out.println("Strategy used: " + this.strategy);
-                    System.out.println("Strategy used: " + this.strategy);
                     System.out.println("Expanded nodes: " + explosionCounter);
                     System.out.println("Solution depth: " + currentNode.getDepth());
                     System.out.println("Generated states: " + this.numberOfStates);
