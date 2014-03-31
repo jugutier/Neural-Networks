@@ -129,6 +129,8 @@ public class SolveMahjong {
                 bt = BoardType.THREE;
             }else if (input3.contains("FOUR")) {
                 bt = BoardType.FOUR;
+            }else if (input3.contains("FIVE")) {
+                bt = BoardType.FIVE;
             }else if (input3.contains("HELP")) {
                 System.out.println("Possible options:");
                 StringBuffer sBuff = new StringBuffer();

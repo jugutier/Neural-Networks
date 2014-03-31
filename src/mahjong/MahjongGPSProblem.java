@@ -24,6 +24,8 @@ public class MahjongGPSProblem implements GPSProblem {
             {{0}, {5}, {2}, {0}, {2}, {5}}, {{3}, {3}, {1}, {6}, {6}, {1}}};
     int[][][] board4 = {{{1,3},{2,4}},{{1,4},{2,3}}};
 
+    int[][][] board5 = {{{0,0,5,9,0,9,1,0,0},{10,11,12,13,0,15,16,3,4},{13,14,0,0,0,0,0,15,17},{18,12,19,20,0,21,22,17,3},{0,0,20,2,0,18,23,0,0},{12,24,25,7,0,21,10,3,22},{8,20,0,0,0,0,0,7,24},{12,7,1,2,0,20,4,26,13}},
+            {{0,0,13,5,0,7,29,0,0},{26,5,21,16,0,6,10,31,22},{14,11,0,0,0,0,0,4,30},{24,25,2,23,0,27,21,22,29},{0,0,10,28,0,19,23,0,0},{3,6,1,9,0,27,9,26,1},{19,24,0,0,0,0,0,14,23},{28,5,19,8,0,4,30,2,31}}};
     @Override
     public GPSState getInitState() {
         MahjongGPSState initState = new MahjongGPSState(initBoard);
@@ -87,6 +89,10 @@ public class MahjongGPSProblem implements GPSProblem {
             case FOUR:
                 initBoard = board4;
                 lastSymbol = 4;
+                break;
+            case FIVE:
+                initBoard = board5;
+                lastSymbol = 31;
                 break;
             case NONE:
             default:
