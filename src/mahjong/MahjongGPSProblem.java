@@ -23,6 +23,14 @@ public class MahjongGPSProblem implements GPSProblem {
     int[][][] board3 = {{{1}, {4}, {5}, {5}, {4}, {6}}, {{2}, {3}, {3}, {2}, {6}, {1}},
             {{0}, {5}, {2}, {0}, {2}, {5}}, {{3}, {3}, {1}, {6}, {6}, {1}}};
     int[][][] board4 = {{{1,3},{2,4}},{{1,4},{2,3}}};
+    /*
+    Level: 0
+        | 1 | 2 |
+        | 1 | 2 |
+    Level: 1
+        | 3 | 4 |
+        | 4 | 3 |
+     */
 
     /*int[][][] board5 = {{{0,0},{0,0},{5,13},{9,5},{0,0},{9,7},{1,29},{0,0},{0,0}},
         {{10,26},{11,5},{12,21},{13,16},{0,0},{15,6},{16,10},{3,31},{4,22}},
@@ -41,6 +49,9 @@ public class MahjongGPSProblem implements GPSProblem {
             {{3,12},{6,24},{1,25},{9,7},{0,0},{27,21},{9,10},{26,3},{1,22}},
             {{19,8},{24,20},{0,0},{0,0},{0,0},{0,0},{0,0},{14,7},{23,24}},
             {{28,12},{5,7},{19,1},{8,2},{0,0},{4,20},{30,4},{2,26},{31,13}}};
+
+    int[][][] board6 = {{{1,2},{3,5},{2,4}},{{5,4},{3,1},{6,8}},{{1,7},{7,1},{6,8}}};
+    int[][][] board7 = {{{1,2},{3,5},{2,4}},{{5,4},{3,1},{6,6}},{{1,7},{7,1},{8,8}}};
 
     @Override
     public GPSState getInitState() {
@@ -109,6 +120,14 @@ public class MahjongGPSProblem implements GPSProblem {
             case FIVE:
                 initBoard = board5;
                 lastSymbol = 31;
+                break;
+            case SIX:
+                initBoard = board6;
+                lastSymbol = 8;
+                break;
+            case SEVEN:
+                initBoard = board7;
+                lastSymbol = 8;
                 break;
             case NONE:
             default:
