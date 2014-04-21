@@ -12,9 +12,11 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 	inputNodes = columns(Input);
 	outputNodes = columns(ExpectedOutput);
 	initialWValues = rand(HiddenUnits,inputNodes+1);
+	initialWValuesLvl2 = rand(outputNodes,HiddenUnits+1); ##remember we are going up.
 
 	###this matrix will have in each row the connections between the previous layer and current one 
 	currentWValues = initialWValues
+	currentWValuesLvl2 = initialWValuesLvl2
 	ETA = 0.5;
 
 	for i = 1:rows(testPatterns)
@@ -24,9 +26,7 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 
 		h1 = (currentWValues * (currentPattern'))'
 
-		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1))
-
-		currentWValuesLvl2 = rand(outputNodes,HiddenUnits+1) ##remember we are going up.
+		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1))		
 
 		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))'
 
@@ -34,7 +34,11 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 
 		delta2 = g_derivate(h2) *(currentExpectedOutput - outputValues )
 
-		delta1 = g_derivate(h1) * sum(currentWValuesLvl2 * delta2 )
+		temp = linspace(1,HiddenUnits,HiddenUnits).+1#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
+
+		lavariable = currentWValuesLvl2(:,temp)'# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+
+		delta1 = g_derivate(h1) * sum(lavariable * delta2 )
 
 		currentWValuesLvl2 = currentWValuesLvl2 + ETA * delta2 * inputNodesLvl2
 

@@ -1,16 +1,23 @@
-function CurrentWValues = tpe2prelim(Method, InternalLayers, NeuronsPerLayer)
+function CurrentWValues = part1-multilayer(Method, InternalLayers, NeuronsPerLayer)
   ####---------- CONSTANTS AND INPUT DEFINITION ----------####
   ## TestPatterns: The first column is the value of the threshold
   TestPatterns = [-1 1 1; -1 1 -1; -1 -1 1; -1 -1 -1];
   ExpectedAns = [1; 1; 1; -1];
   ## 1st step of the algorithm
   ## CurrentWValues: First column is the weight for the threshold connection
-  CurrentWValues = rand(3,1); 
+  CurrentWValues = rand(3,6);
   InternalLayers = 1;
-  NeuronsPerLayer = 2; 
+  NeuronsPerLayer = 2;
   ##ETA: Random value around the input values
   ETA = 0.5; 
   ####---------- END CONSTANTS AND INPUT DEFINITION ----------####
+
+  ## 2nd step of the algorithm
+  ## Apply the pattern
+  for i = 1: rows(TestPattern)
+    V0_k = TestPattern(i,:);
+    Vi_m = propagate(V0_k);
+  endfor
 
   hasLearnt = 0; 
   disp("Initial Ws: "), CurrentWValues
@@ -18,7 +25,7 @@ function CurrentWValues = tpe2prelim(Method, InternalLayers, NeuronsPerLayer)
     hasLearnt = 1;
     for i = 1 : rows(TestPattern)
         CurrentPattern = TestPattern(i,:);
-        gValue = g(CurrentPattern,  CurrentWValues, Method);
+        gValu e = g(CurrentPattern,  CurrentWValues, Method);
         gValue
         disp("Expected: "),ExpectedAns(i)
         if ( gValue != ExpectedAns(i) )
@@ -30,7 +37,12 @@ function CurrentWValues = tpe2prelim(Method, InternalLayers, NeuronsPerLayer)
   endwhile 
 
 endfunction
- 
+
+function out = propagate(Vi_m)
+  out = g()
+endfunction
+
+#### Funcion de transferencia ()
 function value = g(CurrentPattern, currentWValues, Method)
         accum = 0;
         disp("Calculate g")
