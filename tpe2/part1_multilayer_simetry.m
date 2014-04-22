@@ -1,6 +1,7 @@
 ##Input = [-1 -1 ;-1 1 ; 1 -1 ; 1 1 ];
 ##ExpectedOutput = [-1; 1; 1 ; -1];
 function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, InternalLayers, g ,g_derivate)
+	startTime = time();
 	#########
 	##Adding a column of -1 at the beginning with the input value of the threshold,
 	##concat that with all the columns exept the last one, which is the expected answer
@@ -17,7 +18,7 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 	###this matrix will have in each row the connections between the previous layer and current one 
 	currentWValues = initialWValues
 	currentWValuesLvl2 = initialWValuesLvl2
-	ETA = 0.5;
+	ETA = 0.05;
 	EPSILON = 0.01;
 	flag = 0;
 
@@ -52,7 +53,7 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 			currentWValues = currentWValues + ETA * delta1' * currentPattern    ;
 		endfor
 	endwhile
-
+	ElapsedTime = time() - startTime
 	disp("Checking result...")
 	for i = 1:rows(testPatterns)
 		currentPattern = testPatterns(i,:);
