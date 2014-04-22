@@ -18,32 +18,58 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 	currentWValues = initialWValues
 	currentWValuesLvl2 = initialWValuesLvl2
 	ETA = 0.5;
+	EPSILON = 0.01;
+	flag = 0;
 
+	while(flag != 1)
+		flag = 1; 
+		for i = 1:rows(testPatterns)
+			currentPattern = testPatterns(i,:)     ;
+
+			currentExpectedOutput = ExpectedOutput(i,:);
+
+			h1 = (currentWValues * (currentPattern'))'     ;
+
+			inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1))		;
+
+			h2 = (currentWValuesLvl2 * (inputNodesLvl2'))'   ;
+
+			outputValues = arrayfun(@g,h2)      ;
+
+			if(abs(outputValues - currentExpectedOutput) > EPSILON) 
+				flag = 0;
+			endif
+			delta2 = g_derivate(h2) *(currentExpectedOutput - outputValues )     ;
+
+			temp = linspace(1,HiddenUnits,HiddenUnits).+1     ;#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
+
+			lavariable = currentWValuesLvl2(:,temp)'     ;# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+
+			delta1 = g_derivate(h1) * sum(lavariable * delta2 )     ;
+
+			currentWValuesLvl2 = currentWValuesLvl2 + ETA * delta2 * inputNodesLvl2    ;
+
+			currentWValues = currentWValues + ETA * delta1' * currentPattern    ;
+		endfor
+	endwhile
+
+	disp("Checking result...")
 	for i = 1:rows(testPatterns)
-		currentPattern = testPatterns(i,:)
+		currentPattern = testPatterns(i,:);
 
 		currentExpectedOutput = ExpectedOutput(i,:);
 
-		h1 = (currentWValues * (currentPattern'))'
+		h1 = (currentWValues * (currentPattern'))';
 
-		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1))		
+		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1));		
 
-		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))'
+		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))';
 
-		outputValues = arrayfun(@g,h2)
-
-		delta2 = g_derivate(h2) *(currentExpectedOutput - outputValues )
-
-		temp = linspace(1,HiddenUnits,HiddenUnits).+1#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
-
-		lavariable = currentWValuesLvl2(:,temp)'# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
-
-		delta1 = g_derivate(h1) * sum(lavariable * delta2 )
-
-		currentWValuesLvl2 = currentWValuesLvl2 + ETA * delta2 * inputNodesLvl2
-
-		currentWValues = currentWValues + ETA * delta1' * currentPattern
-
+		outputValues = arrayfun(@g,h2);
+		outputValues
+		currentExpectedOutput
+		if(abs(outputValues - currentExpectedOutput) > EPSILON) 
+			disp("Stupid network... didn't learn")
+		endif
 	endfor
-
 endfunction
