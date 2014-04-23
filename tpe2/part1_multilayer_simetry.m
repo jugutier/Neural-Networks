@@ -1,6 +1,4 @@
-##Input = [-1 -1 ;-1 1 ; 1 -1 ; 1 1 ];
-##ExpectedOutput = [-1; 1; 1 ; -1];
-function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, InternalLayers, g ,g_derivate)
+function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate)
 	startTime = time();
 	#########
 	##Adding a column of -1 at the beginning with the input value of the threshold,
@@ -12,65 +10,98 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput , HiddenUnits, 
 	#########
 	inputNodes = columns(Input);
 	outputNodes = columns(ExpectedOutput);
-	initialWValues = rand(HiddenUnits,inputNodes+1);
-	initialWValuesLvl2 = rand(outputNodes,HiddenUnits+1); ##remember we are going up.
 
-	###this matrix will have in each row the connections between the previous layer and current one 
-	currentWValues = initialWValues
-	currentWValuesLvl2 = initialWValuesLvl2
+ 
+	levels = columns(HiddenUnitsPerLvl)+2 ##add inputlayer and outputlayer
+	###wValues: this matrix will have in each row the connections between the previous layer and current one
+	network(1).wValues = rand(HiddenUnitsPerLvl(1),inputNodes+1);##+1 because of the extra node
+	for i=2:levels-2 ##outputLevel will be a special case
+		network(i+1).wValues = rand(HiddenUnitsPerLvl(i+2),HiddenUnitsPerLvl(i+1)+1);
+
+	endfor
+	##outputLevel:
+	network(levels).wValues = rand(outputNodes,HiddenUnitsPerLvl(levels)+1)
+
+
 	ETA = 0.05;
 	EPSILON = 0.01;
-	flag = 0;
+	hasLearnt = 0;
 
-	while(flag != 1)
-		flag = 1; 
+	while(hasLearnt != 1)
+		hasLearnt = 1; 
 		for i = 1:rows(testPatterns)
-			currentPattern = testPatterns(i,:)     ;
+			currentPattern = testPatterns(i,:)     
 
 			currentExpectedOutput = ExpectedOutput(i,:);
 
-			h1 = (currentWValues * (currentPattern'))'     ;
+			network(1).vValues = currentPattern
 
-			inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1))		;
+			for j=1:levels
 
-			h2 = (currentWValuesLvl2 * (inputNodesLvl2'))'   ;
+				currentLvlWValues = network(j).wValues;
 
-			outputValues = arrayfun(@g,h2)      ;
+				currentLvlVValues = network(j).vValues;
+				
+				hj = (currentLvlWValues * (currentLvlVValues') )' 
+
+				network(j).hValues = hj;
+
+				network(j+1).vValues = cat(2,-1,arrayfun(@g, hj)) ##when j is levels this value has no sense
+
+			endfor  
+
+			outputValues = arrayfun(@g,hj)
+
+
 
 			if(abs(outputValues - currentExpectedOutput) > EPSILON) 
-				flag = 0;
+				hasLearnt = 0;
 			endif
-			delta2 = g_derivate(h2) *(currentExpectedOutput - outputValues )     ;
 
-			temp = linspace(1,HiddenUnits,HiddenUnits).+1     ;#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
+			network(levels).deltaValues = g_derivate(hj) *(currentExpectedOutput - outputValues )
 
-			lavariable = currentWValuesLvl2(:,temp)'     ;# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+			for k = levels-1 : 1			
 
-			delta1 = g_derivate(h1) * sum(lavariable * delta2 )     ;
+				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     #hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
 
-			currentWValuesLvl2 = currentWValuesLvl2 + ETA * delta2 * inputNodesLvl2    ;
+				lavariable = network(k).wValues(:,displacementIndexes)'     # ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+				
+				h = network(k-1).hValues ;
+				
+				delta = network(k-1).deltaValues ;
 
-			currentWValues = currentWValues + ETA * delta1' * currentPattern    ;
+				network(k).deltaValues =   g_derivate(h) * sum(lavariable * delta )       
+
+				network(k).wValues = network(k).wValues + ETA * network(k).deltaValues* network(k).vValues ;     
+
+				
+			endfor 
+
+			network(1).wValues  = network(1).wValues + ETA * (network(1).deltaValues)' * currentPattern 
+
 		endfor
 	endwhile
-	ElapsedTime = time() - startTime
-	disp("Checking result...")
-	for i = 1:rows(testPatterns)
-		currentPattern = testPatterns(i,:);
 
-		currentExpectedOutput = ExpectedOutput(i,:);
 
-		h1 = (currentWValues * (currentPattern'))';
 
-		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1));		
-
-		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))';
-
-		outputValues = arrayfun(@g,h2);
-		outputValues
-		currentExpectedOutput
-		if(abs(outputValues - currentExpectedOutput) > EPSILON) 
-			disp("Stupid network... didn't learn")
-		endif
-	endfor
+##	ElapsedTime = time() - startTime
+##	disp("Checking result...")
+##	for i = 1:rows(testPatterns)
+##		currentPattern = testPatterns(i,:);
+##
+##		currentExpectedOutput = ExpectedOutput(i,:);
+##
+##		h1 = (currentWValues * (currentPattern'))';
+##
+##		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1));		
+##
+##		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))';
+##
+##		outputValues = arrayfun(@g,h2);
+##		outputValues
+##		currentExpectedOutput
+##		if(abs(outputValues - currentExpectedOutput) > EPSILON) 
+##			disp("Stupid network... didn't learn")
+##		endif
+##	endfor
 endfunction
