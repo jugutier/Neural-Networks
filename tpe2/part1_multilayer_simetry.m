@@ -4,85 +4,130 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPer
 	##Adding a column of -1 at the beginning with the input value of the threshold,
 	##concat that with all the columns exept the last one, which is the expected answer
 	#########
-	testPatterns =cat(2,-1*ones(rows(Input),1),Input);
+	testPatterns =cat(2,-1*ones(rows(Input),1),Input)		
 	#########
 	##taking the last column which will be the expected output
 	#########
-	inputNodes = columns(Input);
-	outputNodes = columns(ExpectedOutput);
+	inputNodes = columns(Input)		
+	outputNodes = columns(ExpectedOutput)		
 
- 
-	levels = columns(HiddenUnitsPerLvl)+2 ##add inputlayer and outputlayer
-	###wValues: this matrix will have in each row the connections between the previous layer and current one
-	network(1).wValues = rand(HiddenUnitsPerLvl(1),inputNodes+1);##+1 because of the extra node
-	for i=2:levels-2 ##outputLevel will be a special case
-		network(i+1).wValues = rand(HiddenUnitsPerLvl(i+2),HiddenUnitsPerLvl(i+1)+1);
-
+	unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		
+ 	connectedUnits = [0 HiddenUnitsPerLvl 1]		
+ 	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]		
+	levels = columns(unitsPerlevel)		
+	###wValues: this matrix will have in each row the connections between n+1 layer and current one,
+	##in this way level one should have NO wValues
+	for i=1:levels-1
+		network.(num2str(i+1)).wValues = rand(connectedUnits(i+1),unitsPerlevel(i));
 	endfor
-	##outputLevel:
-	network(levels).wValues = rand(outputNodes,HiddenUnitsPerLvl(levels)+1)
+	##network		;
 
-
-	ETA = 0.05;
-	EPSILON = 0.01;
+	ETA = 0.01;
+	EPSILON = 0.1;
 	hasLearnt = 0;
-
-	while(hasLearnt != 1)
+	MAX_EPOC = 200;
+	epocs = 1;
+	while(hasLearnt != 1 && epocs <= MAX_EPOC)
 		hasLearnt = 1; 
 		for i = 1:rows(testPatterns)
-			currentPattern = testPatterns(i,:)     
+			currentPattern = testPatterns(i,:) 		;    
 
 			currentExpectedOutput = ExpectedOutput(i,:);
 
-			network(1).vValues = currentPattern
+			network.(num2str(1)).vValues = currentPattern;
 
-			for j=1:levels
+			network.(num2str(1)).hValues = currentPattern;
 
-				currentLvlWValues = network(j).wValues;
+			## FEED FORWARD
+			for j=1:levels-1
 
-				currentLvlVValues = network(j).vValues;
+				currentLvlWValues = network.(num2str(j+1)).wValues 		;
+
+				currentLvlVValues = network.(num2str(j)).vValues 		;
 				
-				hj = (currentLvlWValues * (currentLvlVValues') )' 
+				hj = (currentLvlWValues * (currentLvlVValues') )' 		;
 
-				network(j).hValues = hj;
-
-				network(j+1).vValues = cat(2,-1,arrayfun(@g, hj)) ##when j is levels this value has no sense
-
+				network.(num2str(j+1)).hValues = hj;
+				if(j!=levels-1)
+					network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(@g, hj)) 	;	
+				else 
+					network.(num2str(j+1)).vValues = arrayfun(@g, hj)	;
+				endif
+					
 			endfor  
 
-			outputValues = arrayfun(@g,hj)
+			outputValues = network.(num2str(levels)).vValues;
+			## END FEED FORWARD
 
-
-
+			
+			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2)) 
 			if(abs(outputValues - currentExpectedOutput) > EPSILON) 
 				hasLearnt = 0;
 			endif
 
-			network(levels).deltaValues = g_derivate(hj) *(currentExpectedOutput - outputValues )
+			network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
-			for k = levels-1 : 1			
+			##network
+			for k = levels :-1: 2		
 
-				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     #hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
-
-				lavariable = network(k).wValues(:,displacementIndexes)'     # ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
 				
-				h = network(k-1).hValues ;
+				currentLvlWValues = network.(num2str(k)).wValues;  
 				
-				delta = network(k-1).deltaValues ;
+				currentLvlWValues = currentLvlWValues(:,displacementIndexes)     	;	# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
 
-				network(k).deltaValues =   g_derivate(h) * sum(lavariable * delta )       
+				h = network.(num2str(k-1)).hValues 		;
+				
+				delta = network.(num2str(k)).deltaValues 	;
 
-				network(k).wValues = network(k).wValues + ETA * network(k).deltaValues* network(k).vValues ;     
+
+				tempCurrentLvlDeltaValues=0;
+				for i=1 :columns(currentLvlWValues)
+					deltai = g_derivate(h(i))* (delta * currentLvlWValues(:,i))		;
+
+					tempCurrentLvlDeltaValues(i) = deltai;
+				endfor
+
+
+				##tempCurrentLvlDeltaValues
+
+				network.(num2str(k-1)).deltaValues =   tempCurrentLvlDeltaValues ;
+
+				##temp = (currentLvlWValues * delta')
+
+
+				##gderivateh = g_derivate(h)
+				##for i=1:columns(gderivateh) 
+				##	gderivateh(i) * temp
+				##endfor
+
+				##currentLvlDeltaValues = (g_derivate(h) * (currentLvlWValues * delta')' )			
+
+				##network.(num2str(k-1)).deltaValues =   currentLvlDeltaValues ;    
 
 				
 			endfor 
+			##network
 
-			network(1).wValues  = network(1).wValues + ETA * (network(1).deltaValues)' * currentPattern 
+			##subir corrigiendo los ws
+			for i=2:levels
+					currentLvlWValues = network.(num2str(i)).wValues   		;
+					currentLvlVValues = network.(num2str(i-1)).vValues  	;
+					currentLvlDeltaValues = (network.(num2str(i)).deltaValues)		;
+
+					network.(num2str(i)).wValues =  currentLvlWValues + ETA * currentLvlDeltaValues' * currentLvlVValues ;
+					
+					currentLvlWValues = network.(num2str(i)).wValues   ;
+					
+					##network(1).wValues  = network(1).wValues + ETA * (network(1).deltaValues)' * currentPattern 
+			endfor
+			##end subir
 
 		endfor
+		epocs = epocs +1;
 	endwhile
-
-
+epocs
+network
 
 ##	ElapsedTime = time() - startTime
 ##	disp("Checking result...")
