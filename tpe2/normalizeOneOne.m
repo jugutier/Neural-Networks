@@ -1,4 +1,4 @@
-function normalize(Filename)
+function normalizeOneOne(Filename)
 	CSV = dlmread(Filename, ',');
 	for i=1:rows(CSV)
 		if CSV(i,:) != 0
@@ -6,6 +6,6 @@ function normalize(Filename)
 		endif
 	endfor
 	name = strsplit(Filename,".");
-	finalName = strcat(name{1},"norm.csv");
+	finalName = strcat(name{1},"normOneOne.csv");
 	dlmwrite(finalName,CSV);
 endfunction
