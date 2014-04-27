@@ -1,4 +1,4 @@
-function [ y ] = g( x )
+function [ y ] = hiperbolic_tangent( x )
 
     beta = 0.5;
 
