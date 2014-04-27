@@ -22,22 +22,21 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 	 \n(Note that input nodes and outputnodes depend only on the data provided.)\n");
 	endif
 
+	trainPercentage = input("Type a number between 0.0 and 1.0 for a train percentage.\n\
+(Note that the compliment will be used for testing.)");
+	data = data_import('samples8norm.csv' , trainPercentage);
 	resp=input("Which activation function? \n1 -Tangent\n2 -Exponencial\n");
 	switch(resp)
 		case 1
-			g = @hiperbolic_tangent;
-			g_derivative = @hiperbolic_tangent;
+			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,filename);
 		case 2
-			g = @exp;
-			g_derivative = @expo_derivative;
+			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@exp,@expo_derivative,filename);
 		otherwise
 			disp("error, please try again")
 	endswitch
 
-	trainPercentage = input("Type a number between 0.0 and 1.0 for a train percentage.\n\
-(Note that the compliment will be used for testing.)")
-	data = data_import('samples8.csv' , trainPercentage);
-	part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,g,g_derivative,filename)
+
+	
 	
 
 endfunction

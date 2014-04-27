@@ -1,4 +1,4 @@
-function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate)
+function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate, filename)
 	startTime = time();
 	#########
 	##Adding a column of -1 at the beginning with the input value of the threshold,
@@ -49,9 +49,11 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPer
 
 				network.(num2str(j+1)).hValues = hj;
 				if(j!=levels-1)
-					network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(@g, hj)) 	;	
+					hj
+					arrayfun(g, hj)
+					network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
 				else 
-					network.(num2str(j+1)).vValues = arrayfun(@g, hj)	;
+					network.(num2str(j+1)).vValues = arrayfun(g, hj)	;
 				endif
 					
 			endfor  
