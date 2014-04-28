@@ -28,10 +28,10 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		##network		;
 
 		ETA = 0.01;
-		EPSILON = 0.01;
+		EPSILON = 0.05;
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 10;
+		MAX_EPOC = 50;
 		epocs = 1;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
@@ -50,6 +50,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 			hit=0;
 			hasLearnt = 1;
 			epocStartTime = time();
+			train_error = 0;
 			for i = 1:rows(testPatterns)
 				currentPattern = testPatterns(i,:) 		;    
 
@@ -82,17 +83,16 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 
 				errorMedioAnterior = errorMedio;
 				errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
-				train_error = [train_error errorMedio]; 
-				
-				if(abs(outputValues - currentExpectedOutput) > EPSILON)
+				train_error = [train_error errorMedio];
+				if( abs(outputValues - currentExpectedOutput) > EPSILON)
 					hasLearnt = 0;
 				else
 					hit++;
 				endif
-				if(hit/rows(Input) > MIN_LEARN_RATE) 
+				currentLearnRate = hit/rows(Input);
+				if(currentLearnRate > MIN_LEARN_RATE) 
 					hasLearnt = 1;
 				endif
-				train_learning_rate = [train_learning_rate hit/rows(Input)];
 				
 				network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
@@ -139,7 +139,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 				##END CORRECT Ws
 
 			endfor
-			
+			##END EPOC
 			elapsedTime = time() - startTime;
 			elapsedEpocTime = time() - epocStartTime;
 			printf('Epoca: %d   errorMedio %f eta %f tiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,elapsedTime,elapsedEpocTime);
@@ -159,7 +159,8 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 					
 			endif
 			epocs ++;
-			eta_adaptation = [eta_adaptation ETA] ; 
+			eta_adaptation = [eta_adaptation ETA] ;
+			train_learning_rate = [train_learning_rate currentLearnRate] ;
 		endwhile
 		##END TRAINING
 		save('trainedNetwork.dump');
