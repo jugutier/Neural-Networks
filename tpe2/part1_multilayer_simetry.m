@@ -50,7 +50,6 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 			hit=0;
 			hasLearnt = 1;
 			epocStartTime = time();
-			train_error = 0;
 			for i = 1:rows(testPatterns)
 				currentPattern = testPatterns(i,:) 		;    
 
@@ -81,9 +80,6 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 				outputValues = network.(num2str(levels)).vValues;
 				## END FEED FORWARD
 
-				errorMedioAnterior = errorMedio;
-				errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
-				train_error = [train_error errorMedio];
 				if( abs(outputValues - currentExpectedOutput) > EPSILON)
 					hasLearnt = 0;
 				else
@@ -137,9 +133,14 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 					network.(num2str(i)).oldCDeltaValues = calculationWithDelta ;
 				endfor
 				##END CORRECT Ws
-
 			endfor
 			##END EPOC
+			currentLearnRate = hit/rows(Input);
+			if(currentLearnRate > MIN_LEARN_RATE) 
+				hasLearnt = 1;
+			endif
+			errorMedioAnterior = errorMedio;
+			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));			
 			elapsedTime = time() - startTime;
 			elapsedEpocTime = time() - epocStartTime;
 			printf('Epoca: %d   errorMedio %f eta %f tiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,elapsedTime,elapsedEpocTime);
@@ -160,6 +161,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 			endif
 			epocs ++;
 			eta_adaptation = [eta_adaptation ETA] ;
+			train_error = [train_error errorMedio];
 			train_learning_rate = [train_learning_rate currentLearnRate] ;
 		endwhile
 		##END TRAINING
