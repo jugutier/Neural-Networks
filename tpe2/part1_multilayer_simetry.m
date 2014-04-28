@@ -31,8 +31,8 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		EPSILON = 0.05;
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 100;
-		epocs = 1;
+		MAX_EPOC = 20000;
+		epocs = 0;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
 		currK=0;
@@ -40,13 +40,15 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		errorMedio=0;
 		errorMedioAnterior = 0;
 		train_error = 0;
-		test_error = 0;
 		learning_rate = 0;
 		eta_adaptation = ETA;
 		hit = 0;
 		MIN_LEARN_RATE = 0.7;
 		train_learning_rate = 0;
+
+		##START EPOC
 		while(hasLearnt != 1 && epocs <= MAX_EPOC)
+			epocs ++;
 			hit=0;
 			hasLearnt = 1;
 			epocStartTime = time();
@@ -159,15 +161,21 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 				endif
 					
 			endif
-			epocs ++;
+			
 			eta_adaptation = [eta_adaptation ETA] ;
 			train_error = [train_error errorMedio];
-			train_learning_rate = [train_learning_rate currentLearnRate] ;
+			if(epocs == 1)
+				train_learning_rate = currentLearnRate;
+			else
+				train_learning_rate = [train_learning_rate currentLearnRate] ;
+			endif
 		endwhile
 		##END TRAINING
 		save('trainedNetwork.dump');
 	endif
 	##START TESTING
+
+
 	for i = 1:rows(TrainInput)
 		currentPattern = trainPatterns(i,:) 		;    
 
@@ -198,9 +206,12 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		outputValues = network.(strcat('l',num2str(levels))).vValues;
 		## END FEED FORWARD
 
-		errorMedioAnterior = errorMedio;
-		errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
-		test_error = [test_error errorMedio]; 
+		errorMedioTest = .5*sum(power((outputValues - currentExpectedOutput),2));
+		if(i==1)
+			test_error = errorMedioTest;
+		else
+			test_error = [test_error errorMedioTest]; 
+		endif
 		if(abs(outputValues - currentExpectedOutput) < EPSILON)
 			learning_rate++;
 		endif

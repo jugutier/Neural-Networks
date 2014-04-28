@@ -2,7 +2,7 @@ function run()
 	##ACTIVATION FUNCTIONS
 	load hiperbolic_tangent.m
 	load hiperbolic_tangent_derivative.m
-	##we will use built in exp for the exponencial
+	load expo.m
 	load expo_derivative.m
 
 	load part1_multilayer_simetry.m
@@ -35,12 +35,16 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 				[MAX_EPOC, train_error, test_error,eta_adaptation, train_learning_rate, learning_rate, epocs] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,testData(:,[1 2]),testData(:,3),filename);
 			case 2
 				[data testData] = data_import('samples8normZeroOne.csv' , trainPercentage);
-				[MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate, learning_rate, epocs] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@exp,@expo_derivative,momentum,eta_adaptative,testData(:,[1 2]),testData(:,3),filename);
+				[MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate, learning_rate, epocs] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,testData(:,[1 2]),testData(:,3),filename);
 			otherwise
 				disp("error, please try again")
 		endswitch
-		if(yes_or_no("do you want plots?"))
-			resultsGraph(MAX_EPOC, train_error, test_error, eta_adaptation, epocs, train_learning_rate);
+		printf("Average error:%f Error per test pattern:\n",(sum(test_error)/columns(test_error)));
+		test_error
+		if(filename==0)
+			if(yes_or_no("do you want plots?"))
+				resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
+			endif
 		endif
 printf("FINISHED: the network predicts %f percent of the test data, to the order of 10^-3 \n", learning_rate);
 
