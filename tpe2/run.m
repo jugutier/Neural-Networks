@@ -19,7 +19,7 @@ function run()
 	else
 		filename = 0;
 	endif
-		hiddenUnitsPerLvl = input("Type a a vector for hidden units per level.\n \
+		hiddenUnitsPerLvl = input("Type a vector for hidden units per level.\n \
 eg. [2 3] will build a neural network \nwith two units in the first level and 3 in the second one.\
  \n(Note that input nodes and outputnodes depend only on the data provided.)\n");
 
@@ -42,8 +42,8 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 		if(yes_or_no("do you want plots?"))
 			resultsGraph(MAX_EPOC, train_error, test_error, eta_adaptation, epocs);
 		endif
-printf("FINISHED: the network predicts %f \% of the test data, to the order of 10^-3 \n", learning_rate);
-	
+printf("FINISHED: the network predicts %f percent of the test data, to the order of 10^-3 \n", learning_rate);
+
 	
 
 endfunction

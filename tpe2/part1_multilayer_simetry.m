@@ -43,8 +43,8 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		test_error = 0;
 		learning_rate = 0;
 		eta_adaptation = ETA;
+		hit = 0;
 		while(hasLearnt != 1 && epocs <= MAX_EPOC)
-			hasLearnt = 1;
 			epocStartTime = time();
 			for i = 1:rows(testPatterns)
 				currentPattern = testPatterns(i,:) 		;    
@@ -79,8 +79,11 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 				errorMedioAnterior = errorMedio;
 				errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
 				train_error = [train_error errorMedio]; 
-				if(abs(outputValues - currentExpectedOutput) > EPSILON) 
-					hasLearnt = 0;
+				if(abs(outputValues - currentExpectedOutput) < EPSILON)
+					hit++;
+					if(hit/rows(Input)  > MIN_LEARN_RATE) 
+						hasLearnt = 1;
+					endif
 				endif
 
 				network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
@@ -113,17 +116,17 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 
 				##CORRECT Ws
 				for i=2:levels
-						currentLvlWValues = network.(num2str(i)).wValues   		;
-						currentLvlVValues = network.(num2str(i-1)).vValues  	;
-						currentLvlDeltaValues = (network.(num2str(i)).deltaValues)		;
+					currentLvlWValues = network.(num2str(i)).wValues   		;
+					currentLvlVValues = network.(num2str(i-1)).vValues  	;
+					currentLvlDeltaValues = (network.(num2str(i)).deltaValues)		;
 
-						calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
-						network.(num2str(i)).wValues =  currentLvlWValues + calculationWithDelta ; 
-						if(MomentumEnabled ==1)
-							network.(num2str(i)).wValues = network.(num2str(i)).wValues + network.(num2str(i)).oldCDeltaValues * ALPHA ;
-						endif
+					calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
+					network.(num2str(i)).wValues =  currentLvlWValues + calculationWithDelta ; 
+					if(MomentumEnabled ==1)
+						network.(num2str(i)).wValues = network.(num2str(i)).wValues + network.(num2str(i)).oldCDeltaValues * ALPHA ;
+					endif
 
-						network.(num2str(i)).oldCDeltaValues = calculationWithDelta ;
+					network.(num2str(i)).oldCDeltaValues = calculationWithDelta ;
 				endfor
 				##END CORRECT Ws
 
@@ -187,7 +190,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		errorMedioAnterior = errorMedio;
 		errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
 		test_error = [test_error errorMedio]; 
-		if(abs(outputValues - currentExpectedOutput) > EPSILON) 
+		if(abs(outputValues - currentExpectedOutput) < EPSILON)
 			learning_rate++;
 		endif
 	endfor
