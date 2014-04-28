@@ -10,12 +10,12 @@ function run()
 	load resultsGraph.m
 
 
-	filename=0;
+	#filename;
 	g=0;
 	g_derivative=0;
 
 	if(yes_or_no("\nWelcome to the neural network assistant\n\n\n\nDo you already have a trained neural network?\n"))
-		filename = input("What is the filename? (with extension, please)\n");
+		filename = input("What is the filename? (with extension, please)\n Default autosavename is trainedNetwork.dump)\n");
 	else
 		filename = 0;
 	endif

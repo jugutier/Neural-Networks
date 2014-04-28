@@ -22,8 +22,8 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		###wValues: this matrix will have in each row the connections between n+1 layer and current one,
 		##in this way level one should have NO wValues
 		for i=1:levels-1
-			network.(num2str(i+1)).wValues = rand(connectedUnits(i+1),unitsPerlevel(i));
-			network.(num2str(i+1)).oldCDeltaValues = 0;
+			network.(strcat('l',num2str(i+1))).wValues = rand(connectedUnits(i+1),unitsPerlevel(i));
+			network.(strcat('l',num2str(i+1))).oldCDeltaValues = 0;
 		endfor
 		##network		;
 
@@ -31,7 +31,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		EPSILON = 0.05;
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 200;
+		MAX_EPOC = 100;
 		epocs = 1;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
@@ -55,29 +55,29 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 
 				currentExpectedOutput = ExpectedOutput(i,:);
 
-				network.(num2str(1)).vValues = currentPattern;
+				network.(strcat('l',num2str(1))).vValues = currentPattern;
 
-				network.(num2str(1)).hValues = currentPattern;
+				network.(strcat('l',num2str(1))).hValues = currentPattern;
 
 				## FEED FORWARD
 				for j=1:levels-1
 
-					currentLvlWValues = network.(num2str(j+1)).wValues 		;
+					currentLvlWValues = network.(strcat('l',num2str(j+1))).wValues 		;
 
-					currentLvlVValues = network.(num2str(j)).vValues 		;
+					currentLvlVValues = network.(strcat('l',num2str(j))).vValues 		;
 					
 					hj = (currentLvlWValues * (currentLvlVValues') )' 		;
 
-					network.(num2str(j+1)).hValues = hj;
+					network.(strcat('l',num2str(j+1))).hValues = hj;
 					if(j!=levels-1)
-						network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
+						network.(strcat('l',num2str(j+1))).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
 					else 
-						network.(num2str(j+1)).vValues = arrayfun(g, hj)	;
+						network.(strcat('l',num2str(j+1))).vValues = arrayfun(g, hj)	;
 					endif
 						
 				endfor  
 
-				outputValues = network.(num2str(levels)).vValues;
+				outputValues = network.(strcat('l',num2str(levels))).vValues;
 				## END FEED FORWARD
 
 				if( abs(outputValues - currentExpectedOutput) > EPSILON)
@@ -90,20 +90,20 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 					hasLearnt = 1;
 				endif
 				
-				network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
+				network.(strcat('l',num2str(levels))).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
 				## BACKPROPAGATION START
 				for k = levels :-1: 2		
 
 					displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
 					
-					currentLvlWValues = network.(num2str(k)).wValues;  
+					currentLvlWValues = network.(strcat('l',num2str(k))).wValues;  
 					
 					currentLvlWValues = currentLvlWValues(:,displacementIndexes)     	;	# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
 
-					h = network.(num2str(k-1)).hValues 		;
+					h = network.(strcat('l',num2str(k-1))).hValues 		;
 					
-					delta = network.(num2str(k)).deltaValues 	;
+					delta = network.(strcat('l',num2str(k))).deltaValues 	;
 
 
 					tempCurrentLvlDeltaValues=0;
@@ -113,24 +113,24 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 						tempCurrentLvlDeltaValues(i) = deltai;
 					endfor
 
-					network.(num2str(k-1)).deltaValues =   tempCurrentLvlDeltaValues ;
+					network.(strcat('l',num2str(k-1))).deltaValues =   tempCurrentLvlDeltaValues ;
 
 				endfor 
 				##BACKPROPAGATION END
 
 				##CORRECT Ws
 				for i=2:levels
-					currentLvlWValues = network.(num2str(i)).wValues   		;
-					currentLvlVValues = network.(num2str(i-1)).vValues  	;
-					currentLvlDeltaValues = (network.(num2str(i)).deltaValues)		;
+					currentLvlWValues = network.(strcat('l',num2str(i))).wValues   		;
+					currentLvlVValues = network.(strcat('l',num2str(i-1))).vValues  	;
+					currentLvlDeltaValues = (network.(strcat('l',num2str(i))).deltaValues)		;
 
 					calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
-					network.(num2str(i)).wValues =  currentLvlWValues + calculationWithDelta ; 
+					network.(strcat('l',num2str(i))).wValues =  currentLvlWValues + calculationWithDelta ; 
 					if(MomentumEnabled ==1)
-						network.(num2str(i)).wValues = network.(num2str(i)).wValues + network.(num2str(i)).oldCDeltaValues * ALPHA ;
+						network.(strcat('l',num2str(i))).wValues = network.(strcat('l',num2str(i))).wValues + network.(strcat('l',num2str(i))).oldCDeltaValues * ALPHA ;
 					endif
 
-					network.(num2str(i)).oldCDeltaValues = calculationWithDelta ;
+					network.(strcat('l',num2str(i))).oldCDeltaValues = calculationWithDelta ;
 				endfor
 				##END CORRECT Ws
 			endfor
@@ -173,29 +173,29 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 
 		currentExpectedOutput = TrainExpectedOutput(i,:);
 
-		network.(num2str(1)).vValues = currentPattern;
+		network.(strcat('l',num2str(1))).vValues = currentPattern;
 
-		network.(num2str(1)).hValues = currentPattern;
+		network.(strcat('l',num2str(1))).hValues = currentPattern;
 
 		## FEED FORWARD
 		for j=1:levels-1
 
-			currentLvlWValues = network.(num2str(j+1)).wValues 		;
+			currentLvlWValues = network.(strcat('l',num2str(j+1))).wValues 		;
 
-			currentLvlVValues = network.(num2str(j)).vValues 		;
+			currentLvlVValues = network.(strcat('l',num2str(j))).vValues 		;
 			
 			hj = (currentLvlWValues * (currentLvlVValues') )' 		;
 
-			network.(num2str(j+1)).hValues = hj;
+			network.(strcat('l',num2str(j+1))).hValues = hj;
 			if(j!=levels-1)
-				network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
+				network.(strcat('l',num2str(j+1))).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
 			else 
-				network.(num2str(j+1)).vValues = arrayfun(g, hj)	;
+				network.(strcat('l',num2str(j+1))).vValues = arrayfun(g, hj)	;
 			endif
 				
 		endfor  
 
-		outputValues = network.(num2str(levels)).vValues;
+		outputValues = network.(strcat('l',num2str(levels))).vValues;
 		## END FEED FORWARD
 
 		errorMedioAnterior = errorMedio;
