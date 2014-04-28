@@ -46,6 +46,8 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		hit = 0;
 		MIN_LEARN_RATE = 0.7;
 		while(hasLearnt != 1 && epocs <= MAX_EPOC)
+			hit=0;
+			hasLearnt = 1;
 			epocStartTime = time();
 			for i = 1:rows(testPatterns)
 				currentPattern = testPatterns(i,:) 		;    
@@ -80,13 +82,16 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 				errorMedioAnterior = errorMedio;
 				errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
 				train_error = [train_error errorMedio]; 
-				if(abs(outputValues - currentExpectedOutput) < EPSILON)
+				
+				if(abs(outputValues - currentExpectedOutput) > EPSILON)
+					hasLearnt = 0;
+				else
 					hit++;
-					if(hit/rows(Input)  > MIN_LEARN_RATE) 
-						hasLearnt = 1;
-					endif
 				endif
-
+				if(hit/rows(Input) > MIN_LEARN_RATE) 
+					hasLearnt = 1;
+				endif
+				
 				network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
 				## BACKPROPAGATION START
