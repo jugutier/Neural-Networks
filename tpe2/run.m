@@ -23,14 +23,17 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 	endif
 
 	trainPercentage = input("Type a number between 0.0 and 1.0 for a train percentage.\n\
-(Note that the compliment will be used for testing.)");
-	data = data_import('samples8norm.csv' , trainPercentage);
+(Note that the compliment will be used for testing.)\n");
 	resp=input("Which activation function? \n1 -Tangent\n2 -Exponencial\n");
+	momentum = yes_or_no("momentum?");
+	eta_adaptative = yes_or_no("eta adaptative?");
 	switch(resp)
 		case 1
-			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,filename);
+			data = data_import('samples8normOneOne.csv' , trainPercentage);
+			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,filename);
 		case 2
-			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@exp,@expo_derivative,filename);
+			data = data_import('samples8normZeroOne.csv' , trainPercentage);
+			part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@exp,@expo_derivative,momentum,eta_adaptative,filename);
 		otherwise
 			disp("error, please try again")
 	endswitch

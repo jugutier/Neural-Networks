@@ -1,6 +1,6 @@
 function [ y ] = hiperbolic_tangent( x )
 
-    beta = 0.5;
+    beta = 1;
 
     y = tanh(beta * x);
     

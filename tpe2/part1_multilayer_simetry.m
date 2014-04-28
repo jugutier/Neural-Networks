@@ -1,34 +1,43 @@
-function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate, filename)
+function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Filename)
 	startTime = time();
 	#########
 	##Adding a column of -1 at the beginning with the input value of the threshold,
 	##concat that with all the columns exept the last one, which is the expected answer
 	#########
-	testPatterns =cat(2,-1*ones(rows(Input),1),Input)		
+	testPatterns =cat(2,-1*ones(rows(Input),1),Input)	;	
 	#########
 	##taking the last column which will be the expected output
 	#########
-	inputNodes = columns(Input)		
-	outputNodes = columns(ExpectedOutput)		
+	inputNodes = columns(Input)		;
+	outputNodes = columns(ExpectedOutput)		;
 
-	unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		
- 	connectedUnits = [0 HiddenUnitsPerLvl 1]		
- 	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]		
-	levels = columns(unitsPerlevel)		
+	unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		;
+ 	connectedUnits = [0 HiddenUnitsPerLvl 1]		;
+ 	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]		;
+	levels = columns(unitsPerlevel)		;
 	###wValues: this matrix will have in each row the connections between n+1 layer and current one,
 	##in this way level one should have NO wValues
 	for i=1:levels-1
 		network.(num2str(i+1)).wValues = rand(connectedUnits(i+1),unitsPerlevel(i));
+		network.(num2str(i+1)).oldCDeltaValues = 0;
 	endfor
 	##network		;
 
 	ETA = 0.01;
 	EPSILON = 0.1;
+	ALPHA = 0.9;
 	hasLearnt = 0;
-	MAX_EPOC = 200;
+	MAX_EPOC = 100;
 	epocs = 1;
+	etaDecrement = ETA*0.025;
+	etaIncrement = ETA*0.25;
+	currK=0;
+	K=5;
+	errorMedio=0;
+	errorMedioAnterior = 0;
 	while(hasLearnt != 1 && epocs <= MAX_EPOC)
-		hasLearnt = 1; 
+		hasLearnt = 1;
+		epocStartTime = time(); 
 		for i = 1:rows(testPatterns)
 			currentPattern = testPatterns(i,:) 		;    
 
@@ -49,8 +58,6 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPer
 
 				network.(num2str(j+1)).hValues = hj;
 				if(j!=levels-1)
-					hj
-					arrayfun(g, hj)
 					network.(num2str(j+1)).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
 				else 
 					network.(num2str(j+1)).vValues = arrayfun(g, hj)	;
@@ -61,15 +68,15 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPer
 			outputValues = network.(num2str(levels)).vValues;
 			## END FEED FORWARD
 
-			
-			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2)) 
+			errorMedioAnterior = errorMedio;
+			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2)); 
 			if(abs(outputValues - currentExpectedOutput) > EPSILON) 
 				hasLearnt = 0;
 			endif
 
 			network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
-			##network
+			## BACKPROPAGATION START
 			for k = levels :-1: 2		
 
 				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
@@ -90,65 +97,47 @@ function retVal = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPer
 					tempCurrentLvlDeltaValues(i) = deltai;
 				endfor
 
-
-				##tempCurrentLvlDeltaValues
-
 				network.(num2str(k-1)).deltaValues =   tempCurrentLvlDeltaValues ;
 
-				##temp = (currentLvlWValues * delta')
-
-
-				##gderivateh = g_derivate(h)
-				##for i=1:columns(gderivateh) 
-				##	gderivateh(i) * temp
-				##endfor
-
-				##currentLvlDeltaValues = (g_derivate(h) * (currentLvlWValues * delta')' )			
-
-				##network.(num2str(k-1)).deltaValues =   currentLvlDeltaValues ;    
-
-				
 			endfor 
-			##network
+			##BACKPROPAGATION END
 
-			##subir corrigiendo los ws
+			##CORRECT Ws
 			for i=2:levels
 					currentLvlWValues = network.(num2str(i)).wValues   		;
 					currentLvlVValues = network.(num2str(i-1)).vValues  	;
 					currentLvlDeltaValues = (network.(num2str(i)).deltaValues)		;
 
-					network.(num2str(i)).wValues =  currentLvlWValues + ETA * currentLvlDeltaValues' * currentLvlVValues ;
-					
-					currentLvlWValues = network.(num2str(i)).wValues   ;
-					
-					##network(1).wValues  = network(1).wValues + ETA * (network(1).deltaValues)' * currentPattern 
+					calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
+					network.(num2str(i)).wValues =  currentLvlWValues + calculationWithDelta ; 
+					if(MomentumEnabled ==1)
+						network.(num2str(i)).wValues = network.(num2str(i)).wValues + network.(num2str(i)).oldCDeltaValues * ALPHA ;
+					endif
+
+					network.(num2str(i)).oldCDeltaValues = calculationWithDelta ;
 			endfor
-			##end subir
+			##END CORRECT Ws
 
 		endfor
-		epocs = epocs +1;
+		epocs ++;
+		elapsedTime = time() - startTime;
+		elapsedEpocTime = time() - epocStartTime;
+		printf('Epoca: %d   errorMedio %f eta %f tiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,elapsedTime,elapsedEpocTime);
+		if(EtaAdaptativeEnabled)
+			deltaError = errorMedio - errorMedioAnterior;
+			if(deltaError >0)
+				ETA = ETA - etaDecrement * ETA;
+			else
+				if(currK < K)
+					currK++;
+				else
+					ETA+=etaIncrement;
+					currK=0;
+				endif
+					
+			endif
+				
+		endif
 	endwhile
-epocs
-network
-
-##	ElapsedTime = time() - startTime
-##	disp("Checking result...")
-##	for i = 1:rows(testPatterns)
-##		currentPattern = testPatterns(i,:);
-##
-##		currentExpectedOutput = ExpectedOutput(i,:);
-##
-##		h1 = (currentWValues * (currentPattern'))';
-##
-##		inputNodesLvl2 = cat(2,-1,arrayfun(@g, h1));		
-##
-##		h2 = (currentWValuesLvl2 * (inputNodesLvl2'))';
-##
-##		outputValues = arrayfun(@g,h2);
-##		outputValues
-##		currentExpectedOutput
-##		if(abs(outputValues - currentExpectedOutput) > EPSILON) 
-##			disp("Stupid network... didn't learn")
-##		endif
-##	endfor
+	save('trainedNetwork.dump');
 endfunction
