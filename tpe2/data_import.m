@@ -7,7 +7,8 @@
 function [trainingPattern testPattern] = data_import(Filename , TrainPercentage)
 
 	name = strsplit(Filename,".");
-	loadName = strcat(name{1},TrainPercentage,"shuffledTrain.m");
+	percentage = strsplit(num2str(TrainPercentage),".");
+	loadName = strcat(name{1},"ShuffledTrain","TP",percentage{2}, ".m");
 
 	if(!exist(loadName,'file'))
 		CSV = dlmread(Filename, ',');
@@ -16,13 +17,13 @@ function [trainingPattern testPattern] = data_import(Filename , TrainPercentage)
 		test_rows =  rand >= TrainPercentage;
 		trainingPattern = CSV(training_rows, :);
 		testPattern =  CSV(test_rows, :); 
-			saveName = strcat(name{1},TrainPercentage,'shuffledTrain.m')
-			dlmwrite(saveName, trainingPattern); ##### this is ONLY valid when using the same TrainPercentage
-			saveName = strcat(name{1},TrainPercentage,'shuffledTest.m');
-			dlmwrite(saveName, testPattern); ##### this is ONLY valid when using the same TrainPercentage
+			saveName = strcat(name{1},"ShuffledTrain","TP",percentage{2}, ".m");
+			dlmwrite(saveName, trainingPattern);
+			saveName = strcat(name{1},"ShuffledTest","TP",percentage{2}, ".m");
+			dlmwrite(saveName, testPattern);
 	else
 		trainingPattern = dlmread(loadName);
-		loadName = strcat(name{1},TrainPercentage,'shuffledTest.m');
+		loadName = strcat(name{1},"ShuffledTest","TP",percentage{2}, ".m");
 		if(exist(loadName,'file'))
 			testPattern = dlmread(loadName);
 		endif
