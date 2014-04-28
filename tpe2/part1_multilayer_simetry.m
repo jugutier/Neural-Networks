@@ -31,7 +31,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		EPSILON = 0.05;
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 50;
+		MAX_EPOC = 200;
 		epocs = 1;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
