@@ -1,4 +1,4 @@
-function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,TrainInput,TrainExpectedOutput,Filename)
+function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,learning_rate, epocs] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,TrainInput,TrainExpectedOutput,Filename)
 	startTime = time();
 	trainPatterns = cat(2,-1*ones(rows(TrainInput),1),TrainInput)	;
 	if(Filename)
@@ -28,7 +28,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		##network		;
 
 		ETA = 0.01;
-		EPSILON = 0.1;
+		EPSILON = 0.01;
 		ALPHA = 0.9;
 		hasLearnt = 0;
 		MAX_EPOC = 10;
@@ -45,6 +45,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		eta_adaptation = ETA;
 		hit = 0;
 		MIN_LEARN_RATE = 0.7;
+		train_learning_rate = 0;
 		while(hasLearnt != 1 && epocs <= MAX_EPOC)
 			hit=0;
 			hasLearnt = 1;
@@ -91,6 +92,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 				if(hit/rows(Input) > MIN_LEARN_RATE) 
 					hasLearnt = 1;
 				endif
+				train_learning_rate = [train_learning_rate hit/rows(Input)];
 				
 				network.(num2str(levels)).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
