@@ -44,6 +44,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,learning_rate, epocs
 		learning_rate = 0;
 		eta_adaptation = ETA;
 		hit = 0;
+		MIN_LEARN_RATE = 0.7;
 		while(hasLearnt != 1 && epocs <= MAX_EPOC)
 			epocStartTime = time();
 			for i = 1:rows(testPatterns)
