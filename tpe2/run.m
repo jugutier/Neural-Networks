@@ -42,12 +42,13 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 		save('trainedNetwork.dump','trainedNetwork' ,'hiddenUnitsPerLvl' );
 		printf("Average error:%f Error per test batch:\n",(sum(test_error)/columns(test_error)));
 		save('testError.dump','test_error');
+		save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
 		if(!hasLoaded)
 			if(yes_or_no("do you want plots?"))
 				resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
 			endif
 		endif
-printf("FINISHED: the network predicts %f percent of the test data, to the order of 10^-3 \n", learning_rate);
+printf("FINISHED: the network predicts %.20f%% of the test data, to the order of 10^-3 \n", learning_rate);
 
 	
 

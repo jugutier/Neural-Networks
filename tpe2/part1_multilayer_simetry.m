@@ -2,45 +2,45 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 	hiddenUnitsPerLvl = HiddenUnitsPerLvl;
 	startTime = time();
 	trainPatterns = cat(2,-1*ones(rows(TrainInput),1),TrainInput)	;
-	wValues = Network
+	wValues = Network;
+	EPSILON = 0.05;
+	ETA = 0.01;	
+	train_error = [];
+	train_learning_rate = [];
+	eta_adaptation = ETA;	
+	MAX_EPOC = 100;
+	levels = columns(HiddenUnitsPerLvl)	+2;	
 	if(rows(wValues)==0)
-		testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold
-		inputNodes = columns(Input)		;
-		outputNodes = columns(ExpectedOutput)		;
-		unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		;
-	 	connectedUnits = [0 HiddenUnitsPerLvl 1]		;
-	 	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]		;
-		levels = columns(unitsPerlevel)		;		
-		vValues = cell(levels,1);
-		hValues = cell(levels,1);
-		deltaValues = cell(levels,1);
-		oldCDeltaValues = cell(levels,1);
+		testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
+	 	inputNodes = columns(Input)		;
+		outputNodes = columns(ExpectedOutput)		;	 	
+ 		unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		;#1
+		connectedUnits = [0 HiddenUnitsPerLvl 1]		;#2
+		HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]		;#3
+		levels = columns(unitsPerlevel)	;			 #4			
 		#INITIALIZE WEIGHTS
 		wValues = cell(levels,1);	###wValues: connections between 'i' layer and the i-1 one, lvl 1 has NO wValues
 		for i=1:levels-1
 			wValues{i+1} = rand(connectedUnits(i+1),unitsPerlevel(i));
 			oldCDeltaValues{i+1} = 0;
-		endfor
-
-		ETA = 0.01;
-		EPSILON = 0.05;
+		endfor 		
+		vValues = cell(levels,1);
+		hValues = cell(levels,1);
+		deltaValues = cell(levels,1);
+		oldCDeltaValues = cell(levels,1);		
+			
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 20;
 		epocs = 0;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
 		currK=0;
 		K=5;##maximum number of steps before changing adaptative ETA
 		errorMedio=0;
-		errorMedioAnterior = 0;
-		train_error = 0;
-		learning_rate = 0;
-		eta_adaptation = ETA;
+		errorMedioAnterior = 0;		
 		hit = 0;
 		MIN_LEARN_RATE = 0.7;
-		train_learning_rate = [];
-		test_error = [];
+		
 
 		##START EPOC
 		while(hasLearnt != 1 && epocs < MAX_EPOC)
@@ -165,9 +165,15 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		##END TRAINING
 		trainedNetwork = wValues;		
 	endif
+
+	inputNodes = columns(TrainInput)		;
+	outputNodes = columns(TrainExpectedOutput)		;
+	vValues = cell(levels,1);
+	hValues = cell(levels,1);
+	deltaValues = cell(levels,1);
+	test_error = [];
+	learning_rate = 0;##hits over total training	
 	##START TESTING
-
-
 	for i = 1:rows(TrainInput)
 		currentPattern = trainPatterns(i,:) 		;    
 
