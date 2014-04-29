@@ -4,7 +4,6 @@
   	plot(1:last_index,eta_adaptation(:,1:last_index), '-2; Adaptacion de ETA;');
   	#plot(1:last_index,train_learning_rate(:,1:last_index), '-3; Tasa de aciertos ;');
   	plot(epocs, 0);
-  	# title("Evolucion del perceptron", 'FontSize', 25);
-  	xlabel("Epoca numero", 'FontSize', 20);
-  	ylabel("Error", 'FontSize', 20);
+  	xlabel("Numero de epoca");
+  	ylabel("Error");
 endfunction
