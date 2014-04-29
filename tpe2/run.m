@@ -26,9 +26,11 @@ function run()
 	endif
 
 	if(!hasLoaded || reTrain)
+		if(!reTrain)
 		hiddenUnitsPerLvl = input("Type a vector for hidden units per level.\n \
 eg. [2 3] will build a neural network \nwith two units in the first level and 3 in the second one.\
  \n(Note that input nodes and outputnodes depend only on the data provided.)\n");
+		endif
 		momentum = yes_or_no("momentum?");
 		eta_adaptative = yes_or_no("eta adaptative?");
 	endif
