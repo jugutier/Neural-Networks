@@ -1,12 +1,14 @@
-function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network)
+function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network)
 	startTime = time();
 	wValues = Network;
-	ETA = 0.01;	
-	EPSILON = 0.001;
+	ETA = 0.1;	
+	EPSILON = 0.01;
 	train_error = [];
 	train_learning_rate = [];
+	hits_at_end_epoc = [];
 	eta_adaptation = ETA;	
-	MAX_EPOC = 100;
+	MAX_EPOC = 200;
+	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
  	inputNodes = columns(Input)		;
@@ -143,7 +145,11 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));			
 		elapsedTime = time() - startTime;
 		elapsedEpocTime = time() - epocStartTime;
-		printf('Epoca: %d   errorMedio %f eta %f tiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,elapsedTime,elapsedEpocTime);
+		
+		[t_error l_rate] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl_, g ,g_derivate, wValues);
+		hits_at_end_epoc = [hits_at_end_epoc l_rate];
+
+		printf('Epoca: %d - errorMedio %.10f eta %f hits %f \ntiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,l_rate,elapsedTime,elapsedEpocTime);
 		if(EtaAdaptativeEnabled)
 			deltaError = errorMedio - errorMedioAnterior;
 			if(deltaError >0)
@@ -163,6 +169,10 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		eta_adaptation = [eta_adaptation ETA] ;
 		train_error = [train_error errorMedio];
 		train_learning_rate = [train_learning_rate currentLearnRate] ;
+		
+		
+		 
+
 	endwhile
 	##END TRAINING
 	trainedNetwork = wValues;	
