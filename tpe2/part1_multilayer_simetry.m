@@ -156,11 +156,11 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		hits_at_end_epoc = [hits_at_end_epoc l_rate];
 
 		printf('\n\n\nEpoca: %d - errorMedioPromedio %.10f eta %f hits %f \ntiempoTotal %f tiempoEpoca %f',epocs,errorMedioPromedio,ETA,l_rate,elapsedTime,elapsedEpocTime);
-		if(EtaAdaptativeEnabled)
+		if(EtaAdaptativeEnabled && ETA < COTA_ETA_ADAPTATIVO)
 			deltaError = errorMedioPromedio - errorMedioPromedioAnterior;
 			if(deltaError >0)
 				ETA = ETA - etaDecrement * ETA;
-			elseif(ETA < COTA_ETA_ADAPTATIVO)
+			else
 				if(currK < K)
 					currK++;
 				else
