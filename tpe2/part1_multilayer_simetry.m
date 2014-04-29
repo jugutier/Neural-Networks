@@ -22,16 +22,16 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 		###wValues: this matrix will have in each row the connections between n+1 layer and current one,
 		##in this way level one should have NO wValues
 		for i=1:levels-1
-			network.(strcat('l',num2str(i+1))).wValues = rand(connectedUnits(i+1),unitsPerlevel(i));
+			network.(strcat('l',num2str(i+1))).wValues = -1 + 2 * rand(connectedUnits(i+1),unitsPerlevel(i));
 			network.(strcat('l',num2str(i+1))).oldCDeltaValues = 0;
 		endfor
 		##network		;
 
 		ETA = 0.01;
-		EPSILON = 0.05;
+		EPSILON = 0.001;
 		ALPHA = 0.9;
 		hasLearnt = 0;
-		MAX_EPOC = 20000;
+		MAX_EPOC = 200;
 		epocs = 0;
 		etaDecrement = ETA*0.025;
 		etaIncrement = ETA*0.25;
@@ -95,7 +95,7 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 					hasLearnt = 1;
 				endif
 				
-				network.(strcat('l',num2str(levels))).deltaValues =g_derivate(hj) *(currentExpectedOutput - outputValues );
+				network.(strcat('l',num2str(levels))).deltaValues = g_derivate(hj) * (currentExpectedOutput - outputValues );
 
 				## BACKPROPAGATION START
 				for k = levels :-1: 2		
