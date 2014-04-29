@@ -53,7 +53,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			case 2
 				[data testData] = data_import('samples8normZeroOne.csv' , trainPercentage);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
+					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
