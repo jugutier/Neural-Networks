@@ -1,8 +1,9 @@
 function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network)
 	startTime = time();
 	wValues = Network;
-	ETA = 0.1;	
-	EPSILON = 0.01;
+	ETA = 0.1;
+	COTA_ETA_ADAPTATIVO = 0.5;	
+	EPSILON = 0.001;
 	train_error = [];
 	train_learning_rate = [];
 	hits_at_end_epoc = [];
@@ -41,7 +42,8 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	currK=0;
 	K=5;##maximum number of steps before changing adaptative ETA
 	errorMedio=0;
-	errorMedioAnterior = 0;		
+	errorMedioPromedio = 0;
+	errorMedioPromedioAnterior = 0;		
 	hit = 0;
 	MIN_LEARN_RATE = 0.7;
 	
@@ -51,7 +53,8 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		epocs ++;
 		hit=0;
 		hasLearnt = 1;
-		epocStartTime = time();
+		epocStartTime = time();		
+		erroresMedioPromedio = [];
 		for i = 1:rows(testPatterns)
 			currentPattern = testPatterns(i,:) 		;    
 
@@ -82,6 +85,8 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 			outputValues = vValues{levels};
 			## END FEED FORWARD
 
+			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
+			erroresMedioPromedio = [erroresMedioPromedio errorMedio];		
 			if( abs(outputValues - currentExpectedOutput) > EPSILON)
 				hasLearnt = 0;
 			else
@@ -141,20 +146,21 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		if(currentLearnRate > MIN_LEARN_RATE) 
 			hasLearnt = 1;
 		endif
-		errorMedioAnterior = errorMedio;
-		errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));			
+		errorMedioPromedioAnterior = errorMedioPromedio;
+			
 		elapsedTime = time() - startTime;
 		elapsedEpocTime = time() - epocStartTime;
 		
+		errorMedioPromedio = sum(erroresMedioPromedio)/rows(Input);
 		[t_error l_rate] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl_, g ,g_derivate, wValues);
 		hits_at_end_epoc = [hits_at_end_epoc l_rate];
 
-		printf('Epoca: %d - errorMedio %.10f eta %f hits %f \ntiempoTotal %f tiempoEpoca %f\n',epocs,errorMedio,ETA,l_rate,elapsedTime,elapsedEpocTime);
+		printf('\n\n\nEpoca: %d - errorMedioPromedio %.10f eta %f hits %f \ntiempoTotal %f tiempoEpoca %f',epocs,errorMedioPromedio,ETA,l_rate,elapsedTime,elapsedEpocTime);
 		if(EtaAdaptativeEnabled)
-			deltaError = errorMedio - errorMedioAnterior;
+			deltaError = errorMedioPromedio - errorMedioPromedioAnterior;
 			if(deltaError >0)
 				ETA = ETA - etaDecrement * ETA;
-			else
+			elseif(ETA < COTA_ETA_ADAPTATIVO)
 				if(currK < K)
 					currK++;
 				else
@@ -168,10 +174,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		
 		eta_adaptation = [eta_adaptation ETA] ;
 		train_error = [train_error errorMedio];
-		train_learning_rate = [train_learning_rate currentLearnRate] ;
-		
-		
-		 
+		train_learning_rate = [train_learning_rate currentLearnRate] ; 
 
 	endwhile
 	##END TRAINING

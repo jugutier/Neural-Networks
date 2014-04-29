@@ -44,7 +44,7 @@ function [test_error, learning_rate]  = testPerceptron( TrainInput,TrainExpected
 
 		test_error = [test_error errorMedioTest];
 
-		if(abs(outputValues - currentExpectedOutput) < EPSILON)
+		if(errorMedioTest < EPSILON)
 			learning_rate++;
 		endif
 	endfor

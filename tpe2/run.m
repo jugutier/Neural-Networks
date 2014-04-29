@@ -63,9 +63,9 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			save('trainedNetwork.dump','trainedNetwork' ,'hiddenUnitsPerLvl' );
 		endif
 		if(hasLoaded||hasTrained)
-			printf("Average error:%.20f%% \n",(sum(test_error)/columns(test_error))*100);
+			printf("\n\nAverage cuadratic error on testing:%.10f%% \n",(sum(test_error)/columns(test_error))*100);
 			save('testError.dump','test_error');
-			printf("FINISHED: the network predicts %.20f%% of the test data, to the order of 10^-3 \n", learning_rate*100);
+			printf("FINISHED: the network predicts %.10f%% of the test data, to the order of 10^-3 \n", learning_rate*100);
 		endif
 		save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
 		if(!hasLoaded || reTrain)
