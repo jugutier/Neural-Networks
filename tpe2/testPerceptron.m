@@ -1,4 +1,4 @@
-function [test_error, learning_rate]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
+function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
 	inputNodes = columns(TrainInput)		;
 	outputNodes = columns(TrainExpectedOutput)		;
 	wValues = Network;
@@ -7,6 +7,7 @@ function [test_error, learning_rate]  = testPerceptron( TrainInput,TrainExpected
 	vValues = cell(levels,1);
 	hValues = cell(levels,1);
 	test_error = [];
+	error_dif = [];
 	learning_rate = 0;##hits over total training
 	EPSILON = 0.001;	
 	##START TESTING
@@ -39,6 +40,9 @@ function [test_error, learning_rate]  = testPerceptron( TrainInput,TrainExpected
 
 		outputValues = vValues{levels};
 		## END FEED FORWARD
+
+		error_current_dif = floor(abs(outputValues - currentExpectedOutput) * (1/EPSILON)) * EPSILON;
+		error_dif = [error_dif error_current_dif];
 
 		errorMedioTest = .5*sum(power((outputValues - currentExpectedOutput),2));
 

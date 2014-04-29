@@ -8,6 +8,7 @@ function run()
 	load part1_multilayer_simetry.m
 	load data_import.m
 	load resultsGraph.m
+	load graphErrorHist.m
 	load testPerceptron.m
 
 	g=0;
@@ -44,7 +45,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
-					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
+					[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
 					learning_rate
 				endif
 			case 2
@@ -54,7 +55,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
-					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
+					[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
 				endif
 			otherwise
 				disp("error, please try again")
@@ -70,7 +71,10 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 		save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
 		if(!hasLoaded || reTrain)
 			if(yes_or_no("do you want plots?"))
+				figure(1);
 				resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
+				figure(2);
+				graphErrorHist(error_dif);
 			endif
 		endif
 endfunction
