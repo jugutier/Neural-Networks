@@ -1,6 +1,7 @@
 function [test_error, learning_rate]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
 	inputNodes = columns(TrainInput)		;
 	outputNodes = columns(TrainExpectedOutput)		;
+	wValues = Network;
 	trainPatterns = cat(2,-1*ones(rows(TrainInput),1),TrainInput)	;
 	levels = columns(HiddenUnitsPerLvl)+2	;
 	vValues = cell(levels,1);

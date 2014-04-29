@@ -40,18 +40,21 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			case 1
 				[data testData]= data_import('samples8normOneOne.csv' , trainPercentage);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork, hiddenUnitsPerLvl] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network);
+					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network);
 					hasTrained = 1;
-				elseif(hasLoaded||hasTrained)
-					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),HiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
+				endif
+				if(hasLoaded||hasTrained)
+					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
+					learning_rate
 				endif
 			case 2
 				[data testData] = data_import('samples8normZeroOne.csv' , trainPercentage);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hiddenUnitsPerLvl] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
+					[MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
 					hasTrained = 1;
-				elseif(hasLoaded||hasTrained)
-					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),HiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
+				endif
+				if(hasLoaded||hasTrained)
+					[test_error, learning_rate]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
 				endif
 			otherwise
 				disp("error, please try again")
