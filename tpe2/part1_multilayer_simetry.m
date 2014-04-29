@@ -57,24 +57,27 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 
 				currentExpectedOutput = ExpectedOutput(i,:);
 
-				network.(strcat('l',num2str(1))).vValues = currentPattern;
+				network.('l1').vValues = currentPattern;
 
-				network.(strcat('l',num2str(1))).hValues = currentPattern;
+				network.('l1').hValues = currentPattern;
 
 				## FEED FORWARD
 				for j=1:levels-1
 
-					currentLvlWValues = network.(strcat('l',num2str(j+1))).wValues 		;
+					#currentLvlWValues = network.(strcat('l',num2str(j+1))).wValues 		;
 
-					currentLvlVValues = network.(strcat('l',num2str(j))).vValues 		;
+					#currentLvlVValues = network.(strcat('l',num2str(j))).vValues 		;
 					
-					hj = (currentLvlWValues * (currentLvlVValues') )' 		;
+					#hj = (currentLvlWValues * (currentLvlVValues') )' 		;
+					a = strcat('l',num2str(j+1));
+					b = strcat('l',num2str(j));
+					hj = (network.(a).wValues * (network.(b).vValues') )' 		;
 
-					network.(strcat('l',num2str(j+1))).hValues = hj;
+					network.(a).hValues = hj;
 					if(j!=levels-1)
-						network.(strcat('l',num2str(j+1))).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
+						network.(a).vValues = cat(2,-1,arrayfun(g, hj)) 	;	
 					else 
-						network.(strcat('l',num2str(j+1))).vValues = arrayfun(g, hj)	;
+						network.(a).vValues = arrayfun(g, hj)	;
 					endif
 						
 				endfor  
@@ -96,16 +99,17 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 
 				## BACKPROPAGATION START
 				for k = levels :-1: 2		
-
+					a=strcat('l',num2str(k-1));
+					b=strcat('l',num2str(k));
 					displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
 					
-					currentLvlWValues = network.(strcat('l',num2str(k))).wValues;  
+					currentLvlWValues = network.(b).wValues;  
 					
 					currentLvlWValues = currentLvlWValues(:,displacementIndexes)     	;	# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
 
-					h = network.(strcat('l',num2str(k-1))).hValues 		;
+					h = network.(a).hValues 		;
 					
-					delta = network.(strcat('l',num2str(k))).deltaValues 	;
+					delta = network.(b).deltaValues 	;
 
 
 					tempCurrentLvlDeltaValues=0;
@@ -115,24 +119,27 @@ function [MAX_EPOC, train_error, test_error, eta_adaptation,train_learning_rate,
 						tempCurrentLvlDeltaValues(i) = deltai;
 					endfor
 
-					network.(strcat('l',num2str(k-1))).deltaValues =   tempCurrentLvlDeltaValues ;
+					network.(a).deltaValues =   tempCurrentLvlDeltaValues ;
 
 				endfor 
 				##BACKPROPAGATION END
 
 				##CORRECT Ws
 				for i=2:levels
-					currentLvlWValues = network.(strcat('l',num2str(i))).wValues   		;
-					currentLvlVValues = network.(strcat('l',num2str(i-1))).vValues  	;
-					currentLvlDeltaValues = (network.(strcat('l',num2str(i))).deltaValues)		;
+					a = strcat('l',num2str(i-1));
+					b = strcat('l',num2str(i));
+					#currentLvlWValues = network.(b).wValues   		;
+					currentLvlVValues = network.(a).vValues  	;
+					#currentLvlDeltaValues = (network.(b).deltaValues)		;
 
-					calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
-					network.(strcat('l',num2str(i))).wValues =  currentLvlWValues + calculationWithDelta ; 
+					#calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
+					calculationWithDelta = ETA * (network.(b).deltaValues)' * currentLvlVValues ;
+					network.(b).wValues =  network.(b).wValues + calculationWithDelta ; 
 					if(MomentumEnabled ==1)
-						network.(strcat('l',num2str(i))).wValues = network.(strcat('l',num2str(i))).wValues + network.(strcat('l',num2str(i))).oldCDeltaValues * ALPHA ;
+						network.(b).wValues = network.(b).wValues + network.(b).oldCDeltaValues * ALPHA ;
 					endif
 
-					network.(strcat('l',num2str(i))).oldCDeltaValues = calculationWithDelta ;
+					network.(b).oldCDeltaValues = calculationWithDelta ;
 				endfor
 				##END CORRECT Ws
 			endfor
