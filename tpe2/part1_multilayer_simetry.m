@@ -8,7 +8,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	train_learning_rate = [];
 	hits_at_end_epoc = [];
 	eta_adaptation = ETA;	
-	MAX_EPOC = 100;
+	MAX_EPOC = 500;
 	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
@@ -173,7 +173,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		endif
 		
 		eta_adaptation = [eta_adaptation ETA] ;
-		train_error = [train_error errorMedio];
+		train_error = [train_error errorMedioPromedio];
 		train_learning_rate = [train_learning_rate currentLearnRate] ; 
 
 	endwhile
