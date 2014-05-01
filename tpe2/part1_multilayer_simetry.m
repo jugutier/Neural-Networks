@@ -1,4 +1,4 @@
-function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network)
+function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
 	startTime = time();
 	wValues = Network;
 	ETA = 0.1;
@@ -8,7 +8,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	train_learning_rate = [];
 	hits_at_end_epoc = [];
 	eta_adaptation = ETA;	
-	MAX_EPOC = 500;
+	MAX_EPOC = max_epocs;
 	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	

@@ -39,13 +39,14 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 
 		trainPercentage = input("Type a number between 0.0 and 1.0 for a train percentage.\n\
 (Note that the compliment will be used for testing.)\n");
+		max_epocs = input("Maximum number of epocs?\n");
 		resp=input("Which activation function? \n1 -Tangent\n2 -Exponencial\n");
 		
 		switch(resp)
 			case 1
 				[data testData]= data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network);
+					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network,max_epocs);
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
@@ -55,7 +56,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			case 2
 				[data testData] = data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
+					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network,max_epocs);
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
