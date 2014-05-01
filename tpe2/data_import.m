@@ -7,20 +7,23 @@
 function [trainingPattern testPattern] = data_import(Filename , TrainPercentage , ActivationFunction)
 	load normalizeOneOne.m
 	load normalizeZeroOne.m
-	load sortpatterns.m
+	load sortPatterns.m
 
 	extension = '';
 
 	switch(ActivationFunction)
-		case 1:
+		case 1
 			extension = '.tan';
-		case 2:
+		case 2
 			extension = '.exp';
 
 	endswitch
 	
 	name = strsplit(Filename,'.');
 	percentage = strsplit(num2str(TrainPercentage),'.');
+	if(columns(percentage)!=2)
+		percentage{2} = 0;
+	endif
 	loadTrainName = strcat(name{1},percentage{2},'0percent_train', extension);
 	loadTestName = strcat(name{1},percentage{2},'0percent_test', extension);
 	if(exist(loadTrainName,'file') && exist(loadTestName,'file'))
@@ -29,15 +32,15 @@ function [trainingPattern testPattern] = data_import(Filename , TrainPercentage 
 	else
 		patterns = load(Filename);
 		switch(ActivationFunction)
-			case 1:
+			case 1
 				patterns = normalizeOneOne(patterns);
-			case 2:
+			case 2
 				patterns = normalizeZeroOne(patterns);
 		endswitch
-		[trainingPattern testPattern] = sortPatterns(patterns, TrainPercentage)		
+		[trainingPattern testPattern] = sortPatterns(patterns, TrainPercentage);		
 		saveTrainName = strcat(name{1},percentage{2}, '0percent_train',extension);		
 		saveTestName = strcat(name{1},percentage{2}, '0percent_test',extension);
-		save(saveName, trainingPattern);
-		save(saveName, testPattern);
+		dlmwrite(saveTrainName, trainingPattern);
+		dlmwrite(saveTrainName, testPattern);
 	endif	
 endfunction

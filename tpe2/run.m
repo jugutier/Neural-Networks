@@ -18,9 +18,9 @@ function run()
 	hasTrained = 0;
 	network = '';
 
-	functiondataFilename = input("\nWelcome to the neural network assistant\n\n\n\nFunction data?\n(with extension and simple quote marks, please)\n(Default is samples8.txt)\n")
-	if(yes_or_no("Do you already have a trained neural network?\n"))
-		filename = input("What is the filename? (with extension and simple quote marks, please)\n Default autosavename is trainedNetwork.dump)\n");
+	functiondataFilename = input("\nWelcome to the neural network assistant\n\n\n\nFunction data?\n(with extension and simple quote marks, please)\n(Default is samples8.txt)\n\n");
+	if(yes_or_no("\nDo you already have a trained neural network?\n"))
+		filename = input("What is the filename? (with extension and simple quote marks, please)\n Default autosavename is trained.nnet)\n");
 		load(filename,'trainedNetwork','hiddenUnitsPerLvl');
 		network = trainedNetwork;
 		reTrain  = yes_or_no("retrain?");
@@ -29,9 +29,9 @@ function run()
 
 	if(!hasLoaded || reTrain)
 		if(!reTrain)
-		hiddenUnitsPerLvl = input("Type a vector for hidden units per level.\n \
+		hiddenUnitsPerLvl = input("\nType a vector for hidden units per level.\n \
 eg. [2 3] will build a neural network \nwith two units in the first level and 3 in the second one.\
- \n(Note that input nodes and outputnodes depend only on the data provided.)\n");
+ \n(Note that input nodes and outputnodes depend only on the data provided.)\n\n");
 		endif
 		momentum = yes_or_no("momentum?");
 		eta_adaptative = yes_or_no("eta adaptative?");
