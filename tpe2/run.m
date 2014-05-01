@@ -17,11 +17,13 @@ function run()
 	reTrain = 0;
 	hasTrained = 0;
 	network = '';
-	if(yes_or_no("\nWelcome to the neural network assistant\n\n\n\nDo you already have a trained neural network?\n"))
+
+	functiondataFilename = input("\nWelcome to the neural network assistant\n\n\n\nFunction data?\n(with extension and simple quote marks, please)\n(Default is samples8.txt)\n")
+	if(yes_or_no("Do you already have a trained neural network?\n"))
 		filename = input("What is the filename? (with extension and simple quote marks, please)\n Default autosavename is trainedNetwork.dump)\n");
 		load(filename,'trainedNetwork','hiddenUnitsPerLvl');
 		network = trainedNetwork;
-		reTrain  = yes_or_no("reTrain?");
+		reTrain  = yes_or_no("retrain?");
 		hasLoaded = 1;
 	endif
 
@@ -41,7 +43,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 		
 		switch(resp)
 			case 1
-				[data testData]= data_import('samples8normOneOne.csv' , trainPercentage);
+				[data testData]= data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
 					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network);
 					hasTrained = 1;
@@ -51,7 +53,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 					learning_rate
 				endif
 			case 2
-				[data testData] = data_import('samples8normZeroOne.csv' , trainPercentage);
+				[data testData] = data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
 					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network);
 					hasTrained = 1;
@@ -63,7 +65,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 				disp("error, please try again")
 		endswitch
 		if(hasTrained)
-			save('trainedNetwork.dump','trainedNetwork' ,'hiddenUnitsPerLvl' );
+			save('trained.nnet','trainedNetwork' ,'hiddenUnitsPerLvl' );
 		endif
 		if(hasLoaded||hasTrained)
 			printf("\n\nAverage cuadratic error on testing:%.10f%% \n",(sum(test_error)/columns(test_error))*100);
@@ -71,6 +73,10 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			printf("FINISHED: the network predicts %.10f%% of the test data, to the order of 10^-3 \n", learning_rate*100);
 		endif
 		save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
+		if(yes_or_no("DELETE extra dumps?"))
+			unlink('testError.dump');
+			unlink('graphData.dump');
+		endif
 		if(!hasLoaded || reTrain)
 			if(yes_or_no("do you want plots?"))
 				figure(1);

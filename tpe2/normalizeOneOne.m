@@ -1,11 +1,7 @@
-function normalizeOneOne(Filename)
-	CSV = dlmread(Filename, ',');
-	for i=1:rows(CSV)
-		if CSV(i,:) != 0
-			CSV(i,:) =  CSV(i,:) / norm(CSV(i,:))
+function patterns =  normalizeOneOne(Patterns)
+	for i=1:rows(Patterns)
+		if Patterns(i,:) != 0
+			patterns(i,:) =  Patterns(i,:) / Patterns(CSV(i,:));
 		endif
 	endfor
-	name = strsplit(Filename,".");
-	finalName = strcat(name{1},"normOneOne.csv");
-	dlmwrite(finalName,CSV);
 endfunction
