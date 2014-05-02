@@ -37,10 +37,10 @@ function [trainingPattern testPattern] = data_import(Filename , TrainPercentage 
 			case 2
 				patterns = normalizeZeroOne(patterns);
 		endswitch
-		[trainingPattern testPattern] = sortPatterns(patterns, TrainPercentage);		
+		[trainingPattern testPattern] = sortPatterns(patterns, TrainPercentage);
 		saveTrainName = strcat(name{1},percentage{2}, '0percent_train',extension);		
 		saveTestName = strcat(name{1},percentage{2}, '0percent_test',extension);
 		dlmwrite(saveTrainName, trainingPattern);
-		dlmwrite(saveTrainName, testPattern);
+		dlmwrite(saveTestName, testPattern);
 	endif	
 endfunction
