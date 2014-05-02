@@ -32,6 +32,7 @@ function run()
 		hiddenUnitsPerLvl = input("\nType a vector for hidden units per level.\n \
 eg. [2 3] will build a neural network \nwith two units in the first level and 3 in the second one.\
  \n(Note that input nodes and outputnodes depend only on the data provided.)\n\n");
+		max_epocs = input("Maximum number of epocs?\n");
 		endif
 		momentum = yes_or_no("momentum?");
 		eta_adaptative = yes_or_no("eta adaptative?");
@@ -39,7 +40,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 
 		trainPercentage = input("Type a number between 0.0 and 1.0 for a train percentage.\n\
 (Note that the compliment will be used for testing.)\n");
-		max_epocs = input("Maximum number of epocs?\n");
+		
 		resp=input("Which activation function? \n1 -Tangent\n2 -Exponencial\n");
 		
 		switch(resp)
@@ -73,7 +74,9 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			save('testError.dump','test_error');
 			printf("FINISHED: the network predicts %.10f%% of the test data, to the order of 10^-3 \n", learning_rate*100);
 		endif
-		save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
+		if(!hasLoaded || reTrain)
+			save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
+		endif
 		if(yes_or_no("DELETE extra dumps?"))
 			unlink('testError.dump');
 			unlink('graphData.dump');

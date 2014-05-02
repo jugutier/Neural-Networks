@@ -22,10 +22,12 @@ function [trainingPattern testPattern] = data_import(Filename , TrainPercentage 
 	name = strsplit(Filename,'.');
 	percentage = strsplit(num2str(TrainPercentage),'.');
 	if(columns(percentage)!=2)
-		percentage{2} = 0;
+		percentage = 'zero';
+	else
+		percentage = strcat(num2str(percentage{2}),'0');	
 	endif
-	loadTrainName = strcat(name{1},percentage{2},'0percent_train', extension);
-	loadTestName = strcat(name{1},percentage{2},'0percent_test', extension);
+	loadTrainName = strcat(name{1},percentage,'percent_train', extension);
+	loadTestName = strcat(name{1},percentage,'percent_test', extension);
 	if(exist(loadTrainName,'file') && exist(loadTestName,'file'))
 		trainingPattern = dlmread(loadTrainName);
 		testPattern = dlmread(loadTestName);
@@ -38,8 +40,8 @@ function [trainingPattern testPattern] = data_import(Filename , TrainPercentage 
 				patterns = normalizeZeroOne(patterns);
 		endswitch
 		[trainingPattern testPattern] = sortPatterns(patterns, TrainPercentage);
-		saveTrainName = strcat(name{1},percentage{2}, '0percent_train',extension);		
-		saveTestName = strcat(name{1},percentage{2}, '0percent_test',extension);
+		saveTrainName = strcat(name{1},percentage, 'percent_train',extension);		
+		saveTestName = strcat(name{1},percentage, 'percent_test',extension);
 		dlmwrite(saveTrainName, trainingPattern);
 		dlmwrite(saveTestName, testPattern);
 	endif	
