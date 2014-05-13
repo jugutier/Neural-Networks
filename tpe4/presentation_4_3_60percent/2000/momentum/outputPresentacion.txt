@@ -1,0 +1,2 @@
+Average cuadratic error on testing:1.9030429013
+FINISHED: the network predicts 29.0000000000% of the test data, to the order of 10^-3
