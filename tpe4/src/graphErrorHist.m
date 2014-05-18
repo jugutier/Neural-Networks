@@ -4,7 +4,7 @@
 %	hist(errorData, min:step:max);
 %	xlabel('Orden de error');
 %	ylabel('Frecuencia');
-%	# title('Grafico de erorres...');
+%	% title('Grafico de erorres...');
 %endfunction
 
 function graphErrorHist(error_dif)

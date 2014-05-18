@@ -1,19 +1,19 @@
 function CurrentWValues = part1-multilayer(Method, InternalLayers, NeuronsPerLayer)
-  ####---------- CONSTANTS AND INPUT DEFINITION ----------####
-  ## TestPatterns: The first column is the value of the threshold
+  %%%%---------- CONSTANTS AND INPUT DEFINITION ----------%%%%
+  %% TestPatterns: The first column is the value of the threshold
   TestPatterns = [-1 1 1; -1 1 -1; -1 -1 1; -1 -1 -1];
   ExpectedAns = [1; 1; 1; -1];
-  ## 1st step of the algorithm
-  ## CurrentWValues: First column is the weight for the threshold connection
+  %% 1st step of the algorithm
+  %% CurrentWValues: First column is the weight for the threshold connection
   CurrentWValues = rand(3,6);
   InternalLayers = 1;
   NeuronsPerLayer = 2;
-  ##ETA: Random value around the input values
+  %%ETA: Random value around the input values
   ETA = 0.5; 
-  ####---------- END CONSTANTS AND INPUT DEFINITION ----------####
+  %%%%---------- END CONSTANTS AND INPUT DEFINITION ----------%%%%
 
-  ## 2nd step of the algorithm
-  ## Apply the pattern
+  %% 2nd step of the algorithm
+  %% Apply the pattern
   for i = 1: rows(TestPattern)
     V0_k = TestPattern(i,:);
     Vi_m = propagate(V0_k);
@@ -42,7 +42,7 @@ function out = propagate(Vi_m)
   out = g()
 endfunction
 
-#### Funcion de transferencia ()
+%%%% Funcion de transferencia ()
 function value = g(CurrentPattern, currentWValues, Method)
         accum = 0;
         disp("Calculate g")
@@ -51,16 +51,16 @@ function value = g(CurrentPattern, currentWValues, Method)
         for i = 1 : columns(CurrentPattern)
             accum = accum + CurrentPattern(i) * currentWValues(i);
         endfor
-        # Apply th
-        if (Method == 0) # Escalon
+        % Apply th
+        if (Method == 0) % Escalon
           if (accum >= 0)
             value = 1;
           else
             value = -1;
           endif
-        elseif (Method == 1) # Sigmoidea
-          value = 1 / (1 + exp(-accum/1)); # El 1 denominador de accum es la "amplitud" en x de la funcion.
-        elseif(Method == 2) # Lineal
+        elseif (Method == 1) % Sigmoidea
+          value = 1 / (1 + exp(-accum/1)); % El 1 denominador de accum es la "amplitud" en x de la funcion.
+        elseif(Method == 2) % Lineal
             value = accum;
         endif
 endfunction

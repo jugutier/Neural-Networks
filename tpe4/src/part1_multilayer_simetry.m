@@ -11,16 +11,16 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	MAX_EPOC = max_epocs;
 	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
-	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
+	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); %add threshold			 	
  	inputNodes = columns(Input)		;
 	outputNodes = columns(ExpectedOutput)		;	 	
-	unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		;#1
-	connectedUnits = [0 HiddenUnitsPerLvl 1]							;#2
-	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]							;#3
-	levels = columns(unitsPerlevel)										;#4
+	unitsPerlevel =[inputNodes+1 HiddenUnitsPerLvl.+1 outputNodes]		;%1
+	connectedUnits = [0 HiddenUnitsPerLvl 1]							;%2
+	HiddenUnitsPerLvl = [0 HiddenUnitsPerLvl 0]							;%3
+	levels = columns(unitsPerlevel)										;%4
 	if(rows(wValues)==0)			
-		#INITIALIZE WEIGHTS
-		wValues = cell(levels,1);	###wValues: connections between 'i' layer and the i-1 one, lvl 1 has NO wValues		
+		%INITIALIZE WEIGHTS
+		wValues = cell(levels,1);	%%%wValues: connections between 'i' layer and the i-1 one, lvl 1 has NO wValues		
 		for i=1:levels-1
 			wValues{i+1} = rand(connectedUnits(i+1),unitsPerlevel(i));
 		endfor
@@ -40,7 +40,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	etaDecrement = ETA*0.025;
 	etaIncrement = ETA*0.25;
 	currK=0;
-	K=5;##maximum number of steps before changing adaptative ETA
+	K=5;%%maximum number of steps before changing adaptative ETA
 	errorMedio=0;
 	errorMedioPromedio = 0;
 	errorMedioPromedioAnterior = 0;		
@@ -48,7 +48,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	MIN_LEARN_RATE = 0.7;
 	
 
-	##START EPOC
+	%%START EPOC
 	while(hasLearnt != 1 && epocs < MAX_EPOC)
 		epocs ++;
 		hit=0;
@@ -64,7 +64,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 
 			hValues{1} = currentPattern;
 
-			## FEED FORWARD
+			%% FEED FORWARD
 			for j=1:levels-1
 
 				currentLvlWValues = wValues{j+1} 		;
@@ -83,7 +83,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 			endfor  
 
 			outputValues = vValues{levels};
-			## END FEED FORWARD
+			%% END FEED FORWARD
 
 			errorMedio = .5*sum(power((outputValues - currentExpectedOutput),2));
 			erroresMedioPromedio = [erroresMedioPromedio errorMedio];		
@@ -99,14 +99,14 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 			
 			deltaValues{levels} =g_derivate(hj) *(currentExpectedOutput - outputValues );
 
-			## BACKPROPAGATION START
+			%% BACKPROPAGATION START
 			for k = levels :-1: 2		
 
-				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
+				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	%hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
 				
 				currentLvlWValues = wValues{k};  
 				
-				currentLvlWValues = currentLvlWValues(:,displacementIndexes)     	;	# ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
+				currentLvlWValues = currentLvlWValues(:,displacementIndexes)     	;	% ahora empiezo a volver entonces es desde la raiz hacia abajo, hacer el dibujo del arbol dado vuelta
 
 				h = hValues{k-1} 		;
 				
@@ -123,9 +123,9 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 				deltaValues{k-1} =   tempCurrentLvlDeltaValues ;
 
 			endfor 
-			##BACKPROPAGATION END
+			%%BACKPROPAGATION END
 
-			##CORRECT Ws
+			%%CORRECT Ws
 			for i=2:levels
 				currentLvlWValues = wValues{i}   		;
 				currentLvlVValues = vValues{i-1}  	;
@@ -139,9 +139,9 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 
 				oldCDeltaValues{i} = calculationWithDelta ;
 			endfor
-			##END CORRECT Ws
+			%%END CORRECT Ws
 		endfor
-		##END EPOC
+		%%END EPOC
 		currentLearnRate = hit/rows(Input);
 		if(currentLearnRate > MIN_LEARN_RATE) 
 			hasLearnt = 1;
@@ -177,6 +177,6 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		train_learning_rate = [train_learning_rate currentLearnRate] ; 
 
 	endwhile
-	##END TRAINING
+	%%END TRAINING
 	trainedNetwork = wValues;	
 endfunction

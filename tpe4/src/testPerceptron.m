@@ -8,9 +8,9 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 	hValues = cell(levels,1);
 	test_error = [];
 	error_dif = [];
-	learning_rate = 0;##hits over total training
+	learning_rate = 0;%%hits over total training
 	EPSILON = 0.001;	
-	##START TESTING
+	%%START TESTING
 	for i = 1:rows(TrainInput)
 		currentPattern = trainPatterns(i,:) 		;    
 
@@ -20,7 +20,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 
 		hValues{1} = currentPattern;
 
-		## FEED FORWARD
+		%% FEED FORWARD
 		for j=1:levels-1
 
 			currentLvlWValues = wValues{j+1} 		;
@@ -39,7 +39,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 		endfor  
 
 		outputValues = vValues{levels};
-		## END FEED FORWARD
+		%% END FEED FORWARD
 
 		error_current_dif = floor(abs(outputValues - currentExpectedOutput) * (1/EPSILON)) * EPSILON;
 		error_dif = [error_dif error_current_dif];
@@ -52,6 +52,6 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 			learning_rate++;
 		endif
 	endfor
-	##END TESTING
+	%%END TESTING
 	learning_rate = learning_rate /rows(TrainExpectedOutput);
 endfunction

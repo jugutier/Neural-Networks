@@ -1,29 +1,29 @@
 function run()
-	##ACTIVATION FUNCTIONS
-	##load hiperbolic_tangent.m
-	##load hiperbolic_tangent_derivative.m
-	##load expo.m
-	##load expo_derivative.m
+	%%ACTIVATION FUNCTIONS
+	%%load hiperbolic_tangent.m
+	%%load hiperbolic_tangent_derivative.m
+	%%load expo.m
+	%%load expo_derivative.m
 
-	##load part1_multilayer_simetry.m
-	##load data_import.m
-	##load resultsGraph.m
-	##load graphErrorHist.m
-	##load testPerceptron.m
+	%%load part1_multilayer_simetry.m
+	%%load data_import.m
+	%%load resultsGraph.m
+	%%load graphErrorHist.m
+	%%load testPerceptron.m
 
-	##g=0;
-	##g_derivative=0;
-	##hasLoaded = 0;
-	##reTrain = 0;
-	##hasTrained = 0;
-	##network = '';
+	%%g=0;
+	%%g_derivative=0;
+	%%hasLoaded = 0;
+	%%reTrain = 0;
+	%%hasTrained = 0;
+	%%network = '';
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
 		Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 - Backpropagation\n");
 	switch(option)
 		case 1
-			geneticOperator = 1; #Replace for @function
+			geneticOperator = 1; %Replace for @function
 		case 2
 			geneticOperator = 2;
 		case 3
@@ -46,7 +46,7 @@ function run()
 		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
 	switch(option)
 		case 1
-			selectionMethod = 1; #Replace for @function
+			selectionMethod = 1; %Replace for @function
 		case 2
 			selectionMethod = 2;
 		case 3
@@ -68,7 +68,7 @@ function run()
 		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
 	switch(option)
 		case 1
-			replacementCriterion = 1; #Replace for @function
+			replacementCriterion = 1; %Replace for @function
 		case 2
 			replacementCriterion = 2;
 		case 3
@@ -95,7 +95,7 @@ function run()
 	endif
 	switch(option)
 		case 1
-			replacementMethod = 1; #Replace for @function
+			replacementMethod = 1; %Replace for @function
 		case 2
 			replacementMethod = 2;
 		case 3
@@ -115,7 +115,7 @@ function run()
 	endif
 	switch(option)
 		case 1
-			finalizeCriterion = 1; #Replace for @function
+			finalizeCriterion = 1; %Replace for @function
 		case 2
 			finalizeCriterion = 2;
 		case 3
@@ -131,7 +131,7 @@ function run()
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
 
 
-	##Call function with all this variables as parameters
+	%%Call function with all this variables as parameters
 	
 	geneticOperator
 	selectionMethod
@@ -145,9 +145,9 @@ function run()
 
 
 	if(yes_or_no("do you want plots?"))
-		##figure(1);
-		##resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
-		##figure(2);
-		##graphErrorHist(error_dif);
+		%%figure(1);
+		%%resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
+		%%figure(2);
+		%%graphErrorHist(error_dif);
 	endif
 endfunction
