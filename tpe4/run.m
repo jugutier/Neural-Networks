@@ -20,7 +20,7 @@ function run()
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
-		Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 - Backpropagation");
+		Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 - Backpropagation\n");
 	switch(option)
 		case 1
 			geneticOperator = 1; #Replace for @function
@@ -43,7 +43,7 @@ function run()
 
 
 	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 \
-		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal");
+		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = 1; #Replace for @function
@@ -65,7 +65,7 @@ function run()
 
 
 	option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 \
-		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal");
+		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
 	switch(option)
 		case 1
 			replacementCriterion = 1; #Replace for @function
@@ -87,9 +87,11 @@ function run()
 
 
 	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 \
-		Method 3");
-	if(replacementMethod == 2 || replacementMethod == 3)
+		Method 3\n");
+	if(option == 2 || option == 3)
 		progenitorsNumber = input("How many progenitor selected?\n");
+	else
+		progenitorsNumber = nan
 	endif
 	switch(option)
 		case 1
@@ -105,9 +107,11 @@ function run()
 
 
 	option = input("When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
-		Content \n4 - around the optimun");
-	if(finalizeCriterion == 1)
+		Content \n4 - around the optimun\n");
+	if(option == 1)
 		maxGenerations = input("What should be the maximum number of generations?\n");
+	else
+		maxGenerations = inf
 	endif
 	switch(option)
 		case 1
