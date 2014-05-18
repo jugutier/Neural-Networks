@@ -1,7 +1,7 @@
 function [ out ] = genetic(operator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, individuals, mutationProbability)
 
-# Arquitectura a utilizar: [5 4]
-layers = [5 4];
+# Arquitectura a utilizar: [4 3]
+layers = [4 3];
 
 # Initialize the population with random values
 # Each individual is a matrix of weights (floats)
