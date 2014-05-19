@@ -1,28 +1,27 @@
-function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,HiddenUnitsPerLvl,Input, ExpectedOutput,g ,g_derivate)
+function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate)
 
-	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); %add threshold			 	
-	inputNodes = columns(Input)		;
-	outputNodes = columns(ExpectedOutput)		;
+	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); %add threshold			 	
+	inputNodes = columns(Input);
+	outputNodes = columns(ExpectedOutput);
 
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
 	population = cell(populationSize, 1);
 	for i = 1 : populationSize 
-		weights{i} = weightsGenerator(HiddenUnitsPerLvl,i); %Weights matrix for individual i
-		population{i} =  weightsArray(weights{i}); %Transform the matrix to an array
+		weights{i} = weightsGenerator(HiddenUnitsPerLvl, i); %Weights matrix for individual i
+		populationInArrays{i} =  weightsArray(weights{i}); %Transform the matrix to an array
 	endfor
 
 	%Re transform the array to matrix to verify its ok
-	for i = 1 : populationSize 
-		weights2{i} = weightsFromArray(population{i}, weights{i});
-	endfor
-
-	weights
-	population
-	weights2
+	%for i = 1 : populationSize 
+	%	weights2{i} = weightsFromArray(populationInArrays{i}, weights{i});
+	%endfor
+	%weights
+	%population
+	%weights2
 	
 	%Calculate the fitness for all the individuals in the population
-	fitnessAll = evaluateFitness(population,Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate);
+	fitnessAll = evaluateFitness(populationInArrays, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
 
 	%while (condicion de corte)
 	%	Seleccionar individuos para reproduccion
@@ -31,32 +30,33 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 	%	evaluar fitness de los individuos obtenidos
 	%	generar nueva poblacion
 
-	individualsToReproduce = selectionMethod(population, fitnessAll)
+	individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
 
 	while (!finalizeCriterion)
-		individualsToReproduce = chooseIndividuals(population, fitnessAll);
+		individualsToReproduce = chooseIndividuals(populationInArrays, fitnessAll);
 		newIndividuals = geneticOperator(individualsToReproduce);
 		newIndividuals = mutateIndividuals(newIndividuals);
 		evaluateFitness(newIndividuals);
-		population = generatePopulation(newIndividuals, evaluateFitness, population);
+		populationInArrays = generatePopulation(newIndividuals, evaluateFitness, populationInArrays);
 	endwhile
-	out = population
+
+	out = weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
 endfunction
 
 
 % Fitness function. Receives the population matrix and returns a new matrix with 
 % the values of the fitness for each individual
-function out = evaluateFitness(population, Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate) 
+function out = evaluateFitness(population, weightsModel, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate) 
 	individuals = (size(population))(1);
 	for i = 1 : individuals
-		out(i) =  1 / meanSquareError(Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate,population{i}); % How do we calculate the fitness for an individual
+		out(i) =  1 / meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i}); % How do we calculate the fitness for an individual
 	endfor
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function e = meanSquareError(Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate,Individual)
-	[test_error, learning_rate, error_dif] = testPerceptron( Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate,Individual);
-	e = learning_rate ;
+function e = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, Individual, weightsModel)
+	[test_error, learning_rate, error_dif] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, weightsFromArray(Individual, weightsModel));
+	e = learning_rate;
 endfunction
 
 function a = weightsArray(weights)
