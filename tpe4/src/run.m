@@ -1,13 +1,15 @@
 function run()
 	%%hasLoaded = 0;
 	%%network = '';
+	load eliteSelection.m;
+	load classicCrossover.m;
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
 -Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 -Backpropagation\n");
 	switch(option)
 		case 1
-			geneticOperator = 1; %Replace for @function
+			geneticOperator = @classicCrossover; %Replace for @function
 		case 2
 			geneticOperator = 2;
 		case 3
@@ -30,7 +32,7 @@ function run()
 -Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 	switch(option)
 		case 1
-			selectionMethod = 1; %Replace for @function
+			selectionMethod = @eliteSelection; %Replace for @function
 		case 2
 			selectionMethod = 2;
 		case 3
@@ -52,7 +54,7 @@ function run()
 -Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 	switch(option)
 		case 1
-			replacementCriterion = 1; %Replace for @function
+			replacementCriterion = @eliteSelection; %Replace for @function
 		case 2
 			replacementCriterion = 2;
 		case 3
@@ -111,7 +113,7 @@ function run()
 	endswitch
 
 
-	population = input("What should be the population size?\n");
+	populationSize = input("What should be the population size?\n");
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
 
 	hiddenUnitsPerLvl = [4 3];
@@ -128,11 +130,11 @@ function run()
 	progenitorsNumber
 	finalizeCriterion
 	maxGenerations
-	population
+	populationSize
 	mutationProbability
 
 
-	evolvedNetwork = genetic(operator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, individuals, mutationProbability,hiddenUnitsPerLvl,Input, ExpectedOutput,@hiperbolic_tangent,@hiperbolic_tangent_derivative)
+	evolvedNetwork = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,hiddenUnitsPerLvl,Input, ExpectedOutput,@hiperbolic_tangent,@hiperbolic_tangent_derivative)
 	[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,evolvedNetwork);
 					
 	if(yes_or_no("do you want plots?"))
