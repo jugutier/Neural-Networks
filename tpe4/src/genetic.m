@@ -12,7 +12,7 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 		populationInArrays{i} =  weightsArray(weights{i}); %Transform the matrix to an array
 	endfor
 
-	%Re transform the array to matrix to verify its ok
+	% Re transform the array to matrix to verify its ok
 	%for i = 1 : populationSize 
 	%	weights2{i} = weightsFromArray(populationInArrays{i}, weights{i});
 	%endfor
@@ -20,7 +20,7 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 	%population
 	%weights2
 	
-	%Calculate the fitness for all the individuals in the population
+	% Calculate the fitness for all the individuals in the population
 	fitnessAll = evaluateFitness(populationInArrays, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
 
 	%while (condicion de corte)
@@ -36,7 +36,8 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 		individualsToReproduce = chooseIndividuals(populationInArrays, fitnessAll);
 		newIndividuals = geneticOperator(individualsToReproduce);
 		newIndividuals = mutateIndividuals(newIndividuals);
-		evaluateFitness(newIndividuals);
+		% Train the new children
+		evaluateFitness(newIndividuals); %ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		populationInArrays = generatePopulation(newIndividuals, evaluateFitness, populationInArrays);
 	endwhile
 

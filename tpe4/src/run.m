@@ -135,7 +135,7 @@ function run()
 
 
 	evolvedNetwork = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,hiddenUnitsPerLvl,Input, ExpectedOutput,@hiperbolic_tangent,@hiperbolic_tangent_derivative)
-	[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,evolvedNetwork);
+	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
 					
 	if(yes_or_no("do you want plots?"))
 		%%figure(1);
