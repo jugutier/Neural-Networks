@@ -1,6 +1,8 @@
 function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate)
 
-	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); %add threshold			 	
+	% Add threshold
+	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); 			 	
+	
 	inputNodes = columns(Input);
 	outputNodes = columns(ExpectedOutput);
 
@@ -30,14 +32,19 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 	%	evaluar fitness de los individuos obtenidos
 	%	generar nueva poblacion
 
-	individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
+	% For testing the function because finalizeCriterion has not implemented yet
+	individualsToReproduce = selectionMethod(populationInArrays, fitnessAll); 
 
 	while (!finalizeCriterion)
-		individualsToReproduce = chooseIndividuals(populationInArrays, fitnessAll);
+		% Choose the individuals
+		individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
+		% Apply a genetic operator between individuals
 		newIndividuals = geneticOperator(individualsToReproduce);
+		% Apply any mutation to the new children
 		newIndividuals = mutateIndividuals(newIndividuals);
 		% Train the new children
-		evaluateFitness(newIndividuals); %ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		evaluateFitness(newIndividuals); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		% Obtain the new population
 		populationInArrays = generatePopulation(newIndividuals, evaluateFitness, populationInArrays);
 	endwhile
 
