@@ -8,11 +8,19 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 	% Each individual is a matrix of weights (floats)
 	population = cell(populationSize, 1);
 	for i = 1 : populationSize 
-		weights{i} = weightsArray(weightsGenerator(HiddenUnitsPerLvl,i));
-		population{i} = weights{i}; %Matriz de pesos para el individuo i
+		weights{i} = weightsGenerator(HiddenUnitsPerLvl,i); %Weights matrix for individual i
+		population{i} =  weightsArray(weights{i}); %Transform the matrix to an array
 	endfor
 
+	%Re transform the array to matrix to verify its ok
+	for i = 1 : populationSize 
+		weights2{i} = weightsFromArray(population{i}, weights{i});
+	endfor
 
+	weights
+	population
+	weights2
+	
 	%Calculate the fitness for all the individuals in the population
 	fitnessAll = evaluateFitness(population,Input,ExpectedOutput,HiddenUnitsPerLvl,g,g_derivate);
 
@@ -53,14 +61,18 @@ endfunction
 
 function a = weightsArray(weights)
 	a = [];
-	for i = 1 : size(weights)
-		a = [a toArray(weights(i))];
+	for i = 1 : size(weights)(1)
+		a = [a weights{i}(:)'];
 	endfor
 endfunction
 
 function w = weightsFromArray(weightsArray, weightsModel)
-	for i = 1 : size(weightsModel)
-
-		%w{i} = 
+	j = 1;
+	w = cell(size(weightsModel)(1),1);
+	for i = 1 : size(weightsModel)(1)
+		values = weightsArray(j : (j + (size(weightsModel{i})(1) * size(weightsModel{i})(2)) - 1) );
+		w{i} = reshape(values, size(weightsModel{i})(1), size(weightsModel{i})(2));
+		
+		j = j + size(weightsModel{i})(1) * size(weightsModel{i})(2);
 	endfor
 endfunction
