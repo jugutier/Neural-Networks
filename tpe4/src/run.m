@@ -1,26 +1,10 @@
 function run()
-	%%ACTIVATION FUNCTIONS
-	%%load hiperbolic_tangent.m
-	%%load hiperbolic_tangent_derivative.m
-	%%load expo.m
-	%%load expo_derivative.m
-
-	%%load part1_multilayer_simetry.m
-	%%load data_import.m
-	%%load resultsGraph.m
-	%%load graphErrorHist.m
-	%%load testPerceptron.m
-
-	%%g=0;
-	%%g_derivative=0;
 	%%hasLoaded = 0;
-	%%reTrain = 0;
-	%%hasTrained = 0;
 	%%network = '';
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
-		Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 - Backpropagation\n");
+-Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 -Backpropagation\n");
 	switch(option)
 		case 1
 			geneticOperator = 1; %Replace for @function
@@ -43,7 +27,7 @@ function run()
 
 
 	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 \
-		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
+-Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = 1; %Replace for @function
@@ -65,7 +49,7 @@ function run()
 
 
 	option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 \
-		Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 - Elite+Universal\n");
+-Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 	switch(option)
 		case 1
 			replacementCriterion = 1; %Replace for @function
@@ -87,7 +71,7 @@ function run()
 
 
 	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 \
-		Method 3\n");
+-Method 3\n");
 	if(option == 2 || option == 3)
 		progenitorsNumber = input("How many progenitor selected?\n");
 	else
@@ -107,7 +91,7 @@ function run()
 
 
 	option = input("When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
-		Content \n4 - around the optimun\n");
+-Content \n4 -Around the optimun\n");
 	if(option == 1)
 		maxGenerations = input("What should be the maximum number of generations?\n");
 	else
@@ -130,7 +114,11 @@ function run()
 	population = input("What should be the population size?\n");
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
 
-
+	hiddenUnitsPerLvl = [4 3];
+	functiondataFilename = '../samples8.txt';%TODO: add to wizard
+	[data testData] = data_import(functiondataFilename , 0.6,1);
+	Input = data(:,[1 2]);
+	ExpectedOutput = data(:,3);
 	%%Call function with all this variables as parameters
 	
 	geneticOperator
@@ -144,6 +132,9 @@ function run()
 	mutationProbability
 
 
+	evolvedNetwork = genetic(operator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, individuals, mutationProbability,hiddenUnitsPerLvl,Input, ExpectedOutput,@hiperbolic_tangent,@hiperbolic_tangent_derivative)
+	[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,evolvedNetwork);
+					
 	if(yes_or_no("do you want plots?"))
 		%%figure(1);
 		%%resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);

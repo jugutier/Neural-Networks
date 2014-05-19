@@ -1,4 +1,4 @@
-function weightsGenerator(HiddenUnitsPerLvl)
+function network = weightsGenerator(HiddenUnitsPerLvl,i)
 	unitsPerlevel =[3 HiddenUnitsPerLvl.+1 1]		;%1
 	connectedUnits = [0 HiddenUnitsPerLvl 1]							;%2
 	levels = columns(unitsPerlevel)										;%4
@@ -7,7 +7,7 @@ function weightsGenerator(HiddenUnitsPerLvl)
 	for i=1:levels-1
 		wValues{i+1} = -0.5+rand(connectedUnits(i+1),unitsPerlevel(i));
 	endfor
-	trainedNetwork = wValues;
+	network = wValues;
 	hiddenUnitsPerLvl = HiddenUnitsPerLvl;
-	save('generatedWeights.dump','trainedNetwork' ,'hiddenUnitsPerLvl' );
+	save(strcat('initialNetwork',i,'.nnet'),'trainedNetwork' ,'hiddenUnitsPerLvl' );
 endfunction
