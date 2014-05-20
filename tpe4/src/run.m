@@ -1,8 +1,12 @@
 function run()
 	%%hasLoaded = 0;
 	%%network = '';
+	addpath('selectionMethods')
+	addpath('geneticOperators')
+	addpath('finalizeCriterions')
 	load eliteSelection.m;
 	load classicCrossover.m;
+	load maxGenerations.m;
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
@@ -101,7 +105,7 @@ function run()
 	endif
 	switch(option)
 		case 1
-			finalizeCriterion = 1; %Replace for @function
+			finalizeCriterion = @maxGenerations; %Replace for @function
 		case 2
 			finalizeCriterion = 2;
 		case 3
