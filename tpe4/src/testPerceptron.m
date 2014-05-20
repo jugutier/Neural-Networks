@@ -1,4 +1,10 @@
-function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
+%
+%@return
+%test_error (arrayy) error between each input and expected output
+%learning_rate percentage of hits
+%mean_error 
+%
+function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
 	inputNodes = columns(TrainInput)		;
 	outputNodes = columns(TrainExpectedOutput)		;
 	wValues = Network;
@@ -7,7 +13,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 	vValues = cell(levels,1);
 	hValues = cell(levels,1);
 	test_error = [];
-	error_dif = [];
+	mean_error = 0;
 	learning_rate = 0;%%hits over total training
 	EPSILON = 0.001;	
 	%%START TESTING
@@ -41,10 +47,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 		outputValues = vValues{levels};
 		%% END FEED FORWARD
 
-		error_current_dif = floor(abs(outputValues - currentExpectedOutput) * (1/EPSILON)) * EPSILON;
-		error_dif = [error_dif error_current_dif];
-
-		errorMedioTest = .5*sum(power((outputValues - currentExpectedOutput),2));
+		errorMedioTest = power((outputValues - currentExpectedOutput),2);
 
 		test_error = [test_error errorMedioTest];
 
@@ -53,5 +56,6 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 		endif
 	endfor
 	%%END TESTING
+	mean_error = sum(test_error) / (2* rows(TrainExpectedOutput));
 	learning_rate = learning_rate /rows(TrainExpectedOutput);
 endfunction
