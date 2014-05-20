@@ -79,7 +79,11 @@ function run()
 	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 \
 -Method 3\n");
 	if(option == 2 || option == 3)
-		progenitorsNumber = input("How many progenitor selected?\n");
+		progenitorsNumber = input("How many progenitor selected? (even number)\n");
+		if(mod(progenitorsNumber,2) != 0)
+			printf('ERROR: PROGENITORS NUMBER MUST BE AN EVEN NUMBER\n');
+			exit();
+		endif
 	else
 		progenitorsNumber = nan
 	endif
@@ -119,12 +123,16 @@ function run()
 
 	populationSize = input("What should be the population size?\n");
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
+	crossoverProbability = input("What should be the crossover probability? (0.0 <= p <= 1.0)\n");
+	backpropagationProbability = input("What should be the backpropagation probability? (0.0 <= p <= 1.0)\n");
 
 	hiddenUnitsPerLvl = [4 3];
 	functiondataFilename = '../samples8.txt';%TODO: add to wizard
 	[data testData] = data_import(functiondataFilename , 0.6,1);
 	Input = data(:,[1 2]);
 	ExpectedOutput = data(:,3);
+	TestInput = testData(:,[1 2]);
+	TestExpectedOutput = testData(:,3);
 	%%Call function with all this variables as parameters
 	
 	geneticOperator
@@ -136,9 +144,10 @@ function run()
 	maxGenerations
 	populationSize
 	mutationProbability
+	crossoverProbability
+	backpropagationProbability
 
-
-	evolvedNetwork = genetic(geneticOperator, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,hiddenUnitsPerLvl,Input, ExpectedOutput,@hiperbolic_tangent,@hiperbolic_tangent_derivative)
+	evolvedNetwork = genetic(geneticOperator, crossoverProbability, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
 	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
 					
 	if(yes_or_no("do you want plots?"))

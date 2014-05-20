@@ -9,5 +9,5 @@ function network = weightsGenerator(HiddenUnitsPerLvl,i)
 	endfor
 	network = wValues;
 	hiddenUnitsPerLvl = HiddenUnitsPerLvl;
-	save(strcat('initialNetwork',i,'.nnet'),'network' ,'hiddenUnitsPerLvl' );
+	save(strcat('initialNetwork',num2str(i),'.nnet'),'network' ,'hiddenUnitsPerLvl' );
 endfunction

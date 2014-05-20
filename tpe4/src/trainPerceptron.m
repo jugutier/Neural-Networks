@@ -9,7 +9,7 @@
 %trainedNetwork the trained network
 %
 %
-function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork] = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
+function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trainedNetwork] = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs, probability)
 	startTime = time();
 	wValues = Network;
 	ETA = 0.1;
@@ -60,8 +60,11 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 	%%START EPOC
 	while(hasLearnt != 1 && epocs < MAX_EPOC)
 		epocs ++;
-		hasLearnt = 1;
+		hasLearnt = 0;
 		epocStartTime = time();	
+		if(rand() > probability)
+			continue ;
+		endif
 		for i = 1:rows(testPatterns)
 			currentPattern = testPatterns(i,:) 		;    
 
@@ -158,8 +161,8 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs ,trai
 		[train_err, currentLearnRate,mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl_, g ,g_derivate, wValues);
 		elapsedTime = time() - startTime;
 		elapsedEpocTime = time() - epocStartTime;
-		printf('\n\n\nEpoca: %d - ErrorCuadraticoMedio: %.10f eta %f trainLrate %f \ntiempoTotal %f tiempoEpoca %f',epocs,mean_error,ETA,currentLearnRate,elapsedTime,elapsedEpocTime);
-		fflush();
+		printf('\nEpoca: %d - ErrorCuadraticoMedio: %.10f eta %.2f trainLrate %f \ntiempoTotal %f tiempoEpoca %f\n',epocs,mean_error,ETA,currentLearnRate,elapsedTime,elapsedEpocTime);
+		fflush(stdout);
 		eta_adaptation = [eta_adaptation ETA] ;
 		train_error = [train_error mean_error];
 		train_learning_rate = [train_learning_rate currentLearnRate] ; 
