@@ -34,7 +34,7 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 
 	% For testing the function because finalizeCriterion has not implemented yet
 	individualsToReproduce = selectionMethod(populationInArrays, fitnessAll)
-	[new1 new2] = classicCrossover(individualsToReproduce{1}, individualsToReproduce{2})
+	out = classicCrossover(individualsToReproduce{1}, individualsToReproduce{2})
 	% End testing zone
 
 	generation = 1;
@@ -42,13 +42,14 @@ function out  = genetic(geneticOperator, selectionMethod, replacementCriterion, 
 		% Choose the individuals
 		individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
 		% Apply a genetic operator between individuals
-		newIndividuals = geneticOperator(individualsToReproduce);
+		newIndividuals = geneticOperator(individualsToReproduce{1},individualsToReproduce{2});
 		% Apply any mutation to the new children
 		%newIndividuals = mutateIndividuals(newIndividuals, mutationProbability);
 		% Train the new children
-		%evaluateFitness(newIndividuals); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		% Obtain the new population
 		%populationInArrays = generatePopulation(newIndividuals, evaluateFitness, populationInArrays);
+		generation++;
 	endwhile
 
 	out = weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
