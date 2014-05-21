@@ -11,22 +11,10 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	population = cell(populationSize, 1);
 	for i = 1 : populationSize 
 		%Weights matrix for individual i (trained)
-		weights{i} = trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, backpropagationProbability);
+		weights{i} = weightsGenerator(HiddenUnitsPerLvl, i);
 		%Transform the matrix to an array
 		populationInArrays{i} =  weightsArray(weights{i}); 
 	endfor
-
-
-	% Re transform the array to matrix to verify its ok
-	%for i = 1 : populationSize 
-	%	weights2{i} = weightsFromArray(populationInArrays{i}, weights{i});
-	%endfor
-	%weights
-	%population
-	%weights2
-	
-	% Calculate the fitness for all the individuals in the population
-	fitnessAll = evaluateFitness(populationInArrays, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput);
 
 	%while (condicion de corte)
 	%	Seleccionar individuos para reproduccion
@@ -35,15 +23,27 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	%	evaluar fitness de los individuos obtenidos
 	%	generar nueva poblacion
 
-	% For testing the function because finalizeCriterion has not implemented yet
-	%individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
-	%out = classicCrossover(individualsToReproduce{1}, individualsToReproduce{2});
-	% End testing zone
-
+	fitnessAll = [];
+	indexes = 1:populationSize;
 	generation = 1;
 	while (finalizeCriterion(generation, maxGenerations))
 		printf('Generation %d>',generation);
 		fflush(stdout);
+		% Train the newborns
+		printf('Training newborns & calculating fitness... ');
+		fflush(stdout);
+		tic
+		for i =1 : length(newborns)
+			currentIndex = indexes(i);
+			currentNewborn = weights{currentIndex};
+			trainedNewborn = trainNetwork(currentNewborn, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, backpropagationProbability);
+			weights{currentIndex} = trainedNewborn;
+			populationInArrays{currentIndex} =  weightsArray(trainedNewborn);
+			% Calculate the fitness for the newborn
+			fitnessNewborn = evaluateFitness(trainedNewborn, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput);
+			fitnessAll(currentIndex) = fitnessNewborn;
+		endfor
+		toc
 		% Choose the individuals
 		printf('Selecting... ');
 		fflush(stdout);
@@ -75,34 +75,31 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
-		[populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
+		[populationInArrays  populationInArraysFitness indexes]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 	endwhile
 
-	out = weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
+	out = weights{1};%weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
 endfunction
 
 
-% Fitness function. Receives the population matrix and returns a new matrix with 
-% the values of the fitness for each individual
-function out = evaluateFitness(population, weightsModel, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput) 
-	individuals = (size(population))(2);
-	for i = 1 : individuals
+% Fitness function. Receives the individual (as a network) and returns
+% a scalar value with its fitness
+function out = evaluateFitness(IndividualWeights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput) 
 		% One option is to add the two errors
 		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
 		% e2 = meanSquareError(TestInput, TestExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
 		% Now calculate the fitness for an individual
 		% out(i) =  1 / (e1 + e2); 
 		% The other option is to pass all the input together and calculate that error
-		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
+		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], HiddenUnitsPerLvl, g, g_derivate,IndividualWeights);
 		% Now calculate the fitness for an individual
-		out(i) =  1 / e1; 
-	endfor
+		out =  1 / e1; 
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function mean_error = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, Individual, weightsModel)
-	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, weightsFromArray(Individual, weightsModel));
+function mean_error = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, IndividualWeights)
+	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, IndividualWeights);
 endfunction
 
 function a = weightsArray(weights)
