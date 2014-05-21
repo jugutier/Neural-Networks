@@ -1,3 +1,4 @@
-function out = method1(newIndividuals,individualsToReproduce, populationInArrays,replacementCriterion)
- out = [newIndividuals populationInArrays];
+function [populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
+	populationInArrays = [newIndividuals populationInArrays];
+	populationInArraysFitness = [newIndividualsFitenss populationInArraysFitness];
 endfunction

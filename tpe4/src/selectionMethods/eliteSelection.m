@@ -1,8 +1,10 @@
-function [individualsToReproduce populationInArrays] = eliteSelection(population, populationFitness, progenitorsNumber)
-    [sorted indexes] = sort(populationFitness, 'descend');
+function [individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = eliteSelection(population, populationFitness, progenitorsNumber)
+    [sortedFitness indexes] = sort(populationFitness, 'descend');
     n = (size(population))(2);
-    for i = 1 : progenitorsNumber
-        individualsToReproduce(i) = population(indexes(i));
-    end
-    populationInArrays = population(indexes(progenitorsNumber:length(indexes)));
+    selectedIndexes = indexes(1 : progenitorsNumber);
+    remainingIndexes = indexes(progenitorsNumber+1:n);
+    individualsToReproduce = population(selectedIndexes);
+    individualsToReproduceFitness = sortedFitness(1:progenitorsNumber);
+    populationInArrays = population(remainingIndexes);
+    populationInArraysFitness = sortedFitness(progenitorsNumber+1:n);
 end
