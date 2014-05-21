@@ -1,4 +1,4 @@
-function out  = genetic(crossOver, crossoverProbability, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
+function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
 
 	% Add threshold
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); 			 	
@@ -66,7 +66,7 @@ function out  = genetic(crossOver, crossoverProbability, backpropagationProbabil
 		% Apply any mutation to the new children
 		printf('Mutating the individuals... ');
 		fflush(stdout);
-		newIndividuals = mutateIndividuals(newIndividuals, mutationProbability);
+		newIndividuals = mutationMethod(newIndividuals, mutationProbability);
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
 		fflush(stdout);
