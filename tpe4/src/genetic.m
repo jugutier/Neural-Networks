@@ -36,8 +36,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	%	generar nueva poblacion
 
 	% For testing the function because finalizeCriterion has not implemented yet
-	individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
-	out = classicCrossover(individualsToReproduce{1}, individualsToReproduce{2});
+	%individualsToReproduce = selectionMethod(populationInArrays, fitnessAll);
+	%out = classicCrossover(individualsToReproduce{1}, individualsToReproduce{2});
 	% End testing zone
 
 	generation = 1;
@@ -47,13 +47,13 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Choose the individuals
 		printf('Selecting... ');
 		fflush(stdout);
-		% Select k population is N-k now
-		[individualsToReproduce populationInArrays] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
+		% Select k,            population is N-k now
+		[individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
 		% Shuffle the individuals to reproduce 
         n = rand(length(individualsToReproduce),1); 
         [garbage index] = sort(n); 
         individualsToReproduce = individualsToReproduce(index); 
-		% Apply a genetic operator between individuals
+		% Apply crossover between individuals
 		printf('Apply operator... ');
 		fflush(stdout);
 		newIndividuals = [];
@@ -71,11 +71,11 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
 		fflush(stdout);
-		evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		newIndividualsFitenss = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
-		populationInArrays = replacementMethod(newIndividuals,individualsToReproduce, populationInArrays);
+		[populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 	endwhile
 
