@@ -6,26 +6,29 @@ function run()
 	addpath('finalizeCriterions')
 	load eliteSelection.m;
 	load classicCrossover.m;
+	load twoPointCrossover.m;
+	load uniformCrossover.m;
+	load anularCrossover.m;
 	load maxGenerations.m;
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
--Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Not uniform mutation \n7 -Backpropagation\n");
+-Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Non uniform mutation \n7 -Backpropagation\n");
 	switch(option)
 		case 1
 			geneticOperator = @classicCrossover; %Replace for @function
 		case 2
-			geneticOperator = 2;
+			geneticOperator = @twoPointCrossover;
 		case 3
-			geneticOperator = 3;
+			geneticOperator = @uniformCrossover;
 		case 4
-			geneticOperator = 4;
+			geneticOperator = @anularCrossover;
 		case 5
-			geneticOperator = 5;
+			geneticOperator = @classicMutation; %TODO
 		case 6
-			geneticOperator = 6;
+			geneticOperator = @nonUniformMutation; %TODO
 		case 7
-			geneticOperator = 7;
+			geneticOperator = @Backpropagation; %TODO
 		otherwise
 			disp("error, please try again")
 	endswitch

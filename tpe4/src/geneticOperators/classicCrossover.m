@@ -4,7 +4,7 @@ function out = classicCrossover(individual1, individual2)
 	locus = randi([1 individualsSize],1);
 	desc1 = [];
 	desc2 = [];
-	for i = 1 : locus - 1
+	for i = 1 : locus-1
 		desc1 = [desc1 individual1(i)];
 		desc2 = [desc2 individual2(i)];
 	endfor
