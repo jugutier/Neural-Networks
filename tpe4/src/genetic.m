@@ -1,18 +1,10 @@
 function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
-
-	% Add threshold
-	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); 			 	
-	
-	inputNodes = columns(Input);
-	outputNodes = columns(ExpectedOutput);
-
 	% Initialize the population with random values
-	% Each individual is a matrix of weights (floats)
+	% Each individual is a list of weight matrixes (floats)
 	population = cell(populationSize, 1);
 	for i = 1 : populationSize 
-		%Weights matrix for individual i (trained)
+		%Transform the individual to an array
 		weights{i} = weightsGenerator(HiddenUnitsPerLvl, i);
-		%Transform the matrix to an array
 		populationInArrays{i} =  weightsArray(weights{i}); 
 	endfor
 
@@ -35,8 +27,10 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		tic
 		for i =1 : length(newborns)
 			currentIndex = indexes(i);
-			currentNewborn = weights{currentIndex};
-			trainedNewborn = trainNetwork(currentNewborn, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, backpropagationProbability);
+			currentNewbornOldWeights = weights{currentIndex};
+			currentNewborn = populationInArrays{index};
+			currentNewbornNewWeights = weightsFromArray(currentNewborn, currentNewbornOldWeights);
+			trainedNewborn = trainNetwork(currentNewbornNewWeights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, backpropagationProbability);
 			weights{currentIndex} = trainedNewborn;
 			populationInArrays{currentIndex} =  weightsArray(trainedNewborn);
 			% Calculate the fitness for the newborn
