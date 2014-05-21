@@ -12,27 +12,31 @@ function run()
 	load maxGenerations.m;
 
 	disp("Welcome to the genetic algorithm wizard\n")
-	option = input("Which genetic operator? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
--Uniform crossover \n4 -Anular crossover \n5 -Classic mutation \n6 -Non uniform mutation \n7 -Backpropagation\n");
+	option = input("Which crossover method? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
+-Uniform crossover \n4 -Anular crossover \n");
 	switch(option)
 		case 1
-			geneticOperator = @classicCrossover; %Replace for @function
+			crossoverMethod = @classicCrossover; %Replace for @function
 		case 2
 			geneticOperator = @twoPointCrossover;
 		case 3
 			geneticOperator = @uniformCrossover;
 		case 4
 			geneticOperator = @anularCrossover;
-		case 5
-			geneticOperator = @classicMutation; %TODO
-		case 6
-			geneticOperator = @nonUniformMutation; %TODO
-		case 7
-			geneticOperator = @Backpropagation; %TODO
 		otherwise
 			disp("error, please try again")
 	endswitch
 
+
+	option = input("Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n");
+	switch(option)
+		case 1
+			mutationMethod = @classicMutation; %TODO
+		case 2
+			mutationMethod = @nonUniformMutation; %TODO
+		otherwise
+			disp("error, please try again")
+	endswitch
 
 
 	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 \
@@ -88,7 +92,7 @@ function run()
 			exit();
 		endif
 	else
-		progenitorsNumber = nan
+		progenitorsNumber = nan;
 	endif
 	switch(option)
 		case 1
@@ -100,7 +104,6 @@ function run()
 		otherwise
 			disp("error, please try again")
 	endswitch
-
 
 
 	option = input("When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
@@ -138,7 +141,8 @@ function run()
 	TestExpectedOutput = testData(:,3);
 	%%Call function with all this variables as parameters
 	
-	geneticOperator
+	crossoverMethod
+	mutationMethod
 	selectionMethod
 	replacementCriterion
 	replacementMethod
@@ -150,7 +154,7 @@ function run()
 	crossoverProbability
 	backpropagationProbability
 
-	evolvedNetwork = genetic(geneticOperator, crossoverProbability, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
+	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
 	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
 					
 	if(yes_or_no("do you want plots?"))
