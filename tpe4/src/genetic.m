@@ -47,7 +47,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Choose the individuals
 		printf('Selecting... ');
 		fflush(stdout);
-		individualsToReproduce = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
+		% Select k population is N-k now
+		[individualsToReproduce populationInArrays] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
 		% Shuffle the individuals to reproduce 
         n = rand(length(individualsToReproduce),1); 
         [garbage index] = sort(n); 
@@ -74,7 +75,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
-		populationInArrays = replacementMethod(newIndividuals, populationInArrays);
+		populationInArrays = replacementMethod(newIndividuals,individualsToReproduce, populationInArrays);
 		generation++;
 	endwhile
 

@@ -1,15 +1,17 @@
 function run()
 	%%hasLoaded = 0;
 	%%network = '';
-	addpath('selectionMethods')
-	addpath('geneticOperators')
+	addpath('crossOver')
+	addpath('selectionMethods')	
 	addpath('finalizeCriterions')
+	addpath('replacementMethod')
 	load eliteSelection.m;
 	load classicCrossover.m;
 	load twoPointCrossover.m;
 	load uniformCrossover.m;
 	load anularCrossover.m;
 	load maxGenerations.m;
+	load method1.m;
 
 	disp("Welcome to the genetic algorithm wizard\n")
 	option = input("Which crossover method? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
@@ -96,7 +98,7 @@ function run()
 	endif
 	switch(option)
 		case 1
-			replacementMethod = 1; %Replace for @function
+			replacementMethod = @method1; %Replace for @function
 		case 2
 			replacementMethod = 2;
 		case 3
