@@ -49,7 +49,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		newIndividuals =  cell(progenitorsNumber/2, 1);
 		for i = 1 : 2 : progenitorsNumber
 			if(rand() <= crossoverProbability)
-				out = crossOver(individualsToReproduce{i},individualsToReproduce{i+1})
+				out = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
 				newIndividuals{i} = out{1};
 				newIndividuals{i+1} = out{2}; 
 			else
@@ -123,7 +123,10 @@ endfunction
 
 function w = weightsFromArray(weightsArray, weightsModel)
 	j = 1;
-	floors = size(weightsModel)(1)
+	floors = size(weightsModel)(1);
+	if(floors!=4)
+		printf('WARNING: floors is not 4, did you change the structure?');
+	endif
 	w = cell(floors,1);
 	for i = 1 : floors
 		currentN = size(weightsModel{i})(1);
