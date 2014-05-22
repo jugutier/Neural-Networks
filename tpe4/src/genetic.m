@@ -18,7 +18,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	weightsStructure = weights{1};
 	
 	% Calculate the fitness for all the individuals in the population
-	fitnessAll = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
+	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
 
 	%while (condicion de corte)
 	%	Seleccionar individuos para reproduccion
@@ -59,7 +59,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
 		fflush(stdout);
-		newIndividualsFitenss = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
