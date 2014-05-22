@@ -4,7 +4,7 @@ function out = classicMutation(individualWeights, mutationProbability)
 
 	for i = 1 : individualWeightsSize
 		randomNumber = rand();
-		if (randomNumber < crossoverProbability)
+		if (randomNumber < mutationProbability)
 			max = individualWeights(i) * 1.1;
 			min = individualWeights(i) * 0.9;
 			newWeight = rem(randomNumber,(max-min)+min);
