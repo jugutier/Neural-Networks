@@ -61,7 +61,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Mutating the individuals... ');
 		fflush(stdout);
 		tic
-		for i = 1 : newIndividuals
+		for i = 1 : length(newIndividuals)
 			if(rand() < mutationProbability)
 				newIndividuals = mutationMethod(newIndividuals{i}, alleleMutationProbability);
 			endif
