@@ -46,7 +46,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Apply operator... ');
 		fflush(stdout);
 		tic
-		newIndividuals =  cell(progenitorsNumber/2, 1);
+		newIndividuals =  cell(progenitorsNumber, 1);
 		for i = 1 : 2 : progenitorsNumber
 			if(rand() <= crossoverProbability)
 				out = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
@@ -62,7 +62,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Mutating the individuals... ');
 		fflush(stdout);
 		tic
-		for i = 1 : length(newIndividuals)-1
+		for i = 1 : (length(newIndividuals)-1)
 			if(rand() < mutationProbability)
 				newIndividuals = mutationMethod(newIndividuals{i}, alleleMutationProbability);
 			endif
@@ -82,8 +82,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		generation++;
 		toc
 	endwhile
-	[garbage index] = max(populationInArraysFitness);
-	out = weightsFromArray(populationInArrays{index}, weightsStructure);
+	[garbage index_] = max(populationInArraysFitness);
+	out = weightsFromArray(populationInArrays{index_}, weightsStructure);
 endfunction
 
 
@@ -139,7 +139,7 @@ function w = weightsFromArray(weightsArray, weightsModel)
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
-	max_epocs = 100;
+	max_epocs = 10;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 0;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
