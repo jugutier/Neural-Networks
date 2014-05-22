@@ -133,9 +133,9 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	endswitch
 
 
-	populationSize = input("What should be the population size? (greater or equal than progenitors number)\n");
-	if(populationSize<progenitorsNumber)
-		printf('ERROR: POPULATION MUST BE GREATER OR EQUAL TO PROGENITORS NUMBER\n');
+	populationSize = input("What should be the population size? (greater than progenitors number)\n");
+	if(populationSize <= progenitorsNumber)
+		printf('ERROR: POPULATION MUST BE GREATER THAN PROGENITORS NUMBER\n');
 		exit();
 	endif
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
