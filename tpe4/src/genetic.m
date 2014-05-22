@@ -64,7 +64,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
 		fflush(stdout);
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
