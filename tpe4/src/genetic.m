@@ -29,7 +29,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		for i =1 : newbornsCount
 			currentIndex = indexes(i);
 			currentNewbornOldWeights = weights{currentIndex};
-			currentNewborn = populationInArrays{index};
+			currentNewborn = populationInArrays{currentIndex};
 			currentNewbornNewWeights = weightsFromArray(currentNewborn, currentNewbornOldWeights);
 			trainedNewborn = trainNetwork(currentNewbornNewWeights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, backpropagationProbability);
 			weights{currentIndex} = trainedNewborn;
@@ -46,8 +46,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		[individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
 		% Shuffle the individuals to reproduce 
         n = rand(length(individualsToReproduce),1); 
-        [garbage index] = sort(n); 
-        individualsToReproduce = individualsToReproduce(index); 
+        [garbage index_] = sort(n); 
+        individualsToReproduce = individualsToReproduce(index_); 
 		% Apply crossover between individuals
 		printf('Apply operator... ');
 		fflush(stdout);

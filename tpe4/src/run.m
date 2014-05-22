@@ -147,18 +147,18 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	TestExpectedOutput = testData(:,3);
 	%%Call function with all this variables as parameters
 	
-	crossoverMethod
-	mutationMethod
-	selectionMethod
-	replacementCriterion
-	replacementMethod
-	progenitorsNumber
-	finalizeCriterion
-	maxGenerations
-	populationSize
-	mutationProbability
-	crossoverProbability
-	backpropagationProbability
+	%crossoverMethod
+	%mutationMethod
+	%selectionMethod
+	%replacementCriterion
+	%replacementMethod
+	%progenitorsNumber
+	%finalizeCriterion
+	%maxGenerations
+	%populationSize
+	%mutationProbability
+	%crossoverProbability
+	%backpropagationProbability
 
 	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
 	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
