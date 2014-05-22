@@ -44,12 +44,15 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Apply crossover between individuals
 		printf('Apply operator... ');
 		fflush(stdout);
-		newIndividuals = [];
+		newIndividuals =  cell(progenitorsNumber/2, 1);
 		for i = 1 : 2 : progenitorsNumber
 			if(rand() <= crossoverProbability)
-				newIndividuals = [newIndividuals crossOver(individualsToReproduce{i},individualsToReproduce{i+1})];
+				out = crossOver(individualsToReproduce{i},individualsToReproduce{i+1})
+				newIndividuals{i} = out{1};
+				newIndividuals{i+1} = out{2}; 
 			else
-				newIndividuals = [newIndividuals individualsToReproduce{i} individualsToReproduce{i+1}];%TODO: ask: this ones get chances of backpropagation again?
+				newIndividuals{i} = individualsToReproduce{i};
+				newIndividuals{i+1} = individualsToReproduce{i+1};
 			endif
 		endfor
 		% Apply any mutation to the new children
