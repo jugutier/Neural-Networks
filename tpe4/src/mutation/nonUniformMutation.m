@@ -1,10 +1,10 @@
-function out = nonUniformMutation(individualWeights, mutationProbability)
+function out = nonUniformMutation(individualWeights, alleleMutationProbability)
 	
 	individualWeightsSize = size(individualWeights)(2);
 
 	for i = 1 : individualWeightsSize
 		randomNumber = rand();
-		if (randomNumber < crossoverProbability)
+		if (randomNumber < alleleMutationProbability)
 			max = individualWeights(i) * 1.1;
 			min = individualWeights(i) * 0.9;
 			newWeight = rem(randomNumber,(max-min)+min);

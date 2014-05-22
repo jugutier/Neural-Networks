@@ -135,6 +135,7 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 
 	populationSize = input("What should be the population size?\n");
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
+	alleleMutationProbability = input("What should be the allele mutation probability? (0.0 <= p <= 1.0)\n");
 	crossoverProbability = input("What should be the crossover probability? (0.0 <= p <= 1.0)\n");
 	backpropagationProbability = input("What should be the backpropagation probability? (0.0 <= p <= 1.0)\n");
 
@@ -160,7 +161,7 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	%crossoverProbability
 	%backpropagationProbability
 
-	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
+	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
 	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
 					
 	if(yes_or_no('do you want plots?'))
