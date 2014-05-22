@@ -11,12 +11,13 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	population = cell(populationSize, 1);
 	for i = 1 : populationSize 
 		%Weights matrix for individual i (trained)
-		weights{i} = trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
+		weights{i} =  trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
 		%Transform the matrix to an array
 		populationInArrays{i} =  weightsArray(weights{i}); 
 	endfor
 	weightsStructure = weights{1};
 	
+
 	% Calculate the fitness for all the individuals in the population
 	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
 
@@ -71,7 +72,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Evaluating fitness of new individuals... ');
 		tic
 		fflush(stdout);
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		toc
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
@@ -81,8 +82,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		generation++;
 		toc
 	endwhile
-
-	out = weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
+	[garbage index] = max(populationInArraysFitness);
+	out = weightsFromArray(populationInArrays{index}, weightsStructure);
 endfunction
 
 
@@ -94,7 +95,7 @@ function [population fitnessValues] = evaluateFitness(population, weightsModel, 
 	for i = 1 : individuals
 		individual = population{i};
 		if(rand()<backpropagationProbability_)
-			population{i} = trainPerceptron(individual, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
+			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
 		endif
 		% One option is to add the two errors
 		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
@@ -122,12 +123,15 @@ endfunction
 
 function w = weightsFromArray(weightsArray, weightsModel)
 	j = 1;
-	w = cell(size(weightsModel)(1),1);
-	for i = 1 : size(weightsModel)(1)
-		values = weightsArray(j : (j + (size(weightsModel{i})(1) * size(weightsModel{i})(2)) - 1) );
-		w{i} = reshape(values, size(weightsModel{i})(1), size(weightsModel{i})(2));
+	floors = size(weightsModel)(1)
+	w = cell(floors,1);
+	for i = 1 : floors
+		currentN = size(weightsModel{i})(1);
+		currentM = size(weightsModel{i})(2);
+		values = weightsArray(j : (j + (currentN * currentM ) - 1) );
+		w{i} = reshape(values, currentN, currentM);
 		
-		j = j + size(weightsModel{i})(1) * size(weightsModel{i})(2);
+		j = j + currentN * currentM;
 	endfor
 endfunction
 
