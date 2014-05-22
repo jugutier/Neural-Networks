@@ -19,9 +19,9 @@ function run()
 	
 	
 
-	disp('Welcome to the genetic algorithm wizard\n')
-	option = input('Which crossover method? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
--Uniform crossover \n4 -Anular crossover \n');
+	disp("Welcome to the genetic algorithm wizard\n")
+	option = input("Which crossover method? \n1 -Classic crossover(one point)\n2 -Two point crossover \n3 \
+-Uniform crossover \n4 -Anular crossover \n");
 	switch(option)
 		case 1
 			crossoverMethod = @classicCrossover; %Replace for @function
@@ -36,7 +36,7 @@ function run()
 	endswitch
 
 
-	option = input('Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n');
+	option = input("Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n");
 	switch(option)
 		case 1
 			mutationMethod = @classicMutation; %TODO
@@ -47,8 +47,8 @@ function run()
 	endswitch
 
 
-	option = input('Which selection criterion? \n1 -Elite\n2 -Roulette \n3 \
--Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n');
+	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
+deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = @eliteSelection; %Replace for @function
@@ -68,8 +68,7 @@ function run()
 			disp('error, please try again')
 	endswitch
 
-	option = input('Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 \
--Method 3\n');
+	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 -Method 3\n");
 	switch(option)
 		case 1
 			replacementMethod = @method1; %Replace for @function
@@ -81,14 +80,14 @@ function run()
 			disp('error, please try again')
 	endswitch
 
-	progenitorsNumber = input('How many progenitor selected? (k, even number)\n');
+	progenitorsNumber = input("How many progenitor selected? (k, even number)\n");
 	if(mod(progenitorsNumber,2) != 0)
 		printf('ERROR: PROGENITORS NUMBER MUST BE AN EVEN NUMBER\n');
 		exit();
 	endif
 	if(option != 1)
-		option = input('Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 \
--Boltzman \n4 -Tournament deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n');
+		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
+deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
 		switch(option)
 			case 1
 				replacementCriterion = @eliteSelection; %Replace for @function
@@ -109,10 +108,10 @@ function run()
 		endswitch
 	endif
 
-	option = input('When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
--Content \n4 -Around the optimun\n');
+	option = input("When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
+-Content \n4 -Around the optimun\n");
 	if(option == 1)
-		maxGenerations = input('What should be the maximum number of generations?\n');
+		maxGenerations = input("What should be the maximum number of generations?\n");
 	else
 		maxGenerations = inf
 	endif
@@ -130,10 +129,10 @@ function run()
 	endswitch
 
 
-	populationSize = input('What should be the population size?\n');
-	mutationProbability = input('What should be the mutation probability? (0.0 <= p <= 1.0)\n');
-	crossoverProbability = input('What should be the crossover probability? (0.0 <= p <= 1.0)\n');
-	backpropagationProbability = input('What should be the backpropagation probability? (0.0 <= p <= 1.0)\n');
+	populationSize = input("What should be the population size?\n");
+	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
+	crossoverProbability = input("What should be the crossover probability? (0.0 <= p <= 1.0)\n");
+	backpropagationProbability = input("What should be the backpropagation probability? (0.0 <= p <= 1.0)\n");
 
 	hiddenUnitsPerLvl = [4 3];
 	functiondataFilename = '../samples8.txt';%TODO: add to wizard
