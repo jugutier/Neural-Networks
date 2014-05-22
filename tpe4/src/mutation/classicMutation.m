@@ -9,6 +9,8 @@ function out = classicMutation(individualWeights, alleleMutationProbability)
 			min_ = individualWeights(i) * 0.95;
 			newWeight = rem(randomNumber,(max_-min_)+min_);
 			newIndividualWeights(i) = newWeight;
+		else
+			newIndividualWeights(i) = individualWeights(i);
 		endif
 	endfor
 	out{1} = newIndividualWeights(1);
