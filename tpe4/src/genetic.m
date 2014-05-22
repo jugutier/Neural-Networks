@@ -73,8 +73,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		[populationInArrays  populationInArraysFitness indexes]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 	endwhile
-
-	out = weights{1};%weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
+	[garbage mostFitIndex] = max(populationInArraysFitness);
+	out = weightsFromArray(populationInArrays{mostFitIndex},weights{1});
 endfunction
 
 
