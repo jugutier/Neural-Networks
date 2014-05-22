@@ -44,6 +44,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		% Apply crossover between individuals
 		printf('Apply operator... ');
 		fflush(stdout);
+		tic
 		newIndividuals =  cell(progenitorsNumber/2, 1);
 		for i = 1 : 2 : progenitorsNumber
 			if(rand() <= crossoverProbability)
@@ -55,21 +56,30 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 				newIndividuals{i+1} = individualsToReproduce{i+1};
 			endif
 		endfor
+		toc
 		% Apply any mutation to the new children
 		printf('Mutating the individuals... ');
 		fflush(stdout);
-		if(rand()<mutationProbability)
-			newIndividuals = mutationMethod(newIndividuals, alleleMutationProbability);
-		endif
+		tic
+		for i = 1 : newIndividuals
+			if(rand() < mutationProbability)
+				newIndividuals = mutationMethod(newIndividuals{i}, alleleMutationProbability);
+			endif
+		endfor
+		toc
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
+		tic
 		fflush(stdout);
 		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weights, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		toc
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
 		fflush(stdout);
+		tic
 		[populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
+		toc
 	endwhile
 
 	out = weightsFromArray(populationInArrays{1}, weights{1}); %TODO: Returns the first element just for now
