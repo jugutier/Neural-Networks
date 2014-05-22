@@ -1,4 +1,4 @@
-function network = weightsGenerator(HiddenUnitsPerLvl,i)
+function network = weightsGenerator(HiddenUnitsPerLvl,j)
 	unitsPerlevel =[3 HiddenUnitsPerLvl.+1 1]		;%1
 	connectedUnits = [0 HiddenUnitsPerLvl 1]							;%2
 	levels = columns(unitsPerlevel)										;%4
@@ -9,5 +9,5 @@ function network = weightsGenerator(HiddenUnitsPerLvl,i)
 	endfor
 	network = wValues;
 	hiddenUnitsPerLvl = HiddenUnitsPerLvl;
-	save(strcat('initialNetwork',num2str(i),'.nnet'),'network' ,'hiddenUnitsPerLvl' );
+	save(strcat('initialNetwork',num2str(j),'.nnet'),'network' ,'hiddenUnitsPerLvl' );
 endfunction
