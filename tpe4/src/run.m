@@ -106,7 +106,10 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 			otherwise
 				disp('error, please try again')
 		endswitch
+	else
+		replacementCriterion = 1;
 	endif
+
 
 	option = input("When should we end the algorithm? \n1 -Max number of generations \n2 -Structure \n3 \
 -Content \n4 -Around the optimun\n");
