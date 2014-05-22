@@ -1,6 +1,6 @@
 function progenitors = anularCrossover(individual1, individual2)
-		r = rand() * length(individual1) + 0;
-		l = rand() * length(individual1) / 2 + 1;
+		r = floor(rand() * length(individual1) + 0);
+		l = floor(rand() * length(individual1) / 2 + 1);
 		i = 0;
 		while(i < length(individual2) && i < r)
 			son1(i) = individual1(i);
