@@ -9,7 +9,7 @@
 %trainedNetwork the trained network
 %
 %
-function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs, probability)
+function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
 	startTime = time();
 	wValues = Network;
 	ETA = 0.1;
@@ -61,10 +61,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trai
 	while(hasLearnt != 1 && epocs < MAX_EPOC)
 		epocs ++;
 		hasLearnt = 0;
-		epocStartTime = time();	
-		if(rand() > probability)
-			continue ;
-		endif
+		epocStartTime = time();
 		for i = 1:rows(testPatterns)
 			currentPattern = testPatterns(i,:) 		;    
 
