@@ -25,7 +25,8 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Training newborns & calculating fitness... ');
 		fflush(stdout);
 		tic
-		for i =1 : length(newborns)
+		newbornsCount = length(indexes);
+		for i =1 : newbornsCount
 			currentIndex = indexes(i);
 			currentNewbornOldWeights = weights{currentIndex};
 			currentNewborn = populationInArrays{index};

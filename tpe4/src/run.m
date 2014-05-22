@@ -2,19 +2,20 @@ function run()
 	%%hasLoaded = 0;
 	%%network = '';
 	addpath('crossOver')
-	load classicCrossover.m;
-	load twoPointCrossover.m;
-	load uniformCrossover.m;
-	load anularCrossover.m;
+	%load classicCrossover.m;
+	%load twoPointCrossover.m;
+	%load uniformCrossover.m;
+	%load anularCrossover.m;
 	addpath('finalizeCriterions')
-	load maxGenerations.m;
-	addpath('mutation')
-	load classicMutation.m;
-	load nonUniformMutation.m;
+	%load maxGenerations.m;
+	%addpath('mutation')
+	%load classicMutation.m;
+	%load nonUniformMutation.m;
 	addpath('replacementMethod')
-	load method1.m;
+	%load method1.m;
 	addpath('selectionMethods')	
-	load eliteSelection.m;
+	%load eliteSelection.m;
+	addpath('mutation')	
 	
 	
 	

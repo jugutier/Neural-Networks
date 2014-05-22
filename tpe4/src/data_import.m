@@ -5,9 +5,9 @@
 %% TrainPercentage: MUST be between 0 and 1, the percentage of rows to be used as TRAINING 
 %%%%%%%%%%
 function [trainingPattern testPattern] = data_import(Filename , TrainPercentage , ActivationFunction)
-	load normalizeOneOne.m
-	load normalizeZeroOne.m
-	load sortPatterns.m
+	%load normalizeOneOne.m
+	%load normalizeZeroOne.m
+	%load sortPatterns.m
 
 	extension = '';
 
