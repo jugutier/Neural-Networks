@@ -1,5 +1,6 @@
 % CLASSIC == SINGLE POINT
 function out = classicCrossover(individual1, individual2)
+	out = cell(2,1);
 	individualsSize = size(individual1)(2);
 	locus = floor(rand() * individualsSize + 1);
 	desc1 = [];

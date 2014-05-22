@@ -62,9 +62,9 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Mutating the individuals... ');
 		fflush(stdout);
 		tic
-		for i = 1 : (length(newIndividuals)-1)
+		for i = 1 : length(newIndividuals)
 			if(rand() < mutationProbability)
-				newIndividuals = mutationMethod(newIndividuals{i}, alleleMutationProbability);
+				newIndividuals{i} = mutationMethod(newIndividuals{i}, alleleMutationProbability);
 			endif
 		endfor
 		toc
@@ -95,7 +95,7 @@ function [population fitnessValues] = evaluateFitness(population, weightsModel, 
 	for i = 1 : individuals
 		individual = population{i};
 		if(rand()<backpropagationProbability_)
-			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
+			population{i} = weightsArray(trainNetwork(temp , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
 		endif
 		% One option is to add the two errors
 		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
@@ -124,7 +124,7 @@ endfunction
 function w = weightsFromArray(weightsArray, weightsModel)
 	j = 1;
 	floors = size(weightsModel)(1);
-	if(floors!=4)
+	if(floors != 4)
 		printf('WARNING: floors is not 4, did you change the structure?');
 	endif
 	w = cell(floors,1);
@@ -133,13 +133,12 @@ function w = weightsFromArray(weightsArray, weightsModel)
 		currentM = size(weightsModel{i})(2);
 		values = weightsArray(j : (j + (currentN * currentM ) - 1) );
 		w{i} = reshape(values, currentN, currentM);
-		
 		j = j + currentN * currentM;
 	endfor
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
-	max_epocs = 10;
+	max_epocs = 2;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 0;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
