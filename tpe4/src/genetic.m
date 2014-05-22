@@ -95,7 +95,7 @@ function [population fitnessValues] = evaluateFitness(population, weightsModel, 
 	for i = 1 : individuals
 		individual = population{i};
 		if(rand()<backpropagationProbability_)
-			population{i} = weightsArray(trainNetwork(temp , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
+			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
 		endif
 		% One option is to add the two errors
 		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
