@@ -23,10 +23,10 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 
 	generation = 1;
 	while (finalizeCriterion(generation, maxGenerations))
-		printf('Generation %d>',generation);
+		printf('Generation %d>\n',generation);
 		fflush(stdout);
 		% Choose the individuals
-		printf('Selecting... ');
+		printf('\tSelecting...\n');
 		fflush(stdout);
 		% Select k,            population is N-k now
 		[individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
@@ -35,7 +35,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
         [garbage index_] = sort(n); 
         individualsToReproduce = individualsToReproduce(index_); 
 		% Apply crossover between individuals
-		printf('Apply operator... ');
+		printf('\tApply operator...\n');
 		fflush(stdout);
 		tic
 		newIndividuals =  cell(progenitorsNumber, 1);
@@ -51,7 +51,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		endfor
 		toc
 		% Apply any mutation to the new children
-		printf('Mutating the individuals... ');
+		printf('\tMutating the individuals...\n');
 		fflush(stdout);
 		tic
 		for i = 1 : length(newIndividuals)
@@ -61,14 +61,14 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		endfor
 		toc
 		% Train the new children
-		printf('Evaluating fitness of new individuals... ');
+		printf('\tEvaluating fitness of new individuals...\n');
 		fflush(stdout);
 		% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		tic
 		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
 		toc
 		% Obtain the new population (replacement)
-		printf('Generating the new population... \n');
+		printf('\tGenerating the new population...\n\n');
 		fflush(stdout);
 		tic
 		[populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
