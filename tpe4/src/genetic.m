@@ -50,7 +50,6 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 			endif
 		endfor
 		toc
-		newIndividuals
 		% Apply any mutation to the new children
 		printf('Mutating the individuals... ');
 		fflush(stdout);
@@ -63,10 +62,9 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		toc
 		% Train the new children
 		printf('Evaluating fitness of new individuals... ');
-		tic
 		fflush(stdout);
 		% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
-		newIndividuals
+		tic
 		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
 		toc
 		% Obtain the new population (replacement)
