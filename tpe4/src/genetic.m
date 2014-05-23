@@ -20,7 +20,6 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	%	evaluar fitness de los individuos obtenidos
 	%	generar nueva poblacion
 
-
 	generation = 1;
 	while (finalizeCriterion(generation, maxGenerations))
 		printf('Generation %d>\n',generation);

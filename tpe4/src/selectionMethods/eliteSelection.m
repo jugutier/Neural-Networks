@@ -1,8 +1,9 @@
 function [individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = eliteSelection(population, populationFitness, progenitorsNumber)
     [sortedFitness indexes] = sort(populationFitness, 'descend');
     n = (size(population))(1);
+    populationInArrays = cell(n, 1);
     selectedIndexes = indexes(1 : progenitorsNumber);
-    remainingIndexes = indexes(progenitorsNumber+1:n);
+    remainingIndexes = indexes((progenitorsNumber+1):n);
     individualsToReproduce = population(selectedIndexes);
     individualsToReproduceFitness = sortedFitness(1:progenitorsNumber);
     populationInArrays = population(remainingIndexes);
