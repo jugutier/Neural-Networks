@@ -1,7 +1,5 @@
-function out = classicMutation(individualWeights, alleleMutationProbability)
-	
+function newIndividualWeights = classicMutation(individualWeights, alleleMutationProbability)	
 	individualWeightsSize = size(individualWeights)(2);
-	out = cell(2,1);
 	for i = 1 : individualWeightsSize
 		randomNumber = rand();
 		if (randomNumber < alleleMutationProbability)
@@ -13,7 +11,4 @@ function out = classicMutation(individualWeights, alleleMutationProbability)
 			newIndividualWeights(i) = individualWeights(i);
 		endif
 	endfor
-	out{1} = newIndividualWeights(1);
-	out{2} = newIndividualWeights(2);
-
 endfunction
