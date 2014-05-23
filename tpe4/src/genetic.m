@@ -1,14 +1,7 @@
 function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
-
-	% Add threshold
-	testPatterns = horzcat(linspace(-1,-1,rows(Input))', Input); 			 	
-	
-	inputNodes = columns(Input);
-	outputNodes = columns(ExpectedOutput);
-
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
-	population = cell(populationSize, 1);
+	populationInArrays = cell(populationSize, 1);
 	for i = 1 : populationSize 
 		%Weights matrix for individual i (trained)
 		weights{i} =  trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
@@ -17,7 +10,6 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 	endfor
 	weightsStructure = weights{1};
 	
-
 	% Calculate the fitness for all the individuals in the population
 	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
 
@@ -58,6 +50,7 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 			endif
 		endfor
 		toc
+		newIndividuals
 		% Apply any mutation to the new children
 		printf('Mutating the individuals... ');
 		fflush(stdout);
@@ -72,7 +65,9 @@ function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpro
 		printf('Evaluating fitness of new individuals... ');
 		tic
 		fflush(stdout);
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability); % ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+		newIndividuals
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
 		toc
 		% Obtain the new population (replacement)
 		printf('Generating the new population... \n');
@@ -91,8 +86,8 @@ endfunction
 %returns an array with fitnessValues
 %the population with the modificationes to the ones that had backpropagation
 function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability_) 
-	individuals = (size(population))(2);
-	for i = 1 : individuals
+	individualsNumber = (size(population))(1);
+	for i = 1 : individualsNumber
 		individual = population{i};
 		if(rand()<backpropagationProbability_)
 			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
@@ -124,8 +119,12 @@ endfunction
 function w = weightsFromArray(weightsArray, weightsModel)
 	j = 1;
 	floors = size(weightsModel)(1);
+	individualLenght = length(weightsArray);
 	if(floors != 4)
 		printf('WARNING: floors is not 4, did you change the structure?');
+	endif
+	if(individualLenght!=31)
+		printf('WARNING: length not 31');
 	endif
 	w = cell(floors,1);
 	for i = 1 : floors
@@ -138,7 +137,7 @@ function w = weightsFromArray(weightsArray, weightsModel)
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
-	max_epocs = 2;
+	max_epocs = 1;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 0;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
