@@ -11,7 +11,7 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 	%weightsStructure = weights{1};
 	
 	% Calculate the fitness for all the individuals in the population
-	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
+	%[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
 
 	%while (condicion de corte)
 	%	Seleccionar individuos para reproduccion
@@ -136,6 +136,6 @@ endfunction
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
 	max_epocs = 100;
 	EtaAdaptativeEnabled = 0;
-	MomentumEnabled = 0;
+	MomentumEnabled = 1;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
 endfunction
