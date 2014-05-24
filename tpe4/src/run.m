@@ -15,11 +15,11 @@ function run()
 		case 1
 			crossoverMethod = @classicCrossover; %Replace for @function
 		case 2
-			geneticOperator = @twoPointCrossover;
+			crossoverMethod = @twoPointCrossover;
 		case 3
-			geneticOperator = @uniformCrossover;
+			crossoverMethod = @uniformCrossover;
 		case 4
-			geneticOperator = @anularCrossover;
+			crossoverMethod = @anularCrossover;
 		otherwise
 			disp('error, please try again')
 	endswitch
