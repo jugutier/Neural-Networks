@@ -2,7 +2,7 @@
 % selectionQty es la cantidad de individuos a seleccionar
 % selectedPopulation contiene los array indexes de los individuos seleccionados
 
-function selectedPopulation = rouletteSelection(populationFitness, selectionQty)
+function selectedPopulation = universalSelection(populationFitness, selectionQty)
 	populationSize = size(populationFitness);
 	fitnessSum = sum(populationFitness);
 	relativeFitness = populationFitness ./ fitnessSum;
@@ -15,13 +15,17 @@ function selectedPopulation = rouletteSelection(populationFitness, selectionQty)
 	endfor
 
 	selectedPopulation = [];
+	randomNumber = unifrnd(0,1/selectionQty);
+	prevIndex = 1;
 	for i = 1 : selectionQty
 		selectedIndividual = 0;
-		randomNumber = rand() * max(accumFitness);
-		for j = 1 : populationSize
-			if(randomNumber < accumFitness(j))
-				accumFitness(j) = -1;
-				selectedIndividual = j;
+		
+		for j = prevIndex : populationSize
+			selectedIndividual = j;
+			randomJ = randomNumber + j - 1;
+			randomJ = randomJ / populationSize;
+			if(randomJ < accumFitness(j))
+				prevIndex = j;
 				break;
 			endif
 		endfor
