@@ -1,21 +1,9 @@
 function run()
-	%%hasLoaded = 0;
-	%%network = '';
-	addpath('crossOver')
-	%load classicCrossover.m;
-	%load twoPointCrossover.m;
-	%load uniformCrossover.m;
-	%load anularCrossover.m;
-	addpath('finalizeCriterions')
-	%load maxGenerations.m;
-	%addpath('mutation')
-	%load classicMutation.m;
-	%load nonUniformMutation.m;
-	addpath('replacementMethod')
-	%load method1.m;
-	addpath('selectionMethods')	
-	%load eliteSelection.m;
-	addpath('mutation')	
+	addpath('crossOver');
+	addpath('finalizeCriterions');
+	addpath('replacementMethod');
+	addpath('selectionMethods');
+	addpath('mutation');
 	
 	
 	
@@ -132,8 +120,8 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 			disp('error, please try again')
 	endswitch
 
-
-	populationSize = input("What should be the population size? (greater than progenitors number)\n");
+	populationSize = 50
+	%populationSize = input("What should be the population size? (greater than progenitors number)\n");
 	if(populationSize <= progenitorsNumber)
 		printf('ERROR: POPULATION MUST BE GREATER THAN PROGENITORS NUMBER\n');
 		exit();
@@ -165,7 +153,11 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	%crossoverProbability
 	%backpropagationProbability
 
-	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
+	[weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation();
+	evolvedNetwork = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
+	printf("Saving the most evolved network\n");
+	fflush(stdout);
+	save('mostEvolved.nnet','evolvedNetwork');
 	printf("Testing the most evolved network\n");
 	fflush(stdout);
 	[test_error, learning_rate,mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);

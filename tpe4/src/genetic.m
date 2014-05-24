@@ -1,14 +1,14 @@
-function out  = genetic(crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
+function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
-	populationInArrays = cell(populationSize, 1);
-	for i = 1 : populationSize 
+	%populationInArrays = cell(populationSize, 1);
+	%for i = 1 : populationSize 
 		%Weights matrix for individual i (trained)
-		weights{i} =  trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
+	%	weights{i} =  trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
 		%Transform the matrix to an array
-		populationInArrays{i} =  weightsArray(weights{i}); 
-	endfor
-	weightsStructure = weights{1};
+	%	populationInArrays{i} =  weightsArray(weights{i}); 
+	%endfor
+	%weightsStructure = weights{1};
 	
 	% Calculate the fitness for all the individuals in the population
 	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
@@ -134,7 +134,7 @@ function w = weightsFromArray(weightsArray, weightsModel)
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
-	max_epocs = 0;
+	max_epocs = 100;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 0;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
