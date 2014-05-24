@@ -1,16 +1,4 @@
 function run()
-	##ACTIVATION FUNCTIONS
-	load hiperbolic_tangent.m
-	load hiperbolic_tangent_derivative.m
-	load expo.m
-	load expo_derivative.m
-
-	load part1_multilayer_simetry.m
-	load data_import.m
-	load resultsGraph.m
-	load graphErrorHist.m
-	load testPerceptron.m
-
 	g=0;
 	g_derivative=0;
 	hasLoaded = 0;
@@ -47,21 +35,21 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			case 1
 				[data testData]= data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network,max_epocs);
+					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trainedNetwork] = trainPerceptron( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,momentum,eta_adaptative,network,max_epocs);
+
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
-					[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
-					learning_rate
+					[test_error, learning_rate,mean_error]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@hiperbolic_tangent,@hiperbolic_tangent_derivative,trainedNetwork);
 				endif
 			case 2
 				[data testData] = data_import(functiondataFilename , trainPercentage,resp);
 				if(!hasLoaded || reTrain)
-					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, learning_rate, epocs,trainedNetwork, hits_at_end_epoc] = part1_multilayer_simetry( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network,max_epocs);
+					[MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trainedNetwork] = trainPerceptron( data(:,[1 2]),data(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,momentum,eta_adaptative,network,max_epocs);
 					hasTrained = 1;
 				endif
 				if(hasLoaded||hasTrained)
-					[test_error, learning_rate, error_dif]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
+					[test_error, learning_rate,mean_error]  = testPerceptron( testData(:,[1 2]),testData(:,3),hiddenUnitsPerLvl,@expo,@expo_derivative,trainedNetwork);
 				endif
 			otherwise
 				disp("error, please try again")
@@ -70,9 +58,9 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 			save('trained.nnet','trainedNetwork' ,'hiddenUnitsPerLvl' );
 		endif
 		if(hasLoaded||hasTrained)
-			printf("\n\nAverage cuadratic error on testing:%.10f%% \n",(sum(test_error)/columns(test_error))*100);
+			printf('\n\nAverage cuadratic error on testing:%.4f \n',mean_error);
 			save('testError.dump','test_error');
-			printf("FINISHED: the network predicts %.10f%% of the test data, to the order of 10^-3 \n", learning_rate*100);
+			printf('FINISHED: the network predicts %.4f of the TRAIN data and %.4f%% of the TEST data, to the order of 10^-3 \n',train_learning_rate*100, learning_rate*100);
 		endif
 		if(!hasLoaded || reTrain)
 			save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
@@ -86,7 +74,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 				figure(1);
 				resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
 				figure(2);
-				graphErrorHist(error_dif);
+				graphErrorHist(test_error);
 			endif
 		endif
 endfunction

@@ -1,4 +1,10 @@
-function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
+%
+%@return
+%test_error (array) error between each input and expected output
+%learning_rate (scalar) percentage of hits
+%mean_error (scalar) mean cuadratic error
+%
+function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,TrainExpectedOutput,HiddenUnitsPerLvl,g ,g_derivate,Network)
 	inputNodes = columns(TrainInput)		;
 	outputNodes = columns(TrainExpectedOutput)		;
 	wValues = Network;
@@ -7,10 +13,10 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 	vValues = cell(levels,1);
 	hValues = cell(levels,1);
 	test_error = [];
-	error_dif = [];
-	learning_rate = 0;##hits over total training
+	mean_error = 0;
+	learning_rate = 0;%%hits over total training
 	EPSILON = 0.001;	
-	##START TESTING
+	%%START TESTING
 	for i = 1:rows(TrainInput)
 		currentPattern = trainPatterns(i,:) 		;    
 
@@ -20,7 +26,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 
 		hValues{1} = currentPattern;
 
-		## FEED FORWARD
+		%% FEED FORWARD
 		for j=1:levels-1
 
 			currentLvlWValues = wValues{j+1} 		;
@@ -39,12 +45,9 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 		endfor  
 
 		outputValues = vValues{levels};
-		## END FEED FORWARD
+		%% END FEED FORWARD
 
-		error_current_dif = floor(abs(outputValues - currentExpectedOutput) * (1/EPSILON)) * EPSILON;
-		error_dif = [error_dif error_current_dif];
-
-		errorMedioTest = .5*sum(power((outputValues - currentExpectedOutput),2));
+		errorMedioTest = power((outputValues - currentExpectedOutput),2);
 
 		test_error = [test_error errorMedioTest];
 
@@ -52,6 +55,7 @@ function [test_error, learning_rate, error_dif]  = testPerceptron( TrainInput,Tr
 			learning_rate++;
 		endif
 	endfor
-	##END TESTING
+	%%END TESTING
+	mean_error = sum(test_error) / (2* rows(TrainExpectedOutput));
 	learning_rate = learning_rate /rows(TrainExpectedOutput);
 endfunction
