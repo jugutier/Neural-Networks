@@ -60,7 +60,7 @@ eg. [2 3] will build a neural network \nwith two units in the first level and 3 
 		if(hasLoaded||hasTrained)
 			printf('\n\nAverage cuadratic error on testing:%.4f \n',mean_error);
 			save('testError.dump','test_error');
-			printf('FINISHED: the network predicts %.4f of the TRAIN data and %.4f%% of the TEST data, to the order of 10^-3 \n',train_learning_rate*100, learning_rate*100);
+			printf('FINISHED: the network predicts %.4f of the TRAIN data and %.4f%% of the TEST data, to the order of 10^-3 \n',train_learning_rate(length(train_learning_rate))*100, learning_rate*100);
 		endif
 		if(!hasLoaded || reTrain)
 			save('graphData.dump','MAX_EPOC', 'train_error', 'eta_adaptation', 'epocs', 'train_learning_rate');
