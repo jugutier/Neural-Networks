@@ -134,7 +134,7 @@ function w = weightsFromArray(weightsArray, weightsModel)
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
-	max_epocs = 1;
+	max_epocs = 0;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 0;
 	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);

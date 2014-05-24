@@ -165,13 +165,16 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	%crossoverProbability
 	%backpropagationProbability
 
-	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput)
-	[test_error, learning_rate, error_dif]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
-					
-	if(yes_or_no('do you want plots?'))
-		%%figure(1);
-		%%resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
-		%%figure(2);
-		%%graphErrorHist(error_dif);
-	endif
+	evolvedNetwork = genetic(crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
+	printf("Testing the most evolved network\n");
+	fflush(stdout);
+	[test_error, learning_rate,mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
+	printf("%.10f %.10f\n",learning_rate , mean_error);
+	fflush(stdout);			
+	%if(yes_or_no('do you want plots?'))
+	%	figure(1);
+	%	resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
+	%	figure(2);
+	%	graphErrorHist(error_dif);
+	%endif
 endfunction

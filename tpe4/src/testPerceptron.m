@@ -1,6 +1,6 @@
 %
 %@return
-%test_error (arrayy) error between each input and expected output
+%test_error (array) error between each input and expected output
 %learning_rate percentage of hits
 %mean_error 
 %
