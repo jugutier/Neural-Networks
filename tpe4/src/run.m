@@ -37,7 +37,7 @@ function run()
 
 
 	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
-deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
+deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = @eliteSelection; %Replace for @function
@@ -53,6 +53,8 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 			selectionMethod = 6;
 		case 7
 			selectionMethod = 7;
+		case 8
+			selectionMethod = 8;
 		otherwise
 			disp('error, please try again')
 	endswitch
@@ -76,7 +78,7 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 	endif
 	if(option != 1)
 		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
-deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Universal\n");
+deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 		switch(option)
 			case 1
 				replacementCriterion = @eliteSelection; %Replace for @function
@@ -92,6 +94,8 @@ deterministic \n5 -Tournament probabilistic \n6 -Elite+Roulette \n7 -Elite+Unive
 				replacementCriterion = 6;
 			case 7
 				replacementCriterion = 7;
+			case 7
+				replacementCriterion = 8;
 			otherwise
 				disp('error, please try again')
 		endswitch
