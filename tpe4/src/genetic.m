@@ -21,18 +21,30 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 	%	generar nueva poblacion
 
 	generation = 1;
-	while (finalizeCriterion(generation, maxGenerations))
+	populationInArraysFitness = [];
+	prevPopulation = cell(populationSize,1);
+	prevPopulationFitness = [];
+	while (finalizeCriterion(generation, maxGenerations, populationInArrays, populationInArraysFitness, prevPopulation, prevPopulationFitness))
+		prevPopulation = populationInArrays;
+		prevPopulationFitness = populationInArraysFitness;
 		printf('Generation %d>\n',generation);
 		fflush(stdout);
+		
 		% Choose the individuals
 		printf('\tSelecting...\n');
 		fflush(stdout);
-		% Select k,            population is N-k now
-		[individualsToReproduce individualsToReproduceFitness populationInArrays populationInArraysFitness] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
+			% Select k, population is N-k now
+		[selectedIndexes remainingIndexes] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
+		individualsToReproduce = populationInArrays(selectedIndexes);
+    	individualsToReproduceFitness = selectedIndexes(1 : progenitorsNumber);
+    	populationInArrays = populationInArrays(remainingIndexes);
+    	populationInArraysFitness = remainingIndexes(1:(populationSize-progenitorsNumber));
+		
 		% Shuffle the individuals to reproduce 
         n = rand(length(individualsToReproduce),1); 
         [garbage index_] = sort(n); 
         individualsToReproduce = individualsToReproduce(index_); 
+		
 		% Apply crossover between individuals
 		printf('\tApply operator...\n');
 		fflush(stdout);
@@ -49,6 +61,7 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 			endif
 		endfor
 		toc
+		
 		% Apply any mutation to the new children
 		printf('\tMutating the individuals...\n');
 		fflush(stdout);
@@ -59,18 +72,20 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 			endif
 		endfor
 		toc
+		
 		% Train the new children
 		printf('\tEvaluating fitness of new individuals...\n');
 		fflush(stdout);
-		% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+			% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 		tic
 		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
 		toc
+		
 		% Obtain the new population (replacement)
 		printf('\tGenerating the new population...\n\n');
 		fflush(stdout);
 		tic
-		[populationInArrays  populationInArraysFitness]= replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
+		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 		toc
 	endwhile
