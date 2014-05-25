@@ -1,0 +1,21 @@
+output index
+-----------------
+output 1
+FINISHED: the most evolved network predicts 49.4505% with mean cuadratic error of 0.0030
+1 -Classic crossover(one point)
+1 -Classic mutation
+1 -Elite (selection)
+1 -Method 1 (replacement)
+Selected progenitors: 20
+Max generations: 50
+Population: 50
+What should be the mutation probability? (0.0 <= p <= 1.0)
+0.2
+What should be the allele mutation probability? (0.0 <= p <= 1.0)
+0.6
+What should be the crossover probability? (0.0 <= p <= 1.0)
+0.5
+What should be the backpropagation probability? (0.0 <= p <= 1.0)
+0.2
+
+FINISHED: the most evolved network predicts 49.4505% with mean cuadratic error of 0.0030
