@@ -1,8 +1,6 @@
 % SINGLE BIT MUTATION CHOSEN AT RANDOM
-function newIndividualWeights = classicMutation(individualWeights)	
-	randomNumber = rand();
-	individualWeightsSize = size(individualWeights)(2);
-	bitToMutate = rem(randomNumber,individualWeightsSize);
+function newIndividualWeights = classicMutation(individualWeights)
+	bitToMutate = floor(rand() * size(individualWeights)(2) + 1);
 	newIndividualWeights = individualWeights;
 
 	max_ = individualWeights(bitToMutate) * 1.05;
