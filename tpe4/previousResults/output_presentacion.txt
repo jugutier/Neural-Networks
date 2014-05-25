@@ -1,1 +1,2 @@
-FINISHED: the network predicts 24.5353 of the TRAIN data and 24.5353% of the TEST data, to the order of 10^-3 
+[4 3], 1000, momentum: si, eta:no, 0.6, tanh: Average cuadratic error on testing:0.0031 
+FINISHED: the network predicts 46.1538 of the TRAIN data and 41.6667% of the TEST data, to the order of 10^-3
