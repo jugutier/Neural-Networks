@@ -36,8 +36,8 @@ function run()
 	endswitch
 
 
-	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
-deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \n8 -Elite+Universal\n");
+	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzman \n5 -Tournament \
+deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = @eliteSelection; %Replace for @function
