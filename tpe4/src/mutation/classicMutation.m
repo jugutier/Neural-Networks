@@ -1,10 +1,10 @@
 % SINGLE BIT MUTATION CHOSEN AT RANDOM
-function newIndividualWeights = classicMutation(individualWeights)
-	bitToMutate = floor(rand() * size(individualWeights)(2) + 1);
+function newIndividualWeights = classicMutation(individualWeights , alleleMutationProbability)
 	newIndividualWeights = individualWeights;
-
-	max_ = individualWeights(bitToMutate) * 1.05;
-	min_ = individualWeights(bitToMutate) * 0.95;
-	newWeight = rem(randomNumber,(max_-min_)+min_);
-	newIndividualWeights(bitToMutate) = newWeight;
+	randomNumber = rand();
+	bitToMutateNumber = floor( randomNumber*size(individualWeights)(2)  + 1);
+	bitToMutateOldValue = individualWeights(bitToMutateNumber);
+	min_ = bitToMutateOldValue * 0.95;
+	bitToMutateNewValue = rem(randomNumber,0.1)+min_;
+	newIndividualWeights(bitToMutateNumber) = bitToMutateNewValue;
 endfunction
