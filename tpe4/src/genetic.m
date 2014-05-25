@@ -1,4 +1,4 @@
-function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
 	%populationInArrays = cell(populationSize, 1);
@@ -24,7 +24,10 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 	populationInArraysFitness = [];
 	prevPopulation = cell(populationSize,1);
 	prevPopulationFitness = [];
+	mean_fitness_generations = [];
+	best_fitness_generations = [];
 	while (finalizeCriterion(generation, maxGenerations, populationInArrays, populationInArraysFitness, prevPopulation, prevPopulationFitness))
+		tic
 		prevPopulation = populationInArrays;
 		prevPopulationFitness = populationInArraysFitness;
 		printf('Generation %d>\n',generation);
@@ -48,49 +51,46 @@ function out  = genetic(weights, populationInArrays, weightsStructure,fitnessAll
 		% Apply crossover between individuals
 		printf('\tApply operator...\n');
 		fflush(stdout);
-		tic
 		newIndividuals =  cell(progenitorsNumber, 1);
 		for i = 1 : 2 : progenitorsNumber
 			if(rand() <= crossoverProbability)
-				out = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
-				newIndividuals{i} = out{1};
-				newIndividuals{i+1} = out{2}; 
+				descendants = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
+				newIndividuals{i} = descendants{1};
+				newIndividuals{i+1} = descendants{2}; 
 			else
 				newIndividuals{i} = individualsToReproduce{i};
 				newIndividuals{i+1} = individualsToReproduce{i+1};
 			endif
 		endfor
-		toc
 		
 		% Apply any mutation to the new children
 		printf('\tMutating the individuals...\n');
 		fflush(stdout);
-		tic
 		for i = 1 : length(newIndividuals)
 			if(rand() < mutationProbability)
 				newIndividuals{i} = mutationMethod(newIndividuals{i}, alleleMutationProbability);
 			endif
 		endfor
-		toc
 		
 		% Train the new children
 		printf('\tEvaluating fitness of new individuals...\n');
 		fflush(stdout);
 			% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
-		tic
 		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
-		toc
 		
 		% Obtain the new population (replacement)
 		printf('\tGenerating the new population...\n\n');
 		fflush(stdout);
-		tic
 		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 		toc
+		[mean_fitness best_fitness] = [sum(populationInArraysFitness)/length(populationInArraysFitness) max(populationInArraysFitness)];
+		mean_fitness_generations = [mean_fitness_generations mean_fitness];
+		best_fitness_generations = [best_fitness_generations best_fitness];
 	endwhile
+	elapsed_generations = generation;
 	[garbage index_] = max(populationInArraysFitness);
-	out = weightsFromArray(populationInArrays{index_}, weightsStructure);
+	mostEvolvedNetwork = weightsFromArray(populationInArrays{index_}, weightsStructure);
 endfunction
 
 

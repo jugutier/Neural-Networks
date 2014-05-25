@@ -158,19 +158,19 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 	%backpropagationProbability
 
 	[weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation();
-	evolvedNetwork = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
-	printf("Saving the most evolved network\n");
+	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
+	printf('Saving the most evolved network\n');
 	fflush(stdout);
 	save('mostEvolved.nnet','evolvedNetwork');
-	printf("Testing the most evolved network\n");
+	printf('Testing the most evolved network\n');
 	fflush(stdout);
-	[test_error, learning_rate,mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
-	printf("%.10f %.10f\n",learning_rate , mean_error);
+	[test_error learning_rate mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
+	printf("%.4f %.4f\n",learning_rate , mean_error);
 	fflush(stdout);			
-	%if(yes_or_no('do you want plots?'))
-	%	figure(1);
-	%	resultsGraph(MAX_EPOC, train_error, eta_adaptation, epocs, train_learning_rate);
-	%	figure(2);
-	%	graphErrorHist(error_dif);
-	%endif
+	if(yes_or_no('do you want plots?'))
+		figure(1);
+		resultsGraph(mean_fitness_generations, best_fitness_generations, last_index);
+		figure(2);
+		graphErrorHist(test_error);
+	endif
 endfunction
