@@ -117,7 +117,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 2
 			finalizeCriterion = 2;
 		case 3
-			finalizeCriterion = 3;
+			finalizeCriterion = @contentFinalize;
 		case 3
 			finalizeCriterion = 4;
 		otherwise
