@@ -1,9 +1,5 @@
-% todo: probar esta funcion
-% selectionQty es la cantidad de individuos a seleccionar
-% selectedPopulation contiene los array indexes de los individuos seleccionados
-
-function selectedPopulation = rouletteSelection(populationFitness, selectionQty)
-	populationSize = size(populationFitness);
+function [selectedIndexes remainingIndexes] = rouletteSelection(population, populationFitness, progenitorsNumber)
+	populationSize = (size(population))(1);
 	fitnessSum = sum(populationFitness);
 	relativeFitness = populationFitness ./ fitnessSum;
 
@@ -14,8 +10,8 @@ function selectedPopulation = rouletteSelection(populationFitness, selectionQty)
 		accumFitness = accumulator;
 	endfor
 
-	selectedPopulation = [];
-	for i = 1 : selectionQty
+	selectedIndexes = [];
+	for i = 1 : progenitorsNumber
 		selectedIndividual = 0;
 		randomNumber = rand() * max(accumFitness);
 		for j = 1 : populationSize
@@ -25,6 +21,14 @@ function selectedPopulation = rouletteSelection(populationFitness, selectionQty)
 				break;
 			endif
 		endfor
-		selectedPopulation(i) = selectedIndividual;
+		selectedIndexes(i) = selectedIndividual;
 	endfor
+
+	remainingIndexes = [0 : populationSize];
+	for i = 1 : progenitorsNumber
+		selectedIndividual = selectedIndexes(i);
+		remainingIndexes(selectedIndividual) = 0;
+	endfor
+	% removes all zeros from the array
+	remainingIndexes(remainingIndexes==0) = [];
 endfunction

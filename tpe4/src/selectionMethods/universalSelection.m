@@ -1,9 +1,5 @@
-% todo: probar esta funcion
-% selectionQty es la cantidad de individuos a seleccionar
-% selectedPopulation contiene los array indexes de los individuos seleccionados
-
-function selectedPopulation = universalSelection(populationFitness, selectionQty)
-	populationSize = size(populationFitness);
+function [selectedIndexes remainingIndexes] = universalSelection(population, populationFitness, progenitorsNumber)
+	populationSize = (size(population))(1);
 	fitnessSum = sum(populationFitness);
 	relativeFitness = populationFitness ./ fitnessSum;
 
@@ -14,10 +10,10 @@ function selectedPopulation = universalSelection(populationFitness, selectionQty
 		accumFitness = accumulator;
 	endfor
 
-	selectedPopulation = [];
-	randomNumber = unifrnd(0,1/selectionQty);
+	selectedIndexes = [];
+	randomNumber = unifrnd(0,1/progenitorsNumber);
 	prevIndex = 1;
-	for i = 1 : selectionQty
+	for i = 1 : progenitorsNumber
 		selectedIndividual = 0;
 		
 		for j = prevIndex : populationSize
@@ -29,6 +25,14 @@ function selectedPopulation = universalSelection(populationFitness, selectionQty
 				break;
 			endif
 		endfor
-		selectedPopulation(i) = selectedIndividual;
+		selectedIndexes(i) = selectedIndividual;
 	endfor
+
+	remainingIndexes = [0 : populationSize];
+	for i = 1 : progenitorsNumber
+		selectedIndividual = selectedIndexes(i);
+		remainingIndexes(selectedIndividual) = 0;
+	endfor
+	% removes all zeros from the array
+	remainingIndexes(remainingIndexes==0) = [];
 endfunction
