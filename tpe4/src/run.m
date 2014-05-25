@@ -50,7 +50,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 5
 			selectionMethod = 5;
 		case 6
-			selectionMethod = 6;
+			selectionMethod = @tournamentProbSelection;
 		case 7
 			selectionMethod = 7;
 		case 8
@@ -91,7 +91,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 			case 5
 				replacementCriterion = 5;
 			case 6
-				replacementCriterion = 6;
+				replacementCriterion = @tournamentProbSelection;
 			case 7
 				replacementCriterion = 7;
 			case 7
