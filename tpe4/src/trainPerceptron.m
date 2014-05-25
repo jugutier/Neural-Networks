@@ -1,24 +1,15 @@
 %
 %
 %@return
-%MAX_EPOC maximum number of epocs for training
-%train_error (array) mean cuadratic error per epoc (with train data)
-%eta adaptacion (array) value of ETA per epoc
-%train_learning_rate percentage of "hits" per epoc (with train data)
-%epocs actual number of elapsed epocs
 %trainedNetwork the trained network
 %
 %
-function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
+function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
 	startTime = time();
 	wValues = Network;
 	ETA = 0.1;
 	COTA_ETA_ADAPTATIVO = 0.5;	
 	EPSILON = 0.001;
-	train_error = [];
-	train_learning_rate = [];
-	eta_adaptation = ETA;	
-	MAX_EPOC = max_epocs;
 	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
@@ -51,17 +42,15 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trai
 	etaIncrement = ETA*0.25;
 	currK=0;
 	K=5;%%maximum number of steps before changing adaptative ETA
-	mean_error = 0;
-	last_mean_error = 0;		
+	mean_error = 0;		
 	hit = 0;
 	MIN_LEARN_RATE = 0.7;
 	effectiveEpocs = 0;
 
 	%%START EPOC
-	while(hasLearnt != 1 && epocs < MAX_EPOC)
+	while(hasLearnt != 1 && epocs < max_epocs)
 		epocs ++;
 		hasLearnt = 0;
-		epocStartTime = time();
 		for i = 1:rows(testPatterns)
 			currentPattern = testPatterns(i,:) 		;    
 
@@ -136,35 +125,10 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trai
 			%%END CORRECT Ws
 		endfor
 		%%END EPOC
-
-		%Adapt ETA
-		if(EtaAdaptativeEnabled && ETA < COTA_ETA_ADAPTATIVO)
-			deltaError = mean_error - last_mean_error;
-			if(deltaError >0)
-				ETA = ETA - etaDecrement * ETA;
-			else
-				if(currK < K)
-					currK++;
-				else
-					ETA+=etaIncrement;
-					currK=0;
-				endif
-					
-			endif
-				
-		endif
-		%END ADAPT ETA
-		last_mean_error = mean_error;		
-		[train_err, currentLearnRate,mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl_, g ,g_derivate, wValues);
 		elapsedTime = time() - startTime;
-		elapsedEpocTime = time() - epocStartTime;
-		printf('\nEpoca: %d - ErrorCuadraticoMedio: %.10f eta %.2f trainLrate %f \ntiempoTotal %f tiempoEpoca %f\n',epocs,mean_error,ETA,currentLearnRate,elapsedTime,elapsedEpocTime);
-		fflush(stdout);
-		eta_adaptation = [eta_adaptation ETA] ;
-		train_error = [train_error mean_error];
-		train_learning_rate = [train_learning_rate currentLearnRate] ; 
-		if(currentLearnRate > MIN_LEARN_RATE) 
-			hasLearnt = 1;
+		if(epocs == 1 || epocs == 50 || epocs == 100)
+			printf('\nEpoca: %d - tTotal %f\n',epocs,elapsedTime);
+			fflush(stdout);
 		endif
 	endwhile
 	%%END TRAINING

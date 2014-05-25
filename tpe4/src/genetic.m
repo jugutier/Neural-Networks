@@ -154,5 +154,5 @@ function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUni
 	max_epocs = 100;
 	EtaAdaptativeEnabled = 0;
 	MomentumEnabled = 1;
-	[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
+	trainedNetwork = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
 endfunction
