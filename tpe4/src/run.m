@@ -28,23 +28,23 @@ function run()
 	option = input("Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n");
 	switch(option)
 		case 1
-			mutationMethod = @classicMutation; %TODO
+			mutationMethod = @classicMutation;
 		case 2
-			mutationMethod = @nonUniformMutation; %TODO
+			mutationMethod = @nonUniformMutation;
 		otherwise
 			disp('error, please try again')
 	endswitch
 
 
-	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
-deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \n8 -Elite+Universal\n");
+	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzman \n5 -Tournament \
+deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 	switch(option)
 		case 1
 			selectionMethod = @eliteSelection; %Replace for @function
 		case 2
-			selectionMethod = 2;
+			selectionMethod = @rouletteSelection;
 		case 3
-			selectionMethod = 3;
+			selectionMethod = @universalSelection;
 		case 4
 			selectionMethod = 4;
 		case 5
@@ -77,15 +77,15 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 		exit();
 	endif
 	if(option != 1)
-		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Boltzman \n4 -Tournament \
-deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \n8 -Elite+Universal\n");
+		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzman \n5 -Tournament \
+deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 		switch(option)
 			case 1
 				replacementCriterion = @eliteSelection; %Replace for @function
 			case 2
-				replacementCriterion = 2;
+				replacementCriterion = @rouletteSelection;
 			case 3
-				replacementCriterion = 3;
+				replacementCriterion = @universalSelection;
 			case 4
 				replacementCriterion = 4;
 			case 5

@@ -7,7 +7,7 @@ function [selectedIndexes remainingIndexes] = universalSelection(population, pop
 	accumulator = 0;
 	for i = 1 : populationSize
 		accumulator = accumulator + relativeFitness(i);
-		accumFitness = accumulator;
+		accumFitness(i) = accumulator;
 	endfor
 
 	selectedIndexes = [];
