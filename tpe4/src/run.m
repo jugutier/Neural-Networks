@@ -25,8 +25,8 @@ function run()
 	endswitch
 
 
-	option = input("Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n");
-	switch(option)
+	mutationOption = input("Which mutation method? \n1 -Classic mutation \n2 -Not uniform mutation\n");
+	switch(mutationOption)
 		case 1
 			mutationMethod = @classicMutation;
 		case 2
@@ -131,7 +131,11 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		exit();
 	endif
 	mutationProbability = input("What should be the mutation probability? (0.0 <= p <= 1.0)\n");
-	alleleMutationProbability = input("What should be the allele mutation probability? (0.0 <= p <= 1.0)\n");
+	if(mutationOption == 2)
+		alleleMutationProbability = input("What should be the allele mutation probability? (0.0 <= p <= 1.0)\n");
+	else
+		alleleMutationProbability = 0;
+	endif
 	crossoverProbability = input("What should be the crossover probability? (0.0 <= p <= 1.0)\n");
 	backpropagationProbability = input("What should be the backpropagation probability? (0.0 <= p <= 1.0)\n");
 
