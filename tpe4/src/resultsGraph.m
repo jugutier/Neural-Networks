@@ -5,4 +5,5 @@
   	plot(last_index, 0);
   	xlabel("Numero de Generacion");
   	ylabel("Fitness");
+  	legend("Fitness promedio","Mejor fitness");
 endfunction
