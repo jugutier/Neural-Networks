@@ -4,7 +4,8 @@
 %trainedNetwork the trained network
 %
 %
-function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerLvl , g ,g_derivate,MomentumEnabled, EtaAdaptativeEnabled,Network,max_epocs)
+function trainedNetwork = trainPerceptron(Input, ExpectedOutput , Network,max_epocs)
+	HiddenUnitsPerLvl = [4 3];
 	startTime = time();
 	wValues = Network;
 	ETA = 0.1;
@@ -71,9 +72,9 @@ function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerL
 
 				hValues{j+1} = hj;
 				if(j!=levels-1)
-					vValues{j+1} = cat(2,-1,arrayfun(g, hj)) 	;	
+					vValues{j+1} = [-1 tanh(0.5*hj)];	
 				else 
-					vValues{j+1} = arrayfun(g, hj)	;
+					vValues{j+1} = tanh(0.5*hj);
 				endif
 					
 			endfor  
@@ -82,7 +83,7 @@ function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerL
 			%% END FEED FORWARD
 
 			%% BACKPROPAGATION START
-			deltaValues{levels} =g_derivate(hj) *(currentExpectedOutput - outputValues );			
+			deltaValues{levels} = (0.5*(1-tanh(0.5*hj).^2)) *(currentExpectedOutput - outputValues );			
 			for k = levels :-1: 2		
 
 				displacementIndexes = linspace(1,HiddenUnitsPerLvl(k-1),HiddenUnitsPerLvl(k-1)).+1     ;	#hay que sacar el peso del -1, el peso del umbral, la primer columna, para volver
@@ -98,7 +99,7 @@ function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerL
 
 				tempCurrentLvlDeltaValues=0;
 				for i=1 :columns(currentLvlWValues)
-					deltai = g_derivate(h(i))* (delta * currentLvlWValues(:,i))		;
+					deltai = 0.5*(1-tanh(0.5*h(i)).^2)* (delta * currentLvlWValues(:,i))		;
 
 					tempCurrentLvlDeltaValues(i) = deltai;
 				endfor
@@ -116,9 +117,7 @@ function trainedNetwork = trainPerceptron(Input, ExpectedOutput ,HiddenUnitsPerL
 
 				calculationWithDelta = ETA * currentLvlDeltaValues' * currentLvlVValues ;
 				wValues{i} =  currentLvlWValues + calculationWithDelta ; 
-				if(MomentumEnabled ==1)
-					wValues{i} = wValues{i} + oldCDeltaValues{i} * ALPHA ;
-				endif
+				wValues{i} = wValues{i} + oldCDeltaValues{i} * ALPHA ;%momentum
 
 				oldCDeltaValues{i} = calculationWithDelta ;
 			endfor

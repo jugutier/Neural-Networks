@@ -135,7 +135,6 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 	crossoverProbability = input("What should be the crossover probability? (0.0 <= p <= 1.0)\n");
 	backpropagationProbability = input("What should be the backpropagation probability? (0.0 <= p <= 1.0)\n");
 
-	hiddenUnitsPerLvl = [4 3];
 	functiondataFilename = '../samples8.txt';%TODO: add to wizard
 	[data testData] = data_import(functiondataFilename , 0.6,1);
 	Input = data(:,[1 2]);
@@ -158,13 +157,13 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 	%backpropagationProbability
 
 	[weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation();
-	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, hiddenUnitsPerLvl, Input, ExpectedOutput, @hiperbolic_tangent, @hiperbolic_tangent_derivative, TestInput, TestExpectedOutput);
+	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput);
 	printf('Saving the most evolved network\n');
 	fflush(stdout);
 	save('mostEvolved.nnet','evolvedNetwork');
 	printf('Testing the most evolved network\n');
 	fflush(stdout);
-	[test_error learning_rate mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
+	[test_error learning_rate mean_error]  = testPerceptron(TestInput, TestExpectedOutput, evolvedNetwork);
 	printf('FINISHED: the most evolved network predicts %.4f%% with mean cuadratic error of %.4f\n',learning_rate*100 , mean_error);
 	fflush(stdout);			
 	if(yes_or_no('do you want plots?'))

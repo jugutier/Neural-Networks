@@ -1,17 +1,17 @@
-function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, HiddenUnitsPerLvl, Input, ExpectedOutput, g, g_derivate, TestInput, TestExpectedOutput)
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
 	%populationInArrays = cell(populationSize, 1);
 	%for i = 1 : populationSize 
 		%Weights matrix for individual i (trained)
-	%	weights{i} =  trainNetwork(weightsGenerator(HiddenUnitsPerLvl, i), Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate);
+	%	weights{i} =  trainNetwork(weightsGenerator([4 3], i), Input, ExpectedOutput);
 		%Transform the matrix to an array
 	%	populationInArrays{i} =  weightsArray(weights{i}); 
 	%endfor
 	%weightsStructure = weights{1};
 	
 	% Calculate the fitness for all the individuals in the population
-	%[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
+	%[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,0);
 
 	%while (condicion de corte)
 	%	Seleccionar individuos para reproduccion
@@ -76,7 +76,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		printf('\tEvaluating fitness of new individuals...\n');
 		fflush(stdout);
 			% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability);
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability);
 		
 		% Obtain the new population (replacement)
 		printf('\tGenerating the new population...\n\n');
@@ -99,28 +99,28 @@ endfunction
 % Fitness function. Receives the populationa as a list of list of matrixes 
 %returns an array with fitnessValues
 %the population with the modificationes to the ones that had backpropagation
-function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability_) 
+function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability_) 
 	individualsNumber = (size(population))(1);
 	for i = 1 : individualsNumber
 		individual = population{i};
 		if(rand()<backpropagationProbability_)
-			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
+			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput));
 		endif
 		% One option is to add the two errors
-		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
-		% e2 = meanSquareError(TestInput, TestExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
+		% e1 = meanSquareError(Input, ExpectedOutput, population{i}, weightsModel{i});
+		% e2 = meanSquareError(TestInput, TestExpectedOutput, population{i}, weightsModel{i});
 		% Now calculate the fitness for an individual
 		% out(i) =  1 / (e1 + e2); 
 		% The other option is to pass all the input together and calculate that error
-		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], HiddenUnitsPerLvl, g, g_derivate, individual, weightsModel);
+		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], individual, weightsModel);
 		% Now calculate the fitness for an individual
 		fitnessValues(i) =  1 / e1; 
 	endfor
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function mean_error = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, Individual, weightsModel)
-	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, weightsFromArray(Individual, weightsModel));
+function mean_error = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
+	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
 endfunction
 
 function a = weightsArray(weights)
@@ -150,9 +150,7 @@ function w = weightsFromArray(weightsArray, weightsModel)
 	endfor
 endfunction
 
-function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate)
+function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput)
 	max_epocs = 100;
-	EtaAdaptativeEnabled = 0;
-	MomentumEnabled = 1;
-	trainedNetwork = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
+	trainedNetwork = trainPerceptron(Input, ExpectedOutput, Network, max_epocs);
 endfunction
