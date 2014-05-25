@@ -48,7 +48,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 4
 			selectionMethod = 4;
 		case 5
-			selectionMethod = 5;
+			selectionMethod = @tournamentDetermSelection;
 		case 6
 			selectionMethod = @tournamentProbSelection;
 		case 7

@@ -3,17 +3,20 @@ function [selectedIndexes remainingIndexes] = tournamentDetermSelection(populati
 	selectedIndexes = [];
 	competitorsPerFight = 3;
     for i = 1 : progenitorsNumber
-    	competitors = [];
+    	winnerFitness = 0;
+    	winnerIndex = 0;
+    	competitorsIndexes = randperm(populationSize,competitorsPerFight);
     	for j = 1 : competitorsPerFight
-    		individual = ceil(rand() * populationSize);
-    		competitors = [competitors populationFitness(individual)];
+    		individualIndex = competitorsIndexes(j);
+    		if(populationFitness(individualIndex) > winnerFitness)
+    			winnerFitness = populationFitness(individualIndex);
+    			winnerIndex = individualIndex;
+    		endif
     	endfor
-    	winner = max(competitors);
-    	selectedIndexes = [selectedIndexes winner];
+    	selectedIndexes = [selectedIndexes winnerIndex];
     endfor
     % selectedIndexes = unique(selectedIndexes); descomentar si no aceptamos padres repetidos
 
-	populationSize = (size(populationFitness))(2);
     remainingIndexes = [0 : populationSize];
 	for i = 1 : progenitorsNumber
 		selectedIndividual = selectedIndexes(i);
