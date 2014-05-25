@@ -124,7 +124,7 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 			disp('error, please try again')
 	endswitch
 
-	populationSize = 20
+	populationSize = 50
 	%populationSize = input("What should be the population size? (greater than progenitors number)\n");
 	if(populationSize <= progenitorsNumber)
 		printf('ERROR: POPULATION MUST BE GREATER THAN PROGENITORS NUMBER\n');

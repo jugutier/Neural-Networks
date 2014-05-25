@@ -139,7 +139,7 @@ function [MAX_EPOC, train_error, eta_adaptation,train_learning_rate, epocs, trai
 
 		%Adapt ETA
 		if(EtaAdaptativeEnabled && ETA < COTA_ETA_ADAPTATIVO)
-			deltaError = errorMedioPromedio - errorMedioPromedioAnterior;
+			deltaError = mean_error - last_mean_error;
 			if(deltaError >0)
 				ETA = ETA - etaDecrement * ETA;
 			else
