@@ -118,8 +118,8 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 			finalizeCriterion = 2;
 		case 3
 			finalizeCriterion = @contentFinalize;
-		case 3
-			finalizeCriterion = 4;
+		case 4
+			finalizeCriterion = @arroundOptimum;
 		otherwise
 			disp('error, please try again')
 	endswitch
