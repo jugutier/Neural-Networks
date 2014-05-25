@@ -1,5 +1,5 @@
 function [selectedIndexes remainingIndexes] = universalSelection(population, populationFitness, progenitorsNumber)
-	populationSize = (size(population))(1);
+	populationSize = (size(populationFitness))(2);
 	fitnessSum = sum(populationFitness);
 	relativeFitness = populationFitness ./ fitnessSum;
 
