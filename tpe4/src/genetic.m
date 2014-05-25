@@ -90,7 +90,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		mean_fitness_generations = [mean_fitness_generations mean_fitness];
 		best_fitness_generations = [best_fitness_generations best_fitness];
 	endwhile
-	elapsed_generations = generation;
+	elapsed_generations = generation-1;
 	[garbage index_] = max(populationInArraysFitness);
 	mostEvolvedNetwork = weightsFromArray(populationInArrays{index_}, weightsStructure);
 endfunction

@@ -165,11 +165,11 @@ deterministic \n5 -Tournament probabilistic \n6 -Universal \n7 -Elite+Roulette \
 	printf('Testing the most evolved network\n');
 	fflush(stdout);
 	[test_error learning_rate mean_error]  = testPerceptron(testData(:,[1 2]), testData(:,3), hiddenUnitsPerLvl, @hiperbolic_tangent, @hiperbolic_tangent_derivative, evolvedNetwork);
-	printf("%.4f %.4f\n",learning_rate , mean_error);
+	printf('FINISHED: the most evolved network predicts %.4f%% with mean cuadratic error of %.4f\n',learning_rate*100 , mean_error);
 	fflush(stdout);			
 	if(yes_or_no('do you want plots?'))
 		figure(1);
-		resultsGraph(mean_fitness_generations, best_fitness_generations, last_index);
+		resultsGraph(mean_fitness_generations, best_fitness_generations, elapsed_generations);
 		figure(2);
 		graphErrorHist(test_error);
 	endif
