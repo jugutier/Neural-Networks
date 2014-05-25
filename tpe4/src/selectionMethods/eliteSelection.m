@@ -2,5 +2,5 @@ function [selectedIndexes remainingIndexes] = eliteSelection(population, populat
     [sortedFitness indexes] = sort(populationFitness, 'descend');
     n = (size(population))(1); 
     selectedIndexes = indexes(1 : progenitorsNumber);
-    remainingIndexes = indexes((progenitorsNumber+1) : n)
+    remainingIndexes = indexes((progenitorsNumber+1) : n);
 end

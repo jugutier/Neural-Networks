@@ -84,7 +84,9 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 		toc
-		[mean_fitness best_fitness] = [sum(populationInArraysFitness)/length(populationInArraysFitness) max(populationInArraysFitness)];
+		[maxValue garbage] = max(populationInArraysFitness);
+		best_fitness = maxValue;
+		mean_fitness = sum(populationInArraysFitness)/length(populationInArraysFitness);
 		mean_fitness_generations = [mean_fitness_generations mean_fitness];
 		best_fitness_generations = [best_fitness_generations best_fitness];
 	endwhile
