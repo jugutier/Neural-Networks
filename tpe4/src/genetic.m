@@ -26,10 +26,10 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 	prevPopulationFitness = [];
 	mean_fitness_generations = [];
 	best_fitness_generations = [];
-	while (finalizeCriterion(generation, maxGenerations, populationInArrays, populationInArraysFitness, prevPopulation, prevPopulationFitness))
+	while (finalizeCriterion(generation, maxGenerations, populationInArrays, populationInArraysFitness, prevPopulation, prevPopulationFitness, best_fitness_generations))
 		tic
-		prevPopulation = populationInArrays;
-		prevPopulationFitness = populationInArraysFitness;
+		%prevPopulation = populationInArrays;
+		%prevPopulationFitness = populationInArraysFitness;
 		printf('Generation %d>\n',generation);
 		fflush(stdout);
 		
