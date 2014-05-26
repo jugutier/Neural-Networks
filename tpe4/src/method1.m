@@ -1,4 +1,4 @@
-function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = method1(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
 	%populationInArrays = cell(populationSize, 1);
@@ -27,61 +27,79 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 	mean_fitness_generations = [];
 	best_fitness_generations = [];
 	while (finalizeCriterion(generation, maxGenerations, best_fitness_generations))
-		tic
-		%prevPopulation = populationInArrays;
-		%prevPopulationFitness = populationInArraysFitness;
 		printf('Generation %d>\n',generation);
 		fflush(stdout);
-		
-		% Choose the individuals
-		printf('\tSelecting...\n');
-		fflush(stdout);
-			% Select k, population is N-k now
-		[selectedIndexes remainingIndexes] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
-		individualsToReproduce = populationInArrays(selectedIndexes);
-    	individualsToReproduceFitness = selectedIndexes(1 : progenitorsNumber);
-    	populationInArrays = populationInArrays(remainingIndexes);
-    	populationInArraysFitness = remainingIndexes(1:(populationSize-progenitorsNumber));
-		
-		% Shuffle the individuals to reproduce 
-        n = rand(length(individualsToReproduce),1); 
-        [garbage index_] = sort(n); 
-        individualsToReproduce = individualsToReproduce(index_); 
-		
-		% Apply crossover between individuals
-		printf('\tApply operator...\n');
-		fflush(stdout);
+		sons = 0;
 		newIndividuals =  cell(progenitorsNumber, 1);
-		for i = 1 : 2 : progenitorsNumber
-			if(rand() <= crossoverProbability)
-				descendants = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
-				newIndividuals{i} = descendants{1};
-				newIndividuals{i+1} = descendants{2}; 
-			else
-				newIndividuals{i} = individualsToReproduce{i};
-				newIndividuals{i+1} = individualsToReproduce{i+1};
-			endif
-		endfor
+		newIndividualsFitness = [];
+
+		%%%%%%%
+		%%%%%%%
+		progenitorsNumber = 2;
+		%%%%%%%
+		%%%%%%%
+		while (sons < populationSize)
+			newSons = cell(2,1);
+			tic
+			
+			% Choose the individuals
+			printf('\tSelecting... ');
+			fflush(stdout);
+				% Select 2 parents
+			[selectedIndexes remainingIndexes] = selectionMethod(populationInArrays, fitnessAll, progenitorsNumber);
+			individualsToReproduce = populationInArrays(selectedIndexes);
+	    	individualsToReproduceFitness = selectedIndexes(1 : progenitorsNumber);
+	    	%Don't take the individuals to reproduce from original population
+	    	%populationInArrays = populationInArrays(remainingIndexes);
+	    	%populationInArraysFitness = remainingIndexes(1:(populationSize-progenitorsNumber));
+			
+			% Shuffle the individuals to reproduce 
+			% I think it is not necesary anymore
+			
+			% Apply crossover between individuals
+			printf('Apply operator... ');
+			fflush(stdout);
+			
+			for i = 1 : 2 : progenitorsNumber
+				if(rand() <= crossoverProbability)
+					descendants = crossOver(individualsToReproduce{i},individualsToReproduce{i+1});
+					newSons{i} = descendants{1};
+					newSons{i+1} = descendants{2}; 
+				else
+					newSons{i} = individualsToReproduce{i};
+					newSons{i+1} = individualsToReproduce{i+1};
+				endif
+			endfor
+			
+			% Apply any mutation to the new children
+			printf('Mutating the individuals... ');
+			fflush(stdout);
+			for i = 1 : length(newSons)
+				if(rand() < mutationProbability)
+					newSons{i} = mutationMethod(newSons{i}, alleleMutationProbability);
+				endif
+			endfor
+			
+			% Train the new children
+			printf('Evaluating fitness of new individuals... ');
+			fflush(stdout);
+				% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
+			[newSons newSonsFitness] = evaluateFitness(newSons, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability,generation);
+			
+			% Obtain the new population (replacement)
+			printf('Generating the new population...\n');
+			fflush(stdout);
+			
+			sons = sons+1;
+			newIndividuals{sons} = newSons{1};
+			sons = sons+1;
+			newIndividuals{sons} = newSons{2};
+			newIndividualsFitness = [newIndividualsFitness newSonsFitness];
+		endwhile
 		
-		% Apply any mutation to the new children
-		printf('\tMutating the individuals...\n');
-		fflush(stdout);
-		for i = 1 : length(newIndividuals)
-			if(rand() < mutationProbability)
-				newIndividuals{i} = mutationMethod(newIndividuals{i}, alleleMutationProbability);
-			endif
-		endfor
+		populationInArrays = {newIndividuals{:} populationInArrays{:}}';
+		populationInArraysFitness = [newIndividualsFitness populationInArraysFitness];
 		
-		% Train the new children
-		printf('\tEvaluating fitness of new individuals...\n');
-		fflush(stdout);
-			% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability,generation);
-		
-		% Obtain the new population (replacement)
-		printf('\tGenerating the new population...\n\n');
-		fflush(stdout);
-		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
 		generation++;
 		toc
 		[maxValue garbage] = max(populationInArraysFitness);

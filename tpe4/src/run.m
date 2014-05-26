@@ -62,7 +62,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 -Method 3\n");
 	switch(option)
 		case 1
-			replacementMethod = 1;%@method1; %Replace for @function
+			replacementMethod = @method1;%@method1; %Replace for @function
 		case 2
 			replacementMethod = @method2;
 		case 3
