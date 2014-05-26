@@ -1,7 +1,6 @@
 function run()
 	addpath('crossOver');
 	addpath('finalizeCriterions');
-	addpath('replacementMethod');
 	addpath('selectionMethods');
 	addpath('mutation');
 	
@@ -59,24 +58,28 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 			disp('error, please try again')
 	endswitch
 
-	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 -Method 3\n");
-	switch(option)
+	rmethodOption = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 -Method 3\n");
+	switch(rmethodOption)
 		case 1
-			replacementMethod = @method1;%@method1; %Replace for @function
+			replacementMethod = @method1;%no progenitors number
 		case 2
-			replacementMethod = @method2;
+			replacementMethod = @method2;%no replacement method
 		case 3
 			replacementMethod = 3;
 		otherwise
 			disp('error, please try again')
 	endswitch
-
-	progenitorsNumber = input("How many progenitor selected? (k, even number)\n");
-	if(mod(progenitorsNumber,2) != 0)
-		printf('ERROR: PROGENITORS NUMBER MUST BE AN EVEN NUMBER\n');
-		exit();
+	if(rmethodOption !=1)
+		progenitorsNumber = input("How many progenitor selected? (k, even number)\n");
+		if(mod(progenitorsNumber,2) != 0)
+			printf('ERROR: PROGENITORS NUMBER MUST BE AN EVEN NUMBER\n');
+			exit();
+		endif
+	else
+		progenitorsNumber = 2;%pairs of 2 until N individuals
 	endif
-	if(option != 1)
+	
+	if(rmethodOption != 2)
 		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzmann \n5 -Tournament \
 deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 		switch(option)
@@ -145,35 +148,29 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 	ExpectedOutput = data(:,3);
 	TestInput = testData(:,[1 2]);
 	TestExpectedOutput = testData(:,3);
-	%%Call function with all this variables as parameters
-	
-	%crossoverMethod
-	%mutationMethod
-	%selectionMethod
-	%replacementCriterion
-	%replacementMethod
-	%progenitorsNumber
-	%finalizeCriterion
-	%maxGenerations
-	%populationSize
-	%mutationProbability
-	%crossoverProbability
-	%backpropagationProbability
 
 	[weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation();
 	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = replacementMethod(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput);
+	
+	printf('meanFitness at last generation : %.4f best fitness at last generation : %.4f\n',mean_fitness_generations(elapsed_generations),best_fitness_generations(elapsed_generations));
+	fflush(stdout);
 	printf('Saving the most evolved network\n');
 	fflush(stdout);
 	save('mostEvolved.nnet','evolvedNetwork');
+
 	printf('Testing the most evolved network\n');
 	fflush(stdout);
+	
 	[test_error learning_rate mean_error]  = testPerceptron(TestInput, TestExpectedOutput, evolvedNetwork);
+	
 	printf('FINISHED: the most evolved network predicts %.4f%% with mean cuadratic error of %.4f\n',learning_rate*100 , mean_error);
-	fflush(stdout);			
+	fflush(stdout);	
+
 	if(yes_or_no('do you want plots?'))
 		figure(1);
 		resultsGraph(mean_fitness_generations, best_fitness_generations, elapsed_generations);
 		figure(2);
 		graphErrorHist(test_error);
 	endif
+
 endfunction

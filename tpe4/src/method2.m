@@ -1,4 +1,4 @@
-function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = method2(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = method2(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
 	generation = 1;
 	populationInArraysFitness = [];
 	prevPopulation = cell(populationSize,1);
