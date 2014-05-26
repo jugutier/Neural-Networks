@@ -82,19 +82,18 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 	[garbage index_] = max(populationInArraysFitness);
 	mostEvolvedNetwork = weightsFromArray(populationInArrays{index_}, weightsStructure);
 endfunction
-function [populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness,selectionMethod);
+function [populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArraysO , populationInArraysFitnessO,selectionMethod);
 	k = length(newIndividuals);
-	N = k + length(populationInArrays);
+	N = k + length(populationInArraysO);
 	populationInArrays = cell(N,1);
 	%EXAMPLE populationInArrays = {newIndividuals{:} populationInArrays{:}}';
-	NplusKPop = {newIndividuals{:} individualsToReproduce{:} populationInArrays{:}}';
-	NplusKFitness = [newIndividualsFitenss	individualsToReproduceFitness populationInArraysFitness];
+	NplusKPop = {newIndividuals{:} individualsToReproduce{:} populationInArraysO{:}}';
+	NplusKFitness = [newIndividualsFitenss	individualsToReproduceFitness populationInArraysFitnessO];
 	%EXAMPLE [selectedIndexes remainingIndexes] = eliteSelection(population, populationFitness, progenitorsNumber)
 	[NselectedIndexes  kThrownAwayIndexes] = selectionMethod(NplusKPop,NplusKFitness,N);
 	for i = 1:N
 		populationInArrays{i} = NplusKPop{NselectedIndexes(i)};%take N
 	endfor
-	populationInArrays
 	populationInArraysFitness = NplusKFitness(NselectedIndexes);%take N
 endfunction
 % Fitness function. Receives the populationa as a list of list of matrixes 
@@ -121,7 +120,7 @@ endfunction
 
 % Returns the mean square error for the weights matrix m
 function learning_rate = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
-	[test_error, l_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
+	[test_error l_rate mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
 	learning_rate = l_rate*100;
 endfunction
 
