@@ -13,7 +13,7 @@ function [selectedIndexes remainingIndexes] = rouletteSelection(population, popu
 	selectedIndexes = [];
 	for i = 1 : progenitorsNumber
 		selectedIndividual = 0;
-		randomNumber = rand() * max(accumFitness);
+		randomNumber = rand() * accumulator;
 		for j = 1 : populationSize
 			if(randomNumber < accumFitness(j))
 				accumFitness(j) = -1;

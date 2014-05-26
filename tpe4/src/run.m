@@ -52,9 +52,9 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 6
 			selectionMethod = @tournamentProbSelection;
 		case 7
-			selectionMethod = 7;
+			selectionMethod = @mixedRouletteSelection;
 		case 8
-			selectionMethod = 8;
+			selectionMethod = @mixedUniversalSelection;
 		otherwise
 			disp('error, please try again')
 	endswitch

@@ -76,7 +76,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		printf('\tEvaluating fitness of new individuals...\n');
 		fflush(stdout);
 			% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
-		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability);
+		[newIndividuals newIndividualsFitenss] = evaluateFitness(newIndividuals, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability,generation);
 		
 		% Obtain the new population (replacement)
 		printf('\tGenerating the new population...\n\n');
@@ -99,11 +99,11 @@ endfunction
 % Fitness function. Receives the populationa as a list of list of matrixes 
 %returns an array with fitnessValues
 %the population with the modificationes to the ones that had backpropagation
-function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability_) 
+function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability_,generationNumber) 
 	individualsNumber = (size(population))(1);
 	for i = 1 : individualsNumber
 		individual = population{i};
-		if(rand()<backpropagationProbability_)
+		if(rand()<backpropagationProbability_*log(generationNumber/2))
 			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput));
 		endif
 		% One option is to add the two errors
@@ -151,6 +151,6 @@ function w = weightsFromArray(weightsArray, weightsModel)
 endfunction
 
 function trainedNetwork = trainNetwork(Network, Input, ExpectedOutput)
-	max_epocs = 100;
+	max_epocs = 30;
 	trainedNetwork = trainPerceptron(Input, ExpectedOutput, Network, max_epocs);
 endfunction
