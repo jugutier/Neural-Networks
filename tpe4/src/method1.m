@@ -1,4 +1,4 @@
-function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
 	% Initialize the population with random values
 	% Each individual is a matrix of weights (floats)
 	%populationInArrays = cell(populationSize, 1);

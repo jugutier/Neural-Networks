@@ -62,9 +62,9 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 	option = input("Which replacement method? \n1 -Method 1\n2 -Method 2 \n3 -Method 3\n");
 	switch(option)
 		case 1
-			replacementMethod = @method1; %Replace for @function
+			replacementMethod = 1;%@method1; %Replace for @function
 		case 2
-			replacementMethod = 2;
+			replacementMethod = @method2;
 		case 3
 			replacementMethod = 3;
 		otherwise
@@ -161,7 +161,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 	%backpropagationProbability
 
 	[weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation();
-	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, replacementMethod, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput);
+	[evolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations] = replacementMethod(weights, populationInArrays, weightsStructure,fitnessAll,crossoverMethod, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput);
 	printf('Saving the most evolved network\n');
 	fflush(stdout);
 	save('mostEvolved.nnet','evolvedNetwork');
