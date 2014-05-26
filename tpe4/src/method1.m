@@ -57,7 +57,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 			% I think it is not necesary anymore
 			
 			% Apply crossover between individuals
-			printf('Apply operator... ');
+			printf('Crossover... ');
 			fflush(stdout);
 			
 			for i = 1 : 2 : progenitorsNumber
@@ -72,7 +72,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 			endfor
 			
 			% Apply any mutation to the new children
-			printf('Mutating the individuals... ');
+			printf('Mutating... ');
 			fflush(stdout);
 			for i = 1 : length(newSons)
 				if(rand() < mutationProbability)
@@ -81,7 +81,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 			endfor
 			
 			% Train the new children
-			printf('Evaluating fitness of new individuals... ');
+			printf('Evaluating fitness of new... ');
 			fflush(stdout);
 				% ONLY CALCULATE FOR THE NEW! THE OTHERS DIDN'T CHANGE!
 			[newSons newSonsFitness] = evaluateFitness(newSons, weightsStructure, Input, ExpectedOutput, TestInput, TestExpectedOutput,backpropagationProbability,generation);
@@ -94,6 +94,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 			newIndividuals{sons} = newSons{1};
 			sons = sons+1;
 			newIndividuals{sons} = newSons{2};
+			sons
 			newIndividualsFitness = [newIndividualsFitness newSonsFitness];
 		endwhile
 		
