@@ -36,7 +36,7 @@ function run()
 	endswitch
 
 
-	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzman \n5 -Tournament \
+	option = input("Which selection criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzmann \n5 -Tournament \
 deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 	switch(option)
 		case 1
@@ -46,7 +46,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 3
 			selectionMethod = @universalSelection;
 		case 4
-			selectionMethod = 4;
+			selectionMethod = @boltzmannSelection;
 		case 5
 			selectionMethod = @tournamentDetermSelection;
 		case 6
@@ -77,7 +77,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		exit();
 	endif
 	if(option != 1)
-		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzman \n5 -Tournament \
+		option = input("Which replacement criterion? \n1 -Elite\n2 -Roulette \n3 -Universal \n4 -Boltzmann \n5 -Tournament \
 deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Universal\n");
 		switch(option)
 			case 1
@@ -87,15 +87,15 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 			case 3
 				replacementCriterion = @universalSelection;
 			case 4
-				replacementCriterion = 4;
+				replacementCriterion = @boltzmannSelection;
 			case 5
-				replacementCriterion = 5;
+				replacementCriterion = @tournamentDetermSelection;
 			case 6
 				replacementCriterion = @tournamentProbSelection;
 			case 7
-				replacementCriterion = 7;
-			case 7
-				replacementCriterion = 8;
+				replacementCriterion = @mixedRouletteSelection;
+			case 8
+				replacementCriterion = @mixedUniversalSelection;
 			otherwise
 				disp('error, please try again')
 		endswitch
