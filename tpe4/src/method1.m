@@ -94,7 +94,6 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 			newIndividuals{sons} = newSons{1};
 			sons = sons+1;
 			newIndividuals{sons} = newSons{2};
-			sons
 			newIndividualsFitness = [newIndividualsFitness newSonsFitness];
 		endwhile
 		
@@ -133,12 +132,16 @@ function [population fitnessValues] = evaluateFitness(population, weightsModel, 
 		% The other option is to pass all the input together and calculate that error
 		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], individual, weightsModel);
 		% Now calculate the fitness for an individual
-		fitnessValues(i) =  1 / e1; 
+		if(e1 == 0)
+			fitnessValues(i) = 0;
+		else
+			fitnessValues(i) =  1 / e1; 
+		endif	
 	endfor
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function mean_error = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
+function learning_rate = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
 	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
 endfunction
 
