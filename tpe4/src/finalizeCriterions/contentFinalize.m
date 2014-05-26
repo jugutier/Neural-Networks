@@ -1,4 +1,4 @@
-function out = contentFinalize(generation, maxGenerations, populationInArrays, populationInArraysFitness, prevPopulation, prevPopulationFitness, best_fitness_generations )
+function out = contentFinalize(generation, maxGenerations, best_fitness_generations)
 	epsilon = 0.001;
 	if(length(best_fitness_generations) <= 2)
 		out = 1;
