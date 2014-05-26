@@ -115,13 +115,14 @@ function [population fitnessValues] = evaluateFitness(population, weightsModel, 
 		% The other option is to pass all the input together and calculate that error
 		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], individual, weightsModel);
 		% Now calculate the fitness for an individual
-		fitnessValues(i) =  1 / e1; 
+		fitnessValues(i) =  e1; 
 	endfor
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function mean_error = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
-	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
+function learning_rate = meanSquareError(Input, ExpectedOutput, Individual, weightsModel)
+	[test_error, l_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
+	learning_rate = l_rate*100;
 endfunction
 
 function a = weightsArray(weights)
