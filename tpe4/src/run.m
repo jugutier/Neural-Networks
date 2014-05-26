@@ -65,7 +65,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 2
 			replacementMethod = @method2;%no replacement method
 		case 3
-			replacementMethod = 3;
+			replacementMethod = @method3;
 		otherwise
 			disp('error, please try again')
 	endswitch
@@ -118,7 +118,7 @@ deterministic \n6 -Tournament probabilistic \n7 -Elite+Roulette \n8 -Elite+Unive
 		case 1
 			finalizeCriterion = @maxGenerations; %Replace for @function
 		case 2
-			finalizeCriterion = 2;
+			finalizeCriterion = @structureFinalize;
 		case 3
 			finalizeCriterion = @contentFinalize;
 		case 4

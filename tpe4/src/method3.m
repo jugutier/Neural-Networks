@@ -1,4 +1,13 @@
-function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = genetic(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
+%
+%Poblaci ́on original N individuos.
+%Seleccionar k padres
+%Recombinar
+%Mutar y generar k hijos
+%Seleccionar N − k individuos de la poblaci ́on en la generaci ́on t que pasan sin modificaci ́on a la generaci ́on t + 1
+%Del total de N + k individuos de la poblaci ́on en la generaci ́on t, seleccionar N que pasan a la siguiente generacio ́n
+%
+
+function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations elapsed_generations]  = method3(weights, populationInArrays, weightsStructure,fitnessAll,crossOver, crossoverProbability, mutationMethod, backpropagationProbability, selectionMethod, replacementCriterion, progenitorsNumber, finalizeCriterion, maxGenerations, populationSize, mutationProbability,alleleMutationProbability, Input, ExpectedOutput, TestInput, TestExpectedOutput)
 	generation = 1;
 	populationInArraysFitness = [];
 	prevPopulation = cell(populationSize,1);
@@ -60,7 +69,7 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		% Obtain the new population (replacement)
 		printf('\tGenerating the new population...\n\n');
 		fflush(stdout);
-		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness);
+		[populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness,selectionMethod);
 		generation++;
 		toc
 		[maxValue garbage] = max(populationInArraysFitness);
@@ -73,8 +82,21 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 	[garbage index_] = max(populationInArraysFitness);
 	mostEvolvedNetwork = weightsFromArray(populationInArrays{index_}, weightsStructure);
 endfunction
-
-
+function [populationInArrays  populationInArraysFitness] = replacementMethod(newIndividuals,newIndividualsFitenss,individualsToReproduce,individualsToReproduceFitness, populationInArrays , populationInArraysFitness,selectionMethod);
+	k = length(newIndividuals);
+	N = k + length(populationInArrays);
+	populationInArrays = cell(N,1);
+	%EXAMPLE populationInArrays = {newIndividuals{:} populationInArrays{:}}';
+	NplusKPop = {newIndividuals{:} individualsToReproduce{:} populationInArrays{:}}';
+	NplusKFitness = [newIndividualsFitenss	individualsToReproduceFitness populationInArraysFitness];
+	%EXAMPLE [selectedIndexes remainingIndexes] = eliteSelection(population, populationFitness, progenitorsNumber)
+	[NselectedIndexes  kThrownAwayIndexes] = selectionMethod(NplusKPop,NplusKFitness,N);
+	for i = 1:N
+		populationInArrays{i} = NplusKPop{NselectedIndexes(i)};%take N
+	endfor
+	populationInArrays
+	populationInArraysFitness = NplusKFitness(NselectedIndexes);%take N
+endfunction
 % Fitness function. Receives the populationa as a list of list of matrixes 
 %returns an array with fitnessValues
 %the population with the modificationes to the ones that had backpropagation
