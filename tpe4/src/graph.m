@@ -1,4 +1,5 @@
 function graph(train,test)
+	clf;hold on;
 	xtrain = train(:,1);
 	ytrain = train(:,2);
 	ztrain = train(:,3);
@@ -6,9 +7,9 @@ function graph(train,test)
 	xtest = test(:,1);
 	ytest = test(:,2);
 	ztest = test(:,3);
-
-	plot3(xtrain,ytrain,ztrain,".b");
-	hold on;
-	plot3(xtest,ytest,ztest,"*r");
+	%figure(1);
+	%plot3(xtrain,ytrain,ztrain,'ob');
+	%figure(2);
+	plot3(xtest,ytest,ztest,'*r');
 	set (gca, "box", "off");
 endfunction

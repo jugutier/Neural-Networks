@@ -4,7 +4,7 @@
 %learning_rate percentage of hits
 %mean_error 
 %
-function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,TrainExpectedOutput,Network)
+function [test_error, learning_rate,mean_error,our_value]  = testPerceptron( TrainInput,TrainExpectedOutput,Network)
 	HiddenUnitsPerLvl = [4 3];
 	inputNodes = columns(TrainInput)		;
 	outputNodes = columns(TrainExpectedOutput)		;
@@ -16,7 +16,8 @@ function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,Tr
 	test_error = [];
 	mean_error = 0;
 	learning_rate = 0;%%hits over total training
-	EPSILON = 0.001;	
+	EPSILON = 0.001;
+	our_value = [];	
 	%%START TESTING
 	for i = 1:rows(TrainInput)
 		currentPattern = trainPatterns(i,:) 		;    
@@ -47,7 +48,7 @@ function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,Tr
 
 		outputValues = vValues{levels};
 		%% END FEED FORWARD
-
+		our_value = [our_value outputValues];
 		errorMedioTest = power((outputValues - currentExpectedOutput),2);
 
 		test_error = [test_error errorMedioTest];
@@ -57,6 +58,7 @@ function [test_error, learning_rate,mean_error]  = testPerceptron( TrainInput,Tr
 		endif
 	endfor
 	%%END TESTING
+	our_value = our_value';
 	mean_error = sum(test_error) / (2* rows(TrainExpectedOutput));
 	learning_rate = learning_rate /rows(TrainExpectedOutput);
 endfunction
