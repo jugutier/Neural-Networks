@@ -107,6 +107,8 @@ function [mostEvolvedNetwork mean_fitness_generations best_fitness_generations e
 		mean_fitness = sum(populationInArraysFitness)/length(populationInArraysFitness);
 		mean_fitness_generations = [mean_fitness_generations mean_fitness];
 		best_fitness_generations = [best_fitness_generations best_fitness];
+		resultsGraph(mean_fitness_generations, best_fitness_generations, generation-1);
+		refresh();
 	endwhile
 	elapsed_generations = generation-1;
 	[garbage index_] = max(populationInArraysFitness);

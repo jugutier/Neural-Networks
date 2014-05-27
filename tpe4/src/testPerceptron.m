@@ -16,7 +16,7 @@ function [test_error, learning_rate,mean_error,our_value]  = testPerceptron( Tra
 	test_error = [];
 	mean_error = 0;
 	learning_rate = 0;%%hits over total training
-	EPSILON = 0.001;
+	EPSILON = 0.01;
 	our_value = [];	
 	%%START TESTING
 	for i = 1:rows(TrainInput)

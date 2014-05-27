@@ -10,7 +10,7 @@ function trainedNetwork = trainPerceptron(Input, ExpectedOutput , Network,max_ep
 	wValues = Network;
 	ETA = 0.1;
 	COTA_ETA_ADAPTATIVO = 0.5;	
-	EPSILON = 0.001;
+	EPSILON = 0.01;
 	HiddenUnitsPerLvl_ = HiddenUnitsPerLvl;
 
 	testPatterns = horzcat(linspace(-1,-1,rows(Input))' , Input); #add threshold			 	
