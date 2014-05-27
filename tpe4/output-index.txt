@@ -19,3 +19,48 @@ What should be the backpropagation probability? (0.0 <= p <= 1.0)
 0.2
 
 FINISHED: the most evolved network predicts 49.4505% with mean cuadratic error of 0.0030
+
+
+
+output 2
+FINISHED: the most evolved network predicts 22.5275% with mean cuadratic error of 0.0094
+
+1 -Classic crossover(one point)
+2 -Not uniform mutation
+3 -Universal 
+1 -Method 1
+2 -Roulette 
+3 -Content 
+maxGenerations = Inf
+populationSize =  50
+What should be the mutation probability? (0.0 <= p <= 1.0)
+0.1
+What should be the allele mutation probability? (0.0 <= p <= 1.0)
+0.15
+What should be the crossover probability? (0.0 <= p <= 1.0)
+0.85
+What should be the backpropagation probability? (0.0 <= p <= 1.0)
+0.4
+
+
+output 3
+FINISHED: the most evolved network predicts 27.4725% with mean cuadratic error of 0.0098
+
+1 -Classic crossover(one point)
+2 -Not uniform mutation
+1 -Elite 
+1 -Method 1
+3 -Universal 
+3 -Content 
+maxGenerations = Inf
+populationSize =  50
+What should be the mutation probability? (0.0 <= p <= 1.0)
+0.1
+What should be the allele mutation probability? (0.0 <= p <= 1.0)
+0.15
+What should be the crossover probability? (0.0 <= p <= 1.0)
+0.85
+What should be the backpropagation probability? (0.0 <= p <= 1.0)
+0.4
+
+
