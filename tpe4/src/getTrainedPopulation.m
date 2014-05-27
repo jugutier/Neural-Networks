@@ -1,3 +1,3 @@
 function [weights populationInArrays weightsStructure fitnessAll] = getTrainedPopulation()
-	load('trained.pop','weights' ,'populationInArrays','weightsStructure','fitnessAll');
+	load('trained2.pop','weights' ,'populationInArrays','weightsStructure','fitnessAll');
 endfunction
