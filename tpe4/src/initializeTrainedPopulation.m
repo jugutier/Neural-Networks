@@ -6,20 +6,15 @@ function initializeTrainedPopulation(populationSize)
 	TestInput = testData(:,[1 2]);
 	TestExpectedOutput = testData(:,3);
 	max_epocs = 100;
-	EtaAdaptativeEnabled = 0;
-	MomentumEnabled = 1;
-	HiddenUnitsPerLvl = [4 3];
-	g=@hiperbolic_tangent;
-	g_derivate = @hiperbolic_tangent_derivative;
 	for i = 1 : populationSize 
 		Network = weightsGenerator(HiddenUnitsPerLvl, i);
-		[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, MomentumEnabled, EtaAdaptativeEnabled, Network, max_epocs);
+		[MAX_EPOC, train_error, eta_adaptation, train_learning_rate, epocs, trainedNetwork] = trainPerceptron(Input, ExpectedOutput, Network, max_epocs);
 		weights{i} = trainedNetwork;
 		%Transform the matrix to an array
 		populationInArrays{i} =  weightsArray(weights{i}); 
 	endfor
 	weightsStructure = weights{1};
-	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,0);
+	[populationInArrays fitnessAll] = evaluateFitness(populationInArrays, weightsStructure, Input, ExpectedOutput,  TestInput, TestExpectedOutput);
 	save('trained.pop','weights' ,'populationInArrays','weightsStructure','fitnessAll' );
 endfunction
 
@@ -33,28 +28,16 @@ endfunction
 % Fitness function. Receives the populationa as a list of list of matrixes 
 %returns an array with fitnessValues
 %the population with the modificationes to the ones that had backpropagation
-function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, TestInput, TestExpectedOutput,backpropagationProbability_) 
+function [population fitnessValues] = evaluateFitness(population, weightsModel, Input, ExpectedOutput, TestInput, TestExpectedOutput) 
 	individualsNumber = (size(population))(1);
 	for i = 1 : individualsNumber
-		individual = population{i};
-		if(rand()<backpropagationProbability_)
-			population{i} = weightsArray(trainNetwork(weightsFromArray(individual, weightsModel) , Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate));
-		endif
-		% One option is to add the two errors
-		% e1 = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
-		% e2 = meanSquareError(TestInput, TestExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, population{i}, weightsModel{i});
-		% Now calculate the fitness for an individual
-		% out(i) =  1 / (e1 + e2); 
-		% The other option is to pass all the input together and calculate that error
-		e1 = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput], HiddenUnitsPerLvl, g, g_derivate, individual, weightsModel);
-		% Now calculate the fitness for an individual
-		fitnessValues(i) =  1 / e1; 
+		fitnessValues(i) = meanSquareError([Input; TestInput], [ExpectedOutput; TestExpectedOutput],  population{i}, weightsModel);
 	endfor
 endfunction
 
 % Returns the mean square error for the weights matrix m
-function mean_error = meanSquareError(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, Individual, weightsModel)
-	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, HiddenUnitsPerLvl, g, g_derivate, weightsFromArray(Individual, weightsModel));
+function learning_rate = meanSquareError(Input, ExpectedOutput,  Individual, weightsModel)
+	[test_error, learning_rate, mean_error] = testPerceptron(Input, ExpectedOutput, weightsFromArray(Individual, weightsModel));
 endfunction
 
 function w = weightsFromArray(weightsArray, weightsModel)
