@@ -9,6 +9,7 @@ To run:
 Launch Octave/Matlab
 Navigate to the source folder in your file system.
 > load run.n
+
 > run
 
 Follow the steps in the interactive menu.
@@ -28,6 +29,7 @@ Para ejecutar:
 -Abrir Octave
 -Posicionarse en la carpeta
 >load run.m
+
 >run
 Seguir los pasos del menu interactivo.
 
