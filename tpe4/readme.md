@@ -31,6 +31,8 @@ Para ejecutar:
 >load run.m
 
 >run
+
+
 Seguir los pasos del menu interactivo.
 
 Si ya cuenta con la red entrenada el programa lo guiara para utilizarla.
